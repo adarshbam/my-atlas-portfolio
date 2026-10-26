@@ -1,0 +1,4 @@
+interface:
+  display_name: "Engineering Atlas"
+  short_description: "Apply portfolio design and motion constraints"
+  default_prompt: "Use $engineering-atlas to apply the binding portfolio design constraints and review this change."

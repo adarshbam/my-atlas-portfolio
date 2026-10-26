@@ -1,0 +1,39 @@
+{
+  "notes": [
+    "Historical reference text approved for the portfolio. Original source URLs and capture provenance remain in local evidence."
+  ],
+  "records": [
+    {
+      "id": "anurag-singh",
+      "name": "Anurag Singh",
+      "source_role": "Software Engineer",
+      "raw_quote": "Adarsh was a wonderful developer to work with in a team! He is very intelligent and grasps complex concepts very easily. I love working with him!”",
+      "excerpt": "Adarsh was a wonderful developer to work with in a team! He is very intelligent and grasps complex concepts very easily.",
+      "excerpt_word_count": 21
+    },
+    {
+      "id": "srihari-kestur",
+      "name": "Srihari Kestur",
+      "source_role": "Founder Harigurus",
+      "raw_quote": "“I worked with Adarsh to make my website. I am speechless by looking at his work ethic and dedication. Working with him was the best decision I made.”",
+      "excerpt": "I am speechless by looking at his work ethic and dedication. Working with him was the best decision I made.",
+      "excerpt_word_count": 20
+    },
+    {
+      "id": "saatvik-nagpal",
+      "name": "Saatvik Nagpal",
+      "source_role": "Founder, EazyGrad",
+      "raw_quote": "Adarsh is a talented, committed individual who will leave no stone unturned in his pursuit to provide with the best. His attention to detail and in-depth experience in the of web development is indeed commendable. He has exhibited exemplary skills in the field, and I hope to see all the great projects coming up!”",
+      "excerpt": "Adarsh is a talented, committed individual who will leave no stone unturned in his pursuit to provide with the best.",
+      "excerpt_word_count": 20
+    },
+    {
+      "id": "gautham-chengappa",
+      "name": "Gautham Chengappa",
+      "source_role": "Web Developer, UX Consultancy",
+      "raw_quote": "“I can bet that it's too hard to find professional developers like Adarsh. He could peek inside my mind and made the site exactly as I wanted. Much appreciated”",
+      "excerpt": "He could peek inside my mind and made the site exactly as I wanted. Much appreciated",
+      "excerpt_word_count": 16
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "version": 1,
+  "project": {
+    "name": "Engineering Atlas",
+    "productType": "Editorial software engineering portfolio",
+    "stack": [
+      "React",
+      "TypeScript",
+      "Vite",
+      "Tailwind CSS",
+      "StPageFlip",
+      "Motion"
+    ]
+  },
+  "sources": {
+    "tokens": [
+      "src/styles/tokens.css"
+    ],
+    "components": [
+      "src/components/ui/book-slider.tsx",
+      "src/components/book-pages.tsx",
+      "src/lib/book-navigation.ts",
+      "src/lib/use-book-presentation.ts"
+    ],
+    "assets": [
+      "public/images/editorial-portrait-960.webp",
+      "public/images/book-fiber.webp",
+      "public/images/page-edges.svg",
+      "public/images/page-edges-vertical.svg",
+      "docs/artwork/editorial-spread-reference.png",
+      "public/images/adarsh-960.webp",
+      "public/fonts",
+      "public/images/charcoal-portrait-960.webp",
+      "public/images/charcoal-grain.webp",
+      "public/images/charcoal-left-960.webp",
+      "public/images/vault/workspace-1200.webp",
+      "public/images/vault/github-create-640.webp"
+    ],
+    "instructions": [
+      "AGENTS.md",
+      ".agents/skills/engineering-atlas/SKILL.md",
+      "docs/DAY-01-PROPOSAL.md"
+    ]
+  },
+  "design": {
+    "direction": "Reference-led architectural monograph, approved 24 October 2026",
+    "colorMode": "Fixed paper / ink composition",
+    "colors": {
+      "ink": "#161513",
+      "inkSoft": "#2a2825",
+      "charcoalSurface": "#282624",
+      "hardcoverSurface": "#161513",
+      "paperFiber": "#e0d7cc",
+      "paper": "#efe9de",
+      "paperDeep": "#e4dccd",
+      "graphite": "#6e685f",
+      "desk": "#c9b8a0",
+      "accent": "#765818 (active chapter underline only)"
+    },
+    "typography": {
+      "display": "Cormorant Garamond 300/500",
+      "text": "EB Garamond 400",
+      "scale": "10,14,18,24,32,43,57,76px; display clamp 48–96px"
+    },
+    "spacing": {
+      "scale": "4,8,12,16,24,32,48,64,96,128px",
+      "pageMargin": "8%"
+    },
+    "format": {
+      "desktopPageWidthToHeight": 0.88,
+      "maximumSpreadWidth": "1536px",
+      "tablet": "Facing pages with shared height measured from actual readable content; no arbitrary tall minimum",
+      "phone": "One page at the approved 0.68 width/height ratio with vertical content scrolling",
+      "turning": "Native page dimensions remain stable throughout each turn"
+    },
+    "materials": {
+      "foreEdgeDepth": "16px",
+      "bottomPaperDepth": "12px",
+      "boardOverhang": "8px",
+      "darkGrainOpacity": 0.1,
+      "paperGrainOpacity": 0.035,
+      "contour": "Static optical silhouette and material shading on inner .sheet-surface, carried by each engine-owned page",
+      "construction": "Irregular fine paper layers, neutral contact shadows, attached gutter relief and restrained edge highlights"
+    },
+    "composition": {
+      "shell": "Compact outside-book toolbar",
+      "contents": "Restrained display title, four factual project rows and an interconnected technical drawing",
+      "diagram": "Original monochrome SVG geometry with live HTML labels for evidenced Vault signing, direct B2 upload and Cloudflare delivery; separate GitHub and Google Drive integrations",
+      "portraits": "Retain the current cover portrait/composition and identity-based generated introduction portrait; preserve the original identity source"
+    },
+    "radius": {
+      "book": "2px"
+    },
+    "shadows": {
+      "book": "One soft desk shadow",
+      "curl": "Native engine, maximum opacity .25",
+      "materials": "Static neutral contact and gutter shading on engine-owned surfaces"
+    },
+    "motion": {
+      "fast": "180ms",
+      "base": "420ms",
+      "turn": "800ms native engine target",
+      "reduced": "200ms opacity crossfade",
+      "cover": "1200ms nominal native cover opening/closing; interior remains 800ms"
+    },
+    "density": "Generous editorial margins within a wider reference-led spread"
+  },
+  "components": {
+    "installed": [
+      "page-flip",
+      "motion",
+      "lucide-react"
+    ],
+    "preferredPrimitives": [
+      "Semantic HTML",
+      "Custom CSS"
+    ],
+    "patterns": [
+      "Wider reference-led facing pages on desktop; readable facing pages on tablet",
+      "One page on phone",
+      "Identity-based generated editorial portrait, original photo retained as source",
+      "Live HTML type and diagram labels",
+      "Static inner sheet-surface silhouette within native page roots"
+    ]
+  },
+  "constraints": {
+    "must": [
+      "Follow project-local Engineering Atlas skill",
+      "Use approved CSS tokens",
+      "Retain original identity source and evidenced contributions; approved generated introduction portrait",
+      "Task 5.0 scope: thirteen registered surfaces, with two reference faces after Harigurus and the Security Lab/contact closing pair; accepted opening/Vault/materials/engine retained",
+      "Keep existing time, accessibility, reduced-motion, performance and asset budgets; no deployment"
+    ],
+    "avoid": [
+      "Default UI-kit styling",
+      "New page mesh, second hinge, vendor patch or independent turn/rendering library",
+      "Unverified metrics or maturity claims",
+      "Decorative animation"
+    ]
+  },
+  "decisions": [
+    "25 October 2026 Day 5: implemented nine wrapped persistent chapter routes, separate continuous semantic reading with ordinary scrolling and persistent reading controls, retained native/reduced paginated book, exact logical destinations/focus/media cleanup. Same page data, authentic references and tokens. Continuous execution authorized; final human review pending. No new dependency or engine. See docs/DAY-05-REVIEW.md.",
+    "25 October 2026: user requested authentic colour portraits, complementary tricolour styling, stronger premium editorial emphasis, 21st.dev animation and no previous-portfolio links. References use ivory/ink/muted gold, 96px portraits, 43px titles and 24px names. Adapted Mask Reveal by balick (21st component 39591) to token motion after native settlement, readable quotes, max 1.04 scale and static reduced/reading modes. Source provenance retained only in repository evidence; no visitor-facing old-site link or cite. No dependency or engine change. Verification: docs/TASK-5.0-REVIEW.md.",
+    "25 October 2026: continued authorized Day 04. Reused semantic PageTemplate, case hierarchy and existing tokens for four supporting pages. Harigurus repository is a written case study, Pipeline host processes are not a sandbox, and local JWT work remains unpublished. Catalog search failed (fetch failed); 21st review of initial implementation returned 0 findings. No dependency, motion or deployment change. Day 4 now complete 24/24: full 87-case pass, final 27-case rerun, 96 responsive states, 763 contrast samples, 51 zero-violation Axe states; final report docs/DAY-04-REVIEW.md. Mobile LCP and physical motion targets remain open.",
+    "25 October 2026: user accepted the existing book as good enough, closed Day 02 at 24/24 and authorized continuous assistant-led Day 03. Four factual Vault pages use existing tokens/templates/native engine; genuine recruiter workspace and author dialog captures retain provenance/limits; course foundation remains distinct from independently authored GitHub/Drive extensions. No deployment. docs/DAY-03-REVIEW.md",
+    "24 October 2026: user approved implementation of the reference-led redesign, superseding prior composition/dimension preservation: .88 desktop pages, maximum 1536px spread, actual readable tablet height, 16px fore-edge/12px bottom paper depth/8px board overhang, .10 dark/.035 paper grain, static inner sheet-surface contours, compact toolbar and factual connected diagram. Preserve native engine/timing, portraits/identity, five surfaces, existing budgets, schedule and no deployment. Approval does not establish visual or continuous-motion acceptance.",
+    "24 October 2026: user authorized premium monograph materials: near-black boards/cover distinct from charcoal printed stock, lower grain, irregular fine paper edges, attached static gutter relief and neutral contact shadows. Preserve engine and composition. docs/MONOGRAPH-MATERIALS-REVIEW.md",
+    "24 October 2026: approved reference-matched seated portrait on introduction and shared #282624 charcoal / #efe9de paper with #e0d7cc fiber; reference archived, comparison complete, user acceptance pending. docs/EDITORIAL-OPENING-REVIEW.md",
+    "User approved constraint resolution package on 23 October 2026; docs/DAY-01-PROPOSAL.md",
+    "StPageFlip owns fold transforms and shadows; Motion owns separate UI",
+    "Tablet height adapts to keep 18px body and 44px controls",
+    "Motion acceptance remains pending user review",
+    "24 October 2026: user selected assistant-led Day 02 implementation; five registered surfaces with native cover and shared templates",
+    "Reference comparison and user acceptance of the Day 02 opening/live motion remain pending; automated evidence is separate",
+    "24 October 2026: user rejected the plain right-aligned cover; selected dark charcoal material, unfinished identity-based portrait, and centered viewport fit with growth on native opening",
+    "Cover-only whole-book staging and portrait amendments: docs/COVER-AMENDMENT.md; interior photograph and native paper interactions retained",
+    "24 October 2026: requested left portrait/edition and right live cover copy, slower cover turn, and 0.68 phone page ratio with scrollable long interior content; docs/COVER-REFINEMENT-AMENDMENT.md",
+    "24 October 2026: user requested regeneration for the left side with left unfinished strokes and no central crop seam. New transparent artwork is contained on one ink cover surface; paper text and live typography retained. docs/SEAMLESS-COVER-DECISION.md",
+    "24 October 2026: user rejected the low/small portrait and undersized right copy. Reuse artwork at 96% canvas width (20% larger), vertically centered with left bleed for separation; use 57px desktop/43px compact name, 32px desktop title, 18px desktop metadata and natural-height nonshrinking copy. docs/COVER-BALANCE-REVIEW.md",
+    "24 October 2026: user approved narrow 35-degree illustrated binding wrap carried by the existing native cover, seven-column copy, deliberate two-line subtitle, cover-width typography presets and wider readable phone fitting. docs/WRAPPED-BINDING-DECISION.md"
+  ],
+  "evidence": [
+    "docs/MONOGRAPH-MATERIALS-REVIEW.md",
+    "docs/review/monograph-cover-comparison.png",
+    "docs/review/monograph-opening-comparison.png",
+    "docs/EDITORIAL-OPENING-REVIEW.md",
+    "docs/artwork/EDITORIAL-PORTRAIT.md",
+    "docs/DAY-01-REVIEW.md",
+    "docs/review/motion-prototype.webm",
+    "tests/prototype.spec.ts",
+    "docs/DAY-02-REVIEW.md",
+    "tests/opening.spec.ts",
+    "docs/HARDCOVER-REVIEW.md",
+    "tests/hardcover.spec.ts",
+    "docs/COVER-REFINEMENT-REVIEW.md",
+    "tests/cover-refinement.spec.ts",
+    "docs/SEAMLESS-COVER-REVIEW.md",
+    "docs/COVER-BALANCE-REVIEW.md",
+    "docs/WRAPPED-BINDING-REVIEW.md",
+    "tests/wrapped-binding.spec.ts"
+  ],
+  "generatedAt": "2026-10-23T13:40:03.167Z"
+}

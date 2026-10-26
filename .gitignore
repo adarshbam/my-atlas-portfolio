@@ -1,0 +1,17 @@
+node_modules/
+dist/
+tmp/
+test-results/
+playwright-report/
+*.local
+.env
+.env.*
+!.env.example
+
+# Local verification, generated deliveries and private provenance stay local.
+release/
+docs/review/
+docs/evidence/
+docs/artwork/
+.21st/*
+!.21st/design.json

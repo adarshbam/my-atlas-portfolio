@@ -1,0 +1,279 @@
+@import "tailwindcss" source(none);
+@source "../";
+
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond-latin-500-normal.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("/fonts/cormorant-garamond-latin-300-normal.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "EB Garamond";
+  src: url("/fonts/eb-garamond-latin-400-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --ink: #161513;
+  --ink-soft: #2a2825;
+  --charcoal-surface: #282624;
+  --paper-fiber: #e0d7cc;
+  --material-texture: url("/images/book-fiber.webp");
+  --material-paper-opacity: 0.035;
+  --material-charcoal-opacity: 0.1;
+  --material-edge-highlight: color-mix(in srgb, var(--paper) 32%, transparent);
+  --material-edge-shadow: color-mix(in srgb, var(--ink) 20%, transparent);
+  --material-gutter-shadow: color-mix(in srgb, var(--ink) 24%, transparent);
+  --material-gutter-light: color-mix(in srgb, var(--paper) 2%, transparent);
+  --material-paper-lift: color-mix(in srgb, var(--paper) 42%, transparent);
+  --material-paper-shade: color-mix(
+    in srgb,
+    var(--paper-fiber) 48%,
+    transparent
+  );
+  --material-cover-light: color-mix(in srgb, var(--paper) 4%, transparent);
+  --material-cover-shade: color-mix(in srgb, var(--ink) 52%, transparent);
+  --material-gutter-width: 8%;
+  --material-gutter-crease: 0.6%;
+  --material-gutter-rise: 2.4%;
+  --material-fore-edge-depth: var(--s4);
+  --material-bottom-depth: var(--s3);
+  --material-edge-width: var(--material-fore-edge-depth);
+  --material-edge-inset: var(--s1);
+  --material-edge-tile: var(--s32);
+  --material-edge-lines: url("/images/page-edges.svg");
+  --material-edge-lines-vertical: url("/images/page-edges-vertical.svg");
+  --material-edge-relief: linear-gradient(
+    to bottom,
+    var(--material-edge-highlight),
+    transparent 24%,
+    transparent 72%,
+    var(--material-edge-shadow)
+  );
+  --material-cover-relief: linear-gradient(
+    115deg,
+    var(--material-cover-light),
+    transparent 38%,
+    var(--material-cover-shade)
+  );
+  --material-sheet-relief: linear-gradient(
+    to bottom,
+    var(--material-paper-lift),
+    transparent 12%,
+    transparent 78%,
+    var(--material-paper-shade)
+  );
+  --material-board-overhang: var(--s2);
+  --material-board-depth: var(--material-bottom-depth);
+  --material-stack-contact: 0 var(--hairline) var(--s1)
+    var(--material-edge-shadow);
+  --material-board-contact:
+    inset 0 var(--hairline) 0 var(--material-edge-highlight),
+    inset 0 calc(var(--hairline) * -1) 0 var(--material-edge-shadow);
+  --portrait-copy-top: 23%;
+  --portrait-copy-width: 44%;
+  --portrait-note-bottom: 16%;
+  --portrait-note-width: 36%;
+  --portrait-name-size: var(--text-3xl);
+  --portrait-meta-size: var(--text-base);
+  --portrait-label-size: var(--text-sm);
+  --portrait-footer-surface: transparent;
+  --paper: #efe9de;
+  --paper-deep: #e4dccd;
+  --graphite: #6e685f;
+  --rule: rgba(22, 21, 19, 0.18);
+  --rule-dark: rgba(239, 233, 222, 0.22);
+  --desk: #c9b8a0;
+  --accent: #765818;
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-text: "EB Garamond", Georgia, serif;
+  --text-xs: 10px;
+  --text-sm: 14px;
+  --text-base: 18px;
+  --text-lg: 24px;
+  --text-xl: 32px;
+  --text-2xl: 43px;
+  --text-3xl: 57px;
+  --text-4xl: 76px;
+  --text-display: clamp(48px, 6vw, 96px);
+  --leading-display: 0.95;
+  --leading-title: 1.1;
+  --leading-body: 1.55;
+  --leading-label: 1.4;
+  --tracking-display: -0.02em;
+  --tracking-label: 0.24em;
+  --tracking-running: 0.3em;
+  --measure: 60ch;
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s6: 24px;
+  --s8: 32px;
+  --s12: 48px;
+  --s16: 64px;
+  --s24: 96px;
+  --s32: 128px;
+  --page-margin: 8%;
+  --page-grid-columns: 12;
+  --page-grid-gap: var(--s4);
+  --portrait-measure: 24ch;
+  --hairline: 1px;
+  --book-radius: 2px;
+  --target: 44px;
+  --focus-offset: 3px;
+  --reading-toolbar-layer: 30;
+  --icon-stroke: 1.25;
+  --book-width: 1536px;
+  --page-ratio: 0.88;
+  --perspective: 2000px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --dur-fast: 180ms;
+  --dur-base: 420ms;
+  --dur-slow: 800ms;
+  --dur-cover: 1200ms;
+  --stagger: 70ms;
+  --dur-crossfade: 200ms;
+  --dur-portrait: 1200ms;
+  --reveal-distance: 24px;
+  --hover-distance: 6px;
+  --corner-hit-area: var(--s32);
+  --turn-hit-min: var(--s24);
+  --turn-hit-max: var(--s32);
+  --turn-hit-ratio: 0.25;
+  --corner-lift: var(--s24);
+  --page-opacity: 1;
+  --portrait-scale: 1.04;
+  --press-scale: 0.98;
+  --curl-opacity: 0.25;
+  --tracking-mobile: 0.18em;
+  --shadow-book:
+    0 var(--s2) var(--s3) color-mix(in srgb, var(--ink) 18%, transparent),
+    0 var(--s6) var(--s12) color-mix(in srgb, var(--ink) 20%, transparent);
+  --edge-step: 2px;
+  --gutter-width: var(--s8);
+  --muted-on-dark: color-mix(in srgb, var(--paper) 76%, var(--ink));
+  --portrait-opacity: 0.46;
+  --portrait-shade: 0.25;
+  --portrait-contrast: 1.05;
+  --diagram-angle: 8deg;
+  --disabled-opacity: 0.35;
+  --cover-surface: var(--ink);
+  --cover-type: var(--paper);
+  --cover-muted: var(--paper);
+  --cover-name-size: var(--text-3xl);
+  --cover-title-size: var(--text-xl);
+  --cover-spine: var(--s4);
+  --cover-wrap-angle: -35deg;
+  --cover-wrap-shade: 0.18;
+  --cover-crease-opacity: 0.5;
+  --cover-copy-inset: var(--s2);
+  --cover-regular-width: 320px;
+  --cover-large-width: 448px;
+  --cover-target: var(--s12);
+  --cover-board: var(--s1);
+  --cover-block-depth: var(--material-fore-edge-depth);
+  --cover-min-height: calc(var(--s32) * 3);
+  --cover-max-height: 800px;
+  --cover-grain-opacity: var(--material-charcoal-opacity);
+  --cover-art-opacity: 1;
+  --cover-scene-gutter: var(--s4);
+  --cover-art-position: left center;
+  --cover-art-share: 96%;
+  --cover-art-left: -12%;
+  --cover-meta-size: var(--text-base);
+  --cover-copy-gap: var(--s4);
+  --cover-action-gap: var(--s8);
+  --cover-edition-tracking: var(--tracking-mobile);
+  --phone-page-ratio: 0.68;
+  --material-contour-left: url("/images/sheet-contour-left.svg");
+  --material-contour-right: url("/images/sheet-contour-right.svg");
+  --material-stock-tone: linear-gradient(
+    to bottom,
+    transparent,
+    color-mix(in srgb, var(--ink) 62%, transparent)
+  );
+  --material-cover-tone: linear-gradient(
+    115deg,
+    var(--material-cover-light),
+    transparent 32%,
+    var(--material-cover-shade)
+  );
+  --material-stack-tone: linear-gradient(
+    to bottom,
+    var(--paper-deep),
+    var(--paper-fiber)
+  );
+  --material-stack-crease: color-mix(in srgb, var(--ink) 28%, transparent);
+  --material-stack-seam: inset 0 var(--hairline) 0 var(--material-stack-crease);
+  --material-board-surface: color-mix(in srgb, var(--ink) 92%, var(--graphite));
+  --portrait-brightness: 0.82;
+  --portrait-photo-width: 76%;
+  --portrait-photo-right: 4%;
+  --portrait-photo-bottom: 0%;
+  --portrait-note-measure: 26ch;
+  --contents-title-size: var(--text-3xl);
+  --contents-row-padding: var(--s2);
+  --diagram-ratio: 720 / 330;
+  --diagram-min-width: 448px;
+  --diagram-stroke: 1px;
+  --diagram-detail-stroke: 0.6px;
+  --diagram-dash: 4 4;
+  --diagram-fill: color-mix(in srgb, var(--paper-deep) 72%, transparent);
+  --diagram-side-fill: color-mix(in srgb, var(--paper-fiber) 80%, var(--paper));
+  --diagram-top-fill: color-mix(in srgb, var(--paper) 70%, var(--paper-deep));
+  --diagram-browser-x: 2%;
+  --diagram-browser-y: 65%;
+  --diagram-api-x: 43%;
+  --diagram-api-y: 12%;
+  --diagram-storage-x: 56%;
+  --diagram-storage-y: 66%;
+  --diagram-delivery-x: 80%;
+  --diagram-delivery-y: 33%;
+  --diagram-signature-x: 12%;
+  --diagram-signature-y: 22%;
+  --diagram-upload-x: 25%;
+  --diagram-upload-y: 46%;
+  --diagram-return-x: 38%;
+  --diagram-return-y: 92%;
+  --diagram-label-width: 23%;
+  --diagram-label-last-width: 20%;
+  --diagram-compact-ratio: 720 / 270;
+  --portrait-image-ratio: 0.666667;
+  --portrait-face-anchor: 0.27;
+  --portrait-face-image-share: 0.3;
+  --portrait-tablet-fill: 0.9;
+  --portrait-foot-height: 24%;
+  --portrait-foot-tone: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--ink) 76%, transparent),
+    transparent
+  );
+  --vault-image-filter: none;
+  --vault-muted: var(--ink-soft);
+  --vault-project-title: var(--text-xl);
+  --vault-workspace-ratio: 1200 / 833;
+  --vault-detail-ratio: 1200 / 833;
+  --vault-workspace-height: calc(var(--s32) + var(--s8));
+  --vault-detail-height: calc(var(--s32) + var(--s4));
+  --reference-paper: var(--paper);
+  --reference-ink: var(--ink);
+  --reference-gold: var(--accent);
+  --reference-title-size: var(--text-2xl);
+  --reference-name-size: var(--text-lg);
+  --reference-portrait-size: var(--s24);
+  --reference-gap: var(--s6);
+  --reference-reveal-distance: var(--s3);
+  --reference-mask-hidden: inset(0 100% 0 0);
+  --reference-mask-visible: inset(0 0 0 0);
+  --dur-rule: 600ms;
+}
