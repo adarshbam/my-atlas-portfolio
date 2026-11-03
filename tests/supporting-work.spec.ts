@@ -1,3 +1,4 @@
+import { goToChapter, chapterButton, openContents } from "./helpers/book";
 import { test, expect } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { pages, professionalStory } from "../src/data/portfolio";
@@ -19,7 +20,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await expect(book).toHaveAttribute("data-ready", "true");
       if (mode === "reading")
         await page
-          .getByRole("button", { name: "Reading mode", exact: true })
+          .getByRole("button", { name: "Reading view", exact: true })
           .click();
       const scope =
         mode === "native"
@@ -28,13 +29,11 @@ for (const width of [375, 768, 1280, 1920]) {
             ? ".reading-document .book-page"
             : ".plain-face[aria-hidden=false] .book-page";
       for (const id of ["pipeline", "harigurus", "security-lab"] as const) {
-        await page
-          .getByRole("navigation", { name: "Portfolio chapters" })
-          .getByRole("button", { name: "Introduction", exact: true })
-          .click();
+        await goToChapter(page, "Introduction");
         await expect(book).toHaveAttribute("data-current-page", "1");
         await expect(book).toHaveAttribute("data-turning", "false");
         if (width < 768 && mode !== "reading") {
+          await page.waitForTimeout(300);
           await page.keyboard.press("ArrowRight");
           await expect(book).toHaveAttribute("data-current-page", "2");
           await expect(book).toHaveAttribute("data-turning", "false");
@@ -74,10 +73,7 @@ for (const width of [375, 768, 1280, 1920]) {
           await expect(face).toContainText("Loopback only");
         }
       }
-      await page
-        .getByRole("navigation", { name: "Portfolio chapters" })
-        .getByRole("button", { name: "Contact", exact: true })
-        .click();
+      await goToChapter(page, "Contact");
       await expect(book).toHaveAttribute(
         "data-current-page",
         String(

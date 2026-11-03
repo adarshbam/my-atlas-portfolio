@@ -88,3 +88,53 @@ If no recovery is needed, use the reserve for package integrity and documentatio
 ## Preparation checkpoint
 
 25 October 2026: prepared four blocks, 24 pending exercises and the release/package branches. Source-based findings and later commands are in `docs/DAY-07-PREPARATION.md`. No source/test changes, build, audit, browser/server launch, package creation or deployment occurred. Day 7 remains **0/24**. Next execution action is **7.1.1**, after a real Day 6 candidate is available and Day 7 execution is requested.
+
+## 27 October final-update continuation
+The prior Day7 release is historical. New explicitly approved final-update implementation is in progress, with successful direct typecheck/build and browser verification pending. Read docs/FINAL-INTERACTION-UPDATE.md and HANDOFF.md first. A95% account snapshot required a safe checkpoint. No additional timed session, publication or schedule expansion is claimed.
+
+`n27 October restoration: see docs/RESTORATION-UPDATE.md. No automatic schedule extension.
+Restoration safe checkpoint at 98% usage: docs/RESTORATION-UPDATE.md contains current implementation, pending checks and exact next command.
+28 October restoration delivered for local review: docs/RESTORATION-DELIVERY.md. No automatic schedule extension.
+
+28 October: user froze current portfolio animations, requested precise atlas route alignment and softer first-opening audio. Work in progress; separate story planning chat created. No schedule expansion or deployment. See docs/MAP-SOUND-UPDATE.md for the forthcoming result.
+
+28 October result: map and opening-sound correction complete; typecheck/build pass, focused development17/17 and production34/34 pass. Current record docs/MAP-SOUND-UPDATE.md, review docs/review/map-sound/continuous-review.mp4. Await subjective revised-opening review. Story planning continues separately; portfolio animations unchanged. No deployment.
+
+28 October final audio correction: user approved overall result; removed remaining synthesized first-opening thrum only. Build/typecheck and4/4 focused audio cases pass. Current preview4178; older audiovisual recording is historical. See docs/MAP-SOUND-UPDATE.md.
+
+## Separate user-requested story work — 30 October 2026
+
+Rooftop Observatory implementation and outstanding review are recorded in ../story/ROOFTOP-REVIEW.md. This is separate from the original portfolio schedule; no schedule extension is implied.
+
+
+30 October — separate user-authorized reference-led story rebuild: docs/story/REFERENCE-REBUILD.md. Representative review gate retained; no schedule extension or deployment.
+
+
+31 October — user-requested original-ten character audio update completed locally; see docs/story/ALIEN-AUDIO.md. No deployment or schedule amendment.
+
+
+31 October — separate user-requested story Stage5 critique/polish completed locally; docs/story/STAGE-5.md. No schedule extension or deployment.
+
+
+## Separately requested story work — 31 October 2026
+
+User-approved all17-chapter composition/type rebuild implemented outside the completed original Day7 session; no schedule extension or deployment inferred. See story/COMPOSITION-REBUILD.md. Self-hosted three-font story-only exception recorded in binding references. Final build, eight width/motion states, archive integrity, touch, audio and book return pass. Mobile lab P90/A100/CLS0/LCP3.212s; LCP target unmet. New visual/live-motion acceptance and recording subtitle review remain pending. Video hosting is still separate.
+
+
+31 October separately requested sound update: default-on physics landing thud implemented and verified at8 viewport/motion states. See story/DROP-IMPACT.md. No schedule extension, deployment or book-audio change.
+
+31 October separately requested story label polish: chapter-period/archive labels use approved accent green with24/16px archive spacing. Four widths × two motion states checked. See story/LABEL-REFINEMENT.md; no book changes or deployment.
+
+31 October story label follow-up: corrected omitted interaction labels and equivalent night-surface section labels; build and8 visual states verified. No deployment.
+
+
+31 October separately requested Vault integration:9 original-name hosted clips verified live, missing A052 retained locally; shared runtime manifest resolution in story/static reader, refresh and fallback. Build, controlled failure checks and actual8 responsive/motion states pass. See story/VAULT-INTEGRATION.md. All local copies still packaged; no uploads, asset deletion, Vault changes or portfolio deployment.
+
+31 October Vault follow-up: all10 recordings now hosted,3 MJO films replace YouTube in cinematic/static reading. Live playback/seek and8 responsive/motion states pass. See story/VAULT-FILMS.md; no deployment/deletion.
+
+31 October requested iframe replacement: built and375/768 custom player checks pass; desktop film opening fails after recording. Not accepted/complete. Exact handoff story/VAULT-IFRAME.md. No deployment.
+
+31 October follow-up after limit reset: direct Vault iframe work completed; gate removed, desktop films resolved, actual central Play in8 states, input/cleanup and static reading4 widths pass. User fixed Vault root height; no portfolio deployment or deletion. See story/VAULT-DIRECT.md.
+
+
+31 October separately authorized Atlas repair: restored full-size diagram SVGs/Cloudflare bounds and removed Gautham public reference/portraits. Three quotations preserved, single-author page simplified; valid panel/figure semantics and reading focus recovery. Build,16 diagram states,12 references,8 Vault,2 touch-turn cases and targeted0-Axe input checks pass. See ATLAS-DIAGRAM-REFERENCE-REPAIR.md; no deployment.

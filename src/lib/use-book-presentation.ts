@@ -51,13 +51,9 @@ export function useBookPresentation(
       book.current.style.setProperty("--book-openness", String(progress));
       book.current.dataset.openness = String(progress);
       book.current.dataset.presentationScale = String(state.scale);
-      if (progress > 0 && (!state.expanded || settled)) {
-        stage.current.style.height = `${state.openHeight}px`;
-        state.expanded = true;
-      } else if (settled && progress === 0) {
-        stage.current.style.height = `${state.closedHeight}px`;
-        state.expanded = false;
-      }
+      // Reserve the open geometry in both states; opening never shifts the document.
+      stage.current.style.height = `${state.openHeight}px`;
+      state.expanded = progress > 0;
     },
     [book, stage, dimensions, mobile, enabled],
   );

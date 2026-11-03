@@ -1,0 +1,2749 @@
+{
+  "chapters": [
+    {
+      "id": "school",
+      "period": "Childhood",
+      "title": "The notebooks I never finished.",
+      "assets": [
+        [
+          "A054",
+          "A page from my notebook, around 2016."
+        ]
+      ],
+      "paragraphs": [
+        "I was a quiet kid at school. If I did not understand something, I usually kept the question to myself. Asking a teacher felt difficult, and homework rarely held my attention long enough for me to finish it.",
+        "A class might finish twelve chapters while my notebook stopped at three. That was the kind of gap I remember. My handwriting was untidy, my notebooks were incomplete, and memorising things because I was told to felt tedious. Even so, I usually finished around third in my class, sometimes fourth or fifth.",
+        "School saw one version of me. Around people I knew, I had much more to say. There were questions everywhere, and my older brother always seemed willing to explore them with me."
+      ],
+      "moments": [
+        {
+          "title": "A page I kept",
+          "text": "This notebook page, from around 2016, belongs to the school years I described. Neat handwriting rarely held my attention.",
+          "media": [
+            {
+              "id": "A054",
+              "caption": "Around 2016. A page from my school notebook, with the uneven handwriting I remember."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "evidence",
+        "title": "Quiet at school.\nCurious everywhere.",
+        "subtitle": "The classroom saw one version of me",
+        "lead": "My notebooks were unfinished, my handwriting untidy, and asking a teacher felt impossible. I still usually finished near the top of my class. Around people I knew, a different child appeared—one with questions about everything."
+      }
+    },
+    {
+      "id": "brother",
+      "period": "Childhood",
+      "title": "My brother kept my curiosity alive.",
+      "assets": [
+        [
+          "A046",
+          "Showing my brother what I had made. This photograph comes from the later programming years."
+        ]
+      ],
+      "portrait": true,
+      "paragraphs": [
+        "Once, he asked which would hit the ground first: a large brick or a small pebble. I was sure the brick would win. Then he dropped them together. They landed together, and the answer I had been so certain of suddenly made no sense.",
+        "He did this kind of thing often. A question about jumping inside a moving train became a demonstration with a stone and a moving hand. He helped me see how something could keep moving even after it left your hand. Everyday objects became ways to understand the world.",
+        "Soon I wanted to know about gravity, stars, black holes, time travel and parallel universes. In second grade, I was reading science books meant for much older students. I enjoyed trying to work out their maths problems, too—looking at a triangle and finding a way through it before I knew the formal method.",
+        "In a group my brother taught, I learned multiplication tables up to twenty while older students were practising alongside me. I knew everyone there. I felt comfortable enough to try.",
+        "That is the part I want to remember most: my brother kept the curiosity of a little kid alive."
+      ],
+      "moments": [
+        {
+          "title": "Having someone to show",
+          "text": "My brother stayed part of the things I learned. Later, when I began programming, I would show him what I had made and explain it.",
+          "media": [
+            {
+              "id": "A046",
+              "caption": "A later photograph with my brother, from the years when I would explain each new thing I built."
+            }
+          ]
+        },
+        {
+          "title": "Another thing to learn",
+          "text": "Chess was another interest in 2017. I kept this photograph from when I was learning it.",
+          "media": [
+            {
+              "id": "A047",
+              "caption": "Learning chess in 2017. The exact month is uncertain."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "workbench",
+        "title": "Someone who\nkept answering.",
+        "subtitle": "Curiosity takes root",
+        "lead": "On the rooftop, I would ask, “Bhaiya, tell me something new.” He told me about stars, galaxies, black holes and time. With a brick, a pebble or a stone in his hand, he could turn an ordinary moment into a question I had never thought to ask."
+      }
+    },
+    {
+      "id": "english",
+      "period": "Before 2017 → January 2017",
+      "title": "I wanted to understand Ben 10.",
+      "assets": [
+        [
+          "A060",
+          "A frame from one of my English-practice recordings, January 2017."
+        ],
+        [
+          "A025",
+          "The Ben 10 watch I made, January 2017."
+        ]
+      ],
+      "portrait": true,
+      "paragraphs": [
+        "Before I wrote any code, I was fascinated by phones. My father’s keypad phone could play films. Another phone had Kung Fu Panda. A tiny device could hold these whole worlds—and somehow let us speak to someone far away.",
+        "My brother used to download Doraemon episodes over a painfully slow connection. I remember him finding a particular spot with reception and waiting for a small, low-resolution episode to arrive. I would watch what he had managed to download.",
+        "During those childhood years, I lost my father.",
+        "Later, on an Intex phone, I began watching Ben 10. A friend had told me about the aliens, and I wanted to see everything. But many of the episodes I wanted were only available in English.",
+        "At the same time, my brother was learning English through A. J. Hoge’s lessons about listening and imitation. I made the connection: watching Ben 10 could also be my English practice. I listened, repeated the sounds, and recorded myself speaking.",
+        "Those recordings still exist. In January 2017, I was practising English on camera and making my own Ben 10 watch. Something I wanted to enjoy had given me a reason to learn."
+      ],
+      "moments": [
+        {
+          "title": "The watch I wanted to make",
+          "text": "Ben 10 became something I could try to bring into my own world. These photographs show the watch I made and the way I wanted to show it.",
+          "media": [
+            {
+              "id": "A025",
+              "caption": "January 2017. Wearing the Ben 10 watch I made."
+            },
+            {
+              "id": "A042",
+              "caption": "Holding up the homemade watch for a closer look."
+            },
+            {
+              "id": "A043",
+              "caption": "Another photograph of me showing the watch."
+            }
+          ]
+        },
+        {
+          "title": "Listening, imitating, trying again",
+          "text": "These are the original recordings from that English-learning period. I was practising the sounds I heard and getting used to speaking on camera.",
+          "media": [
+            {
+              "id": "A023",
+              "caption": "January 2017. Imitating A. J. Hoge during English practice."
+            },
+            {
+              "id": "A060",
+              "caption": "January 2017. Practising English after watching Ben 10."
+            },
+            {
+              "id": "A058",
+              "caption": "Another English-practice recording from the same period."
+            },
+            {
+              "id": "A059",
+              "caption": "Practising speaking and showing my Ben 10 watch."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "watch",
+        "title": "A cartoon became\na reason to learn.",
+        "subtitle": "Listening. Imitating. Trying again.",
+        "lead": "Phones could hold films, cartoons and whole other worlds. My brother patiently downloaded Doraemon over a slow connection. Later, Ben 10 gave me a reason to learn English: I wanted to understand the episodes I could not find in Hindi. A. J. Hoge’s listening lessons gave me a way to try.",
+        "aside": "During those childhood years, I lost my father."
+      }
+    },
+    {
+      "id": "first-code",
+      "period": "July 2017",
+      "title": "Three hours. Two numbers.",
+      "assets": [
+        [
+          "A017",
+          "Our first program: read two numbers, add them, print the sum. July 2017."
+        ],
+        [
+          "A069",
+          "The next attempt, which we never got past the errors."
+        ]
+      ],
+      "paragraphs": [
+        "My brother bought a laptop for his studies. His friend Faz was doing programming, and soon we were trying it too.",
+        "Our first program added two numbers. Faz helped over a voice call while we typed each piece ourselves. A missing semicolon, a bracket in the wrong place, another error. We did not have a fast video connection to make any of it easier.",
+        "It took about three hours. The photograph still shows that little program on a blue editor screen.",
+        "My brother and I started learning C together. After a while he stopped, but I kept going. I wanted to know what else I could make the computer do."
+      ],
+      "moments": [
+        {
+          "title": "The sum that took three hours",
+          "text": "The program only added two numbers, but getting it to run took three hours of help from Faz over a voice call. These are the two photographs we kept of it.",
+          "media": [
+            {
+              "id": "A017",
+              "caption": "July 2017. The first program: enter two numbers and print their sum."
+            },
+            {
+              "id": "A018",
+              "caption": "A second photograph of that same first program on the laptop."
+            }
+          ]
+        },
+        {
+          "title": "The next attempt did not run",
+          "text": "The next piece of code came with more errors. This is the attempt I saved as the one we never managed to get working.",
+          "media": [
+            {
+              "id": "A069",
+              "caption": "Our second piece of code, still unfinished when the errors stopped us."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "workbench",
+        "title": "Three hours.\nTwo numbers.",
+        "subtitle": "July 2017 · our first program",
+        "lead": "Faz helped over a voice call while my brother and I typed a program that added two numbers. Missing semicolons, misplaced brackets, another error. Three hours later, it worked. We began learning C together; when my brother stopped, I kept going."
+      }
+    },
+    {
+      "id": "fundamentals",
+      "period": "September 2017 onward",
+      "title": "Loops, patterns, and another attempt.",
+      "paragraphs": [
+        "Once we had written that first program, I began spending more time with the basics. Small exercises became ways to find out what each instruction did.",
+        "The archive still has those experiments: variables, loops, patterns, and the tutorials I used to understand them. A screen full of code was slowly becoming something I could follow."
+      ],
+      "moments": [
+        {
+          "title": "Small programs, one idea at a time",
+          "text": "I kept photographs of the exercises as I worked through C. The dates on these files place this part of the archive in September 2017.",
+          "media": [
+            {
+              "id": "A066",
+              "caption": "September 2017. One of my small C exercises."
+            },
+            {
+              "id": "A067",
+              "caption": "18 September 2017. Another exercise, using loops and character output."
+            },
+            {
+              "id": "A035",
+              "caption": "Working through loops in the blue Turbo editor."
+            },
+            {
+              "id": "A031",
+              "caption": "18 September 2017. Building a pattern with characters on the screen."
+            }
+          ]
+        },
+        {
+          "title": "The tutorials beside the editor",
+          "text": "These short screen recordings show the small examples I was working through: how an operator changes a value, or how to place output on the screen.",
+          "media": [
+            {
+              "id": "A076",
+              "caption": "A saved tutorial recording showing an increment-operator example."
+            },
+            {
+              "id": "A077",
+              "caption": "A tutorial recording about positioning output with gotoxy in Code::Blocks."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "sequence",
+        "title": "One instruction\nat a time.",
+        "subtitle": "Learning to follow the logic",
+        "lead": "Variables, loops, patterns. Small programs helped me understand what each instruction did. A screen full of code was slowly becoming something I could follow."
+      }
+    },
+    {
+      "id": "experiments",
+      "period": "September–November 2017",
+      "title": "I made the car move.",
+      "assets": [
+        [
+          "A048",
+          "Explaining the moving-car code to my brother, 25 October 2017 on the photograph."
+        ],
+        [
+          "A011",
+          "A car drawn with code. The photograph is stamped 26 October 2017."
+        ],
+        [
+          "A075",
+          "An aircraft drawn with code, 29 October 2017."
+        ],
+        [
+          "A041",
+          "Trying to make a piano with sound functions, 31 October 2017."
+        ]
+      ],
+      "paragraphs": [
+        "I followed programming tutorials and worked through loops, operators and patterns. Then I discovered that code could draw. I could put lines on a screen, build a shape from them, and make that shape move.",
+        "I wanted to make games. My moving car was a long way from the one I had imagined, but it moved. I drew other cars, an aircraft and a character, and tried to turn sound functions into a simple piano. When I made something I was pleased with, I showed my brother and explained how it worked.",
+        "There were plenty of frustrating days too. Moving from Turbo C to Code::Blocks felt like an upgrade, until I spent a whole day trying to run a simple program.",
+        "Faz had also suggested Blender. I tried it in September and found it complicated. Toward the end of the year, watching MJO made me want to create animated videos myself, so I returned to 3D. By November I was also writing HTML in Notepad. Several different paths were opening at once."
+      ],
+      "moments": [
+        {
+          "title": "Learning to draw with code",
+          "text": "The photographs from 18 October show a sequence of attempts at drawing a circle, including an error. This was the beginning of making code produce a visible shape.",
+          "media": [
+            {
+              "id": "A029",
+              "caption": "18 October 2017, 13:17. A drawing attempt stopped by a getch prototype error."
+            },
+            {
+              "id": "A030",
+              "caption": "18 October 2017, 13:23. Another version of the circle program."
+            },
+            {
+              "id": "A028",
+              "caption": "18 October 2017, 13:27. Continuing the drawing exercise."
+            },
+            {
+              "id": "A036",
+              "caption": "18 October 2017. Learning how repeated instructions could produce movement."
+            }
+          ]
+        },
+        {
+          "title": "The moving car",
+          "text": "I wanted to build games. The red car was a small start: it moved, and I could show my brother the code that made it happen.",
+          "media": [
+            {
+              "id": "A045",
+              "caption": "25 October 2017. Working on the simple moving car."
+            },
+            {
+              "id": "A048",
+              "caption": "25 October 2017. Explaining the car’s code to my brother."
+            }
+          ]
+        },
+        {
+          "title": "What I pictured, and what I could draw",
+          "text": "I saved a detailed car reference and the simpler car I managed to draw with code. Looking at them together reminds me how much I wanted to make, and how much I still had to learn.",
+          "media": [
+            {
+              "id": "A005",
+              "caption": "The detailed car reference I wanted to build, saved with a November 2017 label."
+            },
+            {
+              "id": "A011",
+              "caption": "26 October 2017. The outlined car I was able to draw in code."
+            },
+            {
+              "id": "A075",
+              "caption": "29 October 2017. An aircraft drawn from lines."
+            },
+            {
+              "id": "A074",
+              "caption": "7 November 2017. A character drawn in the same period."
+            }
+          ]
+        },
+        {
+          "title": "Could the computer make music?",
+          "text": "After shapes and movement, I tried sound. I was learning how to produce different notes and make a simple piano.",
+          "media": [
+            {
+              "id": "A056",
+              "caption": "31 October 2017. The beginning of my piano experiment."
+            },
+            {
+              "id": "A041",
+              "caption": "31 October 2017. More of the sound functions behind the piano."
+            }
+          ]
+        },
+        {
+          "title": "A new editor, a new struggle",
+          "text": "Moving from Turbo C to Code::Blocks felt like an upgrade. I also kept the photograph of a day spent struggling to run a simple program.",
+          "media": [
+            {
+              "id": "A012",
+              "caption": "Opening Code::Blocks after using Turbo C."
+            },
+            {
+              "id": "A014",
+              "caption": "The simple C program I struggled to run for a whole day."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "workbench",
+        "title": "Then the lines\nstarted moving.",
+        "subtitle": "Code → shape → moving car",
+        "lead": "I wanted to make games. First I learned to draw with code: circles, cars, an aircraft, a character. The red car was nothing like the one I imagined—but it moved. Each experiment gave me something new to show my brother.",
+        "beats": [
+          {
+            "title": "Learning to draw",
+            "text": "A circle, an error, another attempt. Repeated instructions were beginning to produce visible shapes.",
+            "ids": [
+              "A029",
+              "A030",
+              "A028",
+              "A036"
+            ]
+          },
+          {
+            "title": "The moving car",
+            "text": "I could show my brother the red car—and explain the code that made it move.",
+            "ids": [
+              "A045",
+              "A048"
+            ]
+          },
+          {
+            "title": "The idea and the attempt",
+            "text": "A detailed reference beside the simpler car I could draw. There was still a distance between imagining something and making it.",
+            "ids": [
+              "A005",
+              "A011"
+            ]
+          },
+          {
+            "title": "An aircraft, drawn from lines",
+            "text": "On 29 October 2017, I was using the same drawing ideas to build an aircraft.",
+            "ids": [
+              "A075"
+            ]
+          },
+          {
+            "title": "A character on the screen",
+            "text": "By 7 November, those lines had become a character too.",
+            "ids": [
+              "A074"
+            ]
+          },
+          {
+            "title": "Could the computer make music?",
+            "text": "On 31 October, I began experimenting with sound functions and the notes behind a simple piano.",
+            "ids": [
+              "A056",
+              "A041"
+            ]
+          },
+          {
+            "title": "A new editor. Another struggle.",
+            "text": "Code::Blocks felt like an upgrade from Turbo C. I also kept the photograph of a whole day spent trying to run one simple program.",
+            "ids": [
+              "A012",
+              "A014"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "first-web",
+      "period": "November 2017 → early 2018",
+      "title": "A browser could show what I wrote.",
+      "paragraphs": [
+        "In November 2017, I was writing HTML in Notepad. It was another way to make something visible with code.",
+        "I tried a form, learned CSS, recreated a logo, and experimented in SoloLearn’s Code Playground. These were small things, but each one gave me something new to figure out."
+      ],
+      "moments": [
+        {
+          "title": "Notepad and a first form",
+          "text": "My earliest web work was plain and direct: type some HTML, open it in a browser, see what happened.",
+          "media": [
+            {
+              "id": "A082",
+              "caption": "November 2017. Writing HTML in Notepad for the first time."
+            },
+            {
+              "id": "A050",
+              "caption": "My first HTML form, with its bright yellow page."
+            }
+          ]
+        },
+        {
+          "title": "Learning the pieces",
+          "text": "I was trying many small ideas at once: following a CSS playlist, recreating a familiar logo, and using text output to draw a pattern that looked like DNA.",
+          "media": [
+            {
+              "id": "A020",
+              "caption": "February 2018. A CSS-in-Hindi playlist I used; the screenshot shows vishAcademy."
+            },
+            {
+              "id": "A022",
+              "caption": "Recreating the Google wordmark in SoloLearn’s playground."
+            },
+            {
+              "id": "A013",
+              "caption": "Early 2018. A DNA-like pattern made from text output."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "workspace",
+        "title": "A browser became\nmy canvas.",
+        "subtitle": "Notepad · HTML · CSS",
+        "lead": "In November 2017, I was writing HTML in Notepad. Forms, logos and the Code Playground gave me another way to turn instructions into something visible."
+      }
+    },
+    {
+      "id": "blender",
+      "period": "September 2017 → March 2018",
+      "title": "I wanted to make the videos, too.",
+      "paragraphs": [
+        "Blender began as another suggestion from Faz. I tried it in September 2017 and found it complicated. Watching MJO later gave me a reason to return to it.",
+        "I wanted to make videos like the ones I enjoyed watching. By January 2018, I was building an MJO-inspired scene; in March I was working on a Technical Guruji rap-video scene.",
+        "I also taught programming and animation on my own YouTube channel. Its name was a long one: Animation / Programming Guru. Learning something and wanting to show someone else were already closely connected for me."
+      ],
+      "moments": [
+        {
+          "title": "The first Blender experiments",
+          "text": "These three views show the move from an early trial to more deliberate scene-building. The original project images keep the working interface visible.",
+          "media": [
+            {
+              "id": "A001",
+              "caption": "18 September 2017. Trying Blender for the first time."
+            },
+            {
+              "id": "A009",
+              "caption": "31 January 2018. Building the MJO-inspired Diwali scene."
+            },
+            {
+              "id": "A010",
+              "caption": "20 March 2018. Working on the Technical Guruji rap-video scene."
+            }
+          ]
+        }
+      ],
+      "films": [
+        {
+          "id": "vFydtnVRbew",
+          "title": "MJO-inspired film 1",
+          "watchUrl": "https://www.youtube.com/watch?v=vFydtnVRbew"
+        },
+        {
+          "id": "_pKimb16FUg",
+          "title": "Technical Gurugi rap like MJO"
+        },
+        {
+          "id": "1DcVUmFgeTY",
+          "title": "MJO:Bhandara secret scary part-2"
+        }
+      ],
+      "presentation": {
+        "composition": "cinema",
+        "title": "I wanted to make\nthe videos, too.",
+        "subtitle": "From watching to making",
+        "lead": "Faz suggested Blender. At first it felt impossibly complicated; watching MJO gave me a reason to return. I built scenes, made animated films and taught programming and animation on my channel: Animation / Programming Guru."
+      }
+    },
+    {
+      "id": "laptop",
+      "period": "January 2018",
+      "title": "A laptop of my own.",
+      "paragraphs": [
+        "The early programs were made on my brother’s laptop. On 20 January 2018, I got my own.",
+        "The unboxing is still here, alongside the photograph and specifications I saved. So are the winter pictures of me learning under a blanket, with the laptop in front of me."
+      ],
+      "moments": [
+        {
+          "title": "20 January",
+          "text": "The recording preserves the unboxing with my brother’s friends. The product image is the specification reference I kept at the time.",
+          "media": [
+            {
+              "id": "A052",
+              "caption": "20 January 2018. Unboxing my first laptop with my brother’s friends."
+            },
+            {
+              "id": "A053",
+              "caption": "My first own laptop, photographed with its ASUS bag."
+            },
+            {
+              "id": "A051",
+              "caption": "The ASUS laptop specifications I saved."
+            }
+          ]
+        },
+        {
+          "title": "Learning through the winter",
+          "text": "I kept watching lessons and working through the basics. These photographs show an ordinary part of that routine.",
+          "media": [
+            {
+              "id": "A032",
+              "caption": "January 2018. Studying under a blanket in winter."
+            },
+            {
+              "id": "A033",
+              "caption": "The laptop beside me during that winter study session."
+            },
+            {
+              "id": "A034",
+              "caption": "Another photograph from the same session."
+            }
+          ]
+        },
+        {
+          "title": "The lessons on the screen",
+          "text": "The saved tutorial slides show the topics I was working through: operators, sizeof and bitwise operations.",
+          "media": [
+            {
+              "id": "A026",
+              "caption": "A Saurabh Shukla lesson on unary operators."
+            },
+            {
+              "id": "A027",
+              "caption": "The sizeof operator in the next saved lesson image."
+            },
+            {
+              "id": "A037",
+              "caption": "January 2018. An overview of operator groups."
+            },
+            {
+              "id": "A068",
+              "caption": "January 2018. A lesson on bitwise operators."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "memory",
+        "title": "A tool\nof my own.",
+        "subtitle": "20 January 2018",
+        "lead": "The early programs were made on my brother’s laptop. Then I got my own. The unboxing, the specifications I saved, the winter evenings studying under a blanket—they are all still here."
+      }
+    },
+    {
+      "id": "beginner",
+      "period": "Early 2018",
+      "title": "Online, I was “Beginner”.",
+      "assets": [
+        [
+          "A055",
+          "My SoloLearn profile: “#1 in India this month”. The filename dates it to March 2018."
+        ],
+        [
+          "A032",
+          "Studying under a blanket in January 2018."
+        ],
+        [
+          "A009",
+          "Building an MJO-inspired scene in Blender, 31 January 2018."
+        ]
+      ],
+      "paragraphs": [
+        "In January, I joined SoloLearn. Coding on a phone felt surprisingly social: lessons, challenges, levels, people to compete with. I wanted to learn everything.",
+        "I practised HTML, CSS and C++, then moved into more languages as I worked through the challenges. One saved screenshot shows my profile at number one in India for that month.",
+        "I also remember hearing about someone reaching Platinum in three days. I made a new account called Beginner and tried to beat that time. As I remember it, I reached Platinum in a day and a half—and the account was banned because my progress was suspected of being cheating.",
+        "People in that community came to know me as Beginner. I was still the shy child at school, but here I could spend hours learning, competing and talking about what I was making."
+      ],
+      "moments": [
+        {
+          "title": "The first challenges",
+          "text": "I joined SoloLearn in January. The early screenshots show challenge questions, a level-seven profile, and the small programs I was posting.",
+          "media": [
+            {
+              "id": "A073",
+              "caption": "January 2018. An early C++ challenge on SoloLearn."
+            },
+            {
+              "id": "A019",
+              "caption": "Another early C++ challenge, about creating and writing to a file."
+            },
+            {
+              "id": "A070",
+              "caption": "January 2018. My level-seven profile and badges."
+            },
+            {
+              "id": "A057",
+              "caption": "January 2018. Posts showing the small programs I was making."
+            }
+          ]
+        },
+        {
+          "title": "A community that knew me",
+          "text": "The monthly ranking screenshot and the hundred-followers project capture the competitive and social parts of that period. The collage brings back the child behind the Beginner profile.",
+          "media": [
+            {
+              "id": "A055",
+              "caption": "March 2018. My profile showing “#1 in India this month”."
+            },
+            {
+              "id": "A044",
+              "caption": "Photographs of me around the period I remember for the Beginner account and Platinum challenge."
+            },
+            {
+              "id": "A072",
+              "caption": "March 2018. A page I made to celebrate reaching a hundred followers."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "achievement",
+        "title": "Online, I was\n“Beginner”.",
+        "subtitle": "A community that knew me",
+        "lead": "SoloLearn made learning social: lessons, challenges, languages and people to compete with. One screenshot records my number-one India ranking for that month. Behind the profile was still the quiet child from school.",
+        "recollection": "I remember a previous Platinum run taking three days. With a new account called Beginner, I tried to beat it. As I remember it, I reached Platinum in a day and a half—and was banned because my progress was suspected of cheating.",
+        "beats": [
+          {
+            "title": "Number one in India that month",
+            "text": "The saved profile records the monthly ranking. The Platinum time and ban are my recollection, separate from what this screenshot establishes.",
+            "ids": [
+              "A055"
+            ]
+          },
+          {
+            "title": "The first challenges",
+            "text": "C++ questions, early badges and small programs. I kept finding another thing to learn.",
+            "ids": [
+              "A073",
+              "A019",
+              "A070",
+              "A057"
+            ]
+          },
+          {
+            "title": "The child behind the profile",
+            "text": "Photographs from that period and a project celebrating a hundred followers capture the life around Beginner.",
+            "ids": [
+              "A044",
+              "A072"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "typing",
+      "period": "January–February 2018",
+      "title": "A to Z in 1.510 seconds.",
+      "assets": [
+        [
+          "A081",
+          "My saved A–Z result. The filename dates it to 13 February 2018."
+        ],
+        [
+          "A004",
+          "A Ratatype exercise showing 104 WPM and two typos, 26 January 2018."
+        ],
+        [
+          "A061",
+          "Practising with all ten fingers."
+        ]
+      ],
+      "paragraphs": [
+        "Alongside coding, I practised typing with all ten fingers. With enough focus, I could get through some exercises at around a hundred words per minute. One January screenshot shows 104.",
+        "Then I found a site where the whole challenge was typing the alphabet. I practised A to Z again and again until my best time reached 1.510 seconds.",
+        "I remember being second on the world leaderboard that day. The result screenshot survived; I had named it with the date and how that moment felt.",
+        "It was a very particular skill, earned through a lot of repetition. At the time, seeing my practice turn into a result I could measure was an incredible feeling."
+      ],
+      "moments": [
+        {
+          "title": "Practising with every finger",
+          "text": "The photograph shows the practice; the exercise screenshots show two individual results. Those are exercise scores, not a claim about my everyday sustained speed.",
+          "media": [
+            {
+              "id": "A061",
+              "caption": "Practising typing with all ten fingers."
+            },
+            {
+              "id": "A004",
+              "caption": "26 January 2018. A Ratatype exercise: 104 WPM, two typos."
+            },
+            {
+              "id": "A024",
+              "caption": "Another saved Ratatype exercise: 122 WPM, no typos. Exact date unknown."
+            }
+          ]
+        },
+        {
+          "title": "The alphabet result",
+          "text": "The 1.510-second result is still visible. I remember the excitement of seeing myself second on the leaderboard that day.",
+          "media": [
+            {
+              "id": "A081",
+              "caption": "13 February 2018. A–Z in 1.510 seconds."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "achievement",
+        "title": "Practice became\n1.510 seconds.",
+        "subtitle": "A to Z · February 2018",
+        "lead": "I practised typing with all ten fingers, then began racing through the alphabet. The result screenshot survived: A to Z in 1.510 seconds. I remember being second on the world leaderboard that day.",
+        "order": [
+          1,
+          0
+        ]
+      }
+    },
+    {
+      "id": "css",
+      "period": "February–April 2018",
+      "title": "Even centring a loader was a story.",
+      "assets": [
+        [
+          "A062",
+          "One of my attempts to position a rainbow loader."
+        ],
+        [
+          "A064",
+          "Another version while I was still working out the alignment."
+        ],
+        [
+          "A015",
+          "The version I saved as “Finally center loading with rainbow”."
+        ],
+        [
+          "A006",
+          "Building a phone with HTML and CSS, March 2018."
+        ],
+        [
+          "A071",
+          "A SoloLearn logo made in its Code Playground, April 2018."
+        ]
+      ],
+      "paragraphs": [
+        "CSS gave me another way to make things I could see. I followed tutorials, built a phone in the browser, experimented with logos and shapes, and shared small projects on SoloLearn.",
+        "The archive has several screenshots of one rainbow loader. In some, the word “Loading” sits awkwardly at the edge. I kept changing it. Eventually I saved a version with a very specific filename: “Finally center loading with rainbow”.",
+        "Other experiments were smaller: a first HTML form, a Google logo, a DNA-like pattern in the coding playground, a post celebrating a hundred followers. By April, I was looking for a domain where I could put my simple websites.",
+        "I was learning by making something, getting stuck, and trying another version."
+      ],
+      "moments": [
+        {
+          "title": "The tutorial that made me want to try",
+          "text": "I followed the Online Tutorials channel for creative HTML/CSS ideas. The screen I saved shows the kind of experiment that caught my attention.",
+          "media": [
+            {
+              "id": "A040",
+              "caption": "March 2018. Following a creative CSS tutorial from Online Tutorials."
+            }
+          ]
+        },
+        {
+          "title": "Five attempts at a rainbow",
+          "text": "These are all five saved versions. Each screenshot preserves another attempt to make the loader and its label sit where I wanted them.",
+          "media": [
+            {
+              "id": "A062",
+              "caption": "One version, with the loading label pushed toward the edge."
+            },
+            {
+              "id": "A063",
+              "caption": "Another loader layout while I was working on its position."
+            },
+            {
+              "id": "A064",
+              "caption": "The bright green version, still part of the alignment experiments."
+            },
+            {
+              "id": "A065",
+              "caption": "A dark-background version of the same loader."
+            },
+            {
+              "id": "A015",
+              "caption": "February 2018. The file I named “Finally center loading with rainbow”."
+            }
+          ]
+        },
+        {
+          "title": "A phone made from HTML and CSS",
+          "text": "The three photographs show the screen and the setting where I was working. I wanted to turn familiar objects into something I could build in a browser.",
+          "media": [
+            {
+              "id": "A006",
+              "caption": "March 2018. The phone I made with HTML and CSS on the screen."
+            },
+            {
+              "id": "A007",
+              "caption": "Another view of me working on the phone."
+            },
+            {
+              "id": "A008",
+              "caption": "Coding the phone on my laptop outdoors."
+            }
+          ]
+        },
+        {
+          "title": "Putting the experiments out into the world",
+          "text": "I kept recreating shapes and logos, then began looking for somewhere to publish my small websites.",
+          "media": [
+            {
+              "id": "A071",
+              "caption": "April 2018. Recreating the SoloLearn logo in its playground."
+            },
+            {
+              "id": "A016",
+              "caption": "April 2018. Looking for a domain for my simple HTML websites."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "comparison",
+        "title": "Try. Adjust.\nTry again.",
+        "subtitle": "Five attempts at a rainbow",
+        "lead": "CSS let me build things I could see: a phone, shapes, logos, a rainbow loader. Even getting “Loading” into the centre became a story. I kept the attempts, including the file I finally named “Finally center loading with rainbow”.",
+        "order": [
+          1,
+          0,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "id": "games",
+      "period": "The next experiments · dates approximate",
+      "title": "Games I could actually play.",
+      "assets": [],
+      "paragraphs": [
+        "Wanting to make games eventually brought me to Unity and C#. The programming and 3D work I had already done started to connect.",
+        "I made a Flappy Bird game and played it on my own phone. I also built a small first-person game with a boar chasing the player through a forest. You had to keep moving and shoot before it reached you. I was learning controls, collisions, shooting and game physics by putting them together.",
+        "Then I tried something much harder: a racing game with cars that would learn to drive and race alongside a human player. I could follow parts of how training worked, but the mathematics was beyond what I knew. I did not finish that game.",
+        "The smaller games are no longer in my archive. I still remember the feeling of playing something I had built, and how much the unfinished racing project taught me."
+      ],
+      "moments": [],
+      "presentation": {
+        "composition": "recollection",
+        "title": "Something I made.\nSomething I could play.",
+        "subtitle": "Unity · C# · learning by building",
+        "lead": "I played my own Flappy Bird game on a phone and made a small forest shooter with a boar chasing the player. A harder idea—cars learning to race against a human—went unfinished. The mathematics was beyond what I knew, but trying taught me how training worked.",
+        "aside": "The games are no longer in my archive. This diagram illustrates the learning path; it is not a game capture."
+      }
+    },
+    {
+      "id": "bus",
+      "period": "Around October 2020",
+      "title": "A bus became my first paid project.",
+      "assets": [
+        [
+          "A079",
+          "A still from the saved tour of my bus-conversion model."
+        ],
+        [
+          "A079-interior",
+          "The living space inside the model."
+        ]
+      ],
+      "paragraphs": [
+        "I had seen people find paid 3D work online. I asked my brother to help me try. He created an Upwork account, and we searched and applied together.",
+        "Our first client needed a model for a bus conversion. I remember starting around October 2020 and spending roughly two months on it. The first payment was $100.",
+        "The client liked the work and came back for another addition: a cabin on top of the bus. In total, we earned $180 from that client.",
+        "Further work proved difficult to find. I had little professional experience, and my laptop limited the size of projects I could take on. After more applications without another client, I stepped away from 3D freelancing.",
+        "The tour of that bus still exists. It records a project I worked through for someone else, delivered, and was paid for."
+      ],
+      "moments": [
+        {
+          "title": "Inside the bus model",
+          "text": "This is the saved tour of the bus conversion. It shows the exterior and the living space I modeled for that first client.",
+          "media": [
+            {
+              "id": "A079",
+              "caption": "The original saved tour of my bus-conversion model."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "model",
+        "title": "A first client.\nA reason to deliver.",
+        "subtitle": "Around October 2020",
+        "lead": "My brother helped me find 3D work on Upwork. Our first bus-conversion model took roughly two months and paid $100. The client returned for a rooftop cabin; we earned $180 in total. The saved tour records something I finished for someone else."
+      }
+    },
+    {
+      "id": "web",
+      "period": "Late 2020 onward",
+      "title": "I chose to focus on the web.",
+      "assets": [
+        [
+          "A038",
+          "Continuing responsive-design practice with a Frontend Mentor brief, January 2023."
+        ]
+      ],
+      "paragraphs": [
+        "Around this period, Faz told us about a website commission that had earned him $500. It encouraged me to keep learning. After a pause, I decided to focus on web development properly.",
+        "I returned to HTML and CSS, worked on responsive layouts, followed courses and practised with Frontend Mentor challenges. School exams interrupted the rhythm sometimes, but I kept coming back. This time I wanted a set of skills I could use together.",
+        "Around the turn of 2021–2022, I did paid web work for the founder of EazyGrad, making pages responsive with HTML and CSS. It was my first paid web project. I continued into JavaScript and React from there."
+      ],
+      "moments": [
+        {
+          "title": "Continuing to practise",
+          "text": "Learning continued after the first paid web work. This mini-project recording comes from December 2022, when I was studying CSS more seriously while working at Harigurus. The next photograph is from January 2023.",
+          "media": [
+            {
+              "id": "A002",
+              "caption": "December 2022. A CSS mini-project made while learning professionally and working at Harigurus."
+            },
+            {
+              "id": "A038",
+              "caption": "January 2023. Practising responsive design with a Frontend Mentor Space Tourism brief."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "process",
+        "title": "This time,\nI chose a direction.",
+        "subtitle": "Learning the web professionally",
+        "lead": "Hearing about Faz’s website commission encouraged me to keep learning. I returned to HTML and CSS, responsive layouts and Frontend Mentor. Around the turn of 2021–2022, I did my first paid web work for EazyGrad, then continued into JavaScript and React."
+      }
+    },
+    {
+      "id": "work",
+      "period": "Harigurus → ProCodrr",
+      "title": "Building for people. Helping people build.",
+      "assets": [
+        [
+          "A003",
+          "Helping with a ProCodrr course doubt-solving session, March 2026."
+        ]
+      ],
+      "paragraphs": [
+        "At Harigurus, I worked on a service that helped people book purohits for weddings, mundan and other ceremonies. The work now involved real people trying to get something done.",
+        "When operations paused, I moved into social media management and helping develop courses for Anurag Singh’s ProCodrr channel. I spent about three years working on that side of learning: supporting courses, building projects and helping with questions.",
+        "I think about the child who could not ask a teacher when something was unclear. Helping someone else work through a doubt feels especially meaningful from here."
+      ],
+      "moments": [
+        {
+          "title": "On the other side of the lesson",
+          "text": "These two records show the course work itself: a project under development and a later doubt-solving session.",
+          "media": [
+            {
+              "id": "A080",
+              "caption": "Working on a ProCodrr course project."
+            },
+            {
+              "id": "A003",
+              "caption": "March 2026. Helping with questions during a ProCodrr course session."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "roles",
+        "title": "Building for people.\nHelping people build.",
+        "subtitle": "Harigurus → ProCodrr",
+        "lead": "At Harigurus, I worked on a service for booking purohits for weddings and other ceremonies. When operations paused, I moved into social media management and helping develop courses for Anurag Singh’s ProCodrr channel. I spent about three years on that side of learning.",
+        "beats": [
+          {
+            "title": "Helping develop the courses",
+            "text": "Working through a course project, with real learners on the other side of the screen.",
+            "ids": [
+              "A080"
+            ]
+          },
+          {
+            "title": "Helping with questions",
+            "text": "I think about the child who could not ask a teacher. Helping someone work through a doubt feels especially meaningful from here.",
+            "ids": [
+              "A003"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "today",
+      "period": "October 2026",
+      "title": "From Turbo C to Octoverse.",
+      "paragraphs": [
+        "Finding my old GitHub profile brought another part of the journey back into view. The experiments had left traces in more places than the photographs.",
+        "On 24 October 2026, I bought a Claude subscription and began working on Octoverse, my more complex universe project. My tools now include Claude Opus 5.5, ChatGPT Astra and Gemini Argon.",
+        "Looking from those early Turbo C and Notepad screens to the tools I use now makes the distance feel real. I am still building, still learning what the tools can do, and still finding things I want to understand.",
+        "My brother kept my curiosity alive. I am still following it."
+      ],
+      "moments": [
+        {
+          "title": "The old profile and the next project",
+          "text": "One photograph looks back at an earlier GitHub profile. The other belongs to the start of my work with Claude on Octoverse, in October 2026.",
+          "media": [
+            {
+              "id": "A021",
+              "caption": "Finding my old GitHub profile again."
+            },
+            {
+              "id": "A078",
+              "caption": "October 2026. Using Claude for the first time to work on Octoverse, after subscribing on 24 October."
+            }
+          ]
+        }
+      ],
+      "presentation": {
+        "composition": "closing",
+        "title": "Different tools.\nThe same curiosity.",
+        "subtitle": "From Turbo C to Octoverse",
+        "lead": "On 24 October 2026, I bought a Claude subscription and began working on Octoverse, my more complex universe project. Looking from Turbo C and Notepad to the tools I use now makes the distance feel real. I am still finding things I want to understand.",
+        "beats": [
+          {
+            "title": "The traces I left behind",
+            "text": "Finding my old GitHub profile brought another part of the journey back into view.",
+            "ids": [
+              "A021"
+            ]
+          },
+          {
+            "title": "The next universe",
+            "text": "The start of working with Claude on Octoverse, in October 2026.",
+            "ids": [
+              "A078"
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "films": [
+    {
+      "id": "vFydtnVRbew",
+      "title": "MJO-inspired film 1",
+      "watchUrl": "https://www.youtube.com/watch?v=vFydtnVRbew"
+    },
+    {
+      "id": "_pKimb16FUg",
+      "title": "Technical Gurugi rap like MJO"
+    },
+    {
+      "id": "1DcVUmFgeTY",
+      "title": "MJO:Bhandara secret scary part-2"
+    }
+  ],
+  "assets": {
+    "A054": {
+      "id": "A054",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A054-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 10822
+        },
+        {
+          "file": "A054-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 59442
+        }
+      ],
+      "width": 4864,
+      "height": 2736
+    },
+    "A046": {
+      "id": "A046",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A046-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 9554
+        },
+        {
+          "file": "A046-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 53102
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    "A047": {
+      "id": "A047",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A047-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 42652
+        },
+        {
+          "file": "A047-1200.webp",
+          "width": 1200,
+          "height": 2133,
+          "bytes": 176192
+        }
+      ],
+      "width": 2592,
+      "height": 4608
+    },
+    "A025": {
+      "id": "A025",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A025-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 12318
+        },
+        {
+          "file": "A025-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 71678
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    "A042": {
+      "id": "A042",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A042-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 7904
+        },
+        {
+          "file": "A042-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 45076
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    "A043": {
+      "id": "A043",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A043-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 9950
+        },
+        {
+          "file": "A043-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 49422
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    "A023": {
+      "id": "A023",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A023-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 14838
+        },
+        {
+          "file": "A023-1200.webp",
+          "width": 800,
+          "height": 450,
+          "bytes": 34492
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "duration": 27.794286,
+      "hasAudio": true,
+      "file": "A023.mp4"
+    },
+    "A060": {
+      "id": "A060",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A060-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 15606
+        },
+        {
+          "file": "A060-1200.webp",
+          "width": 800,
+          "height": 450,
+          "bytes": 39834
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "duration": 67.559229,
+      "hasAudio": true,
+      "file": "A060.mp4"
+    },
+    "A058": {
+      "id": "A058",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A058-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 17906
+        },
+        {
+          "file": "A058-1200.webp",
+          "width": 800,
+          "height": 450,
+          "bytes": 43006
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "duration": 33.320635,
+      "hasAudio": true,
+      "file": "A058.mp4"
+    },
+    "A059": {
+      "id": "A059",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A059-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 17636
+        },
+        {
+          "file": "A059-1200.webp",
+          "width": 800,
+          "height": 450,
+          "bytes": 42000
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "duration": 56.819229,
+      "hasAudio": true,
+      "file": "A059.mp4"
+    },
+    "A017": {
+      "id": "A017",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A017-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 11642
+        },
+        {
+          "file": "A017-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 96054
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A018": {
+      "id": "A018",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A018-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 10664
+        },
+        {
+          "file": "A018-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 62780
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A069": {
+      "id": "A069",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A069-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 12354
+        },
+        {
+          "file": "A069-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 85988
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A066": {
+      "id": "A066",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A066-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 6084
+        },
+        {
+          "file": "A066-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 33502
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A067": {
+      "id": "A067",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A067-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 10338
+        },
+        {
+          "file": "A067-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 112312
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A035": {
+      "id": "A035",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A035-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 6946
+        },
+        {
+          "file": "A035-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 28178
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A031": {
+      "id": "A031",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A031-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 4366
+        },
+        {
+          "file": "A031-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 30674
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A076": {
+      "id": "A076",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A076-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 6498
+        },
+        {
+          "file": "A076-1200.webp",
+          "width": 800,
+          "height": 450,
+          "bytes": 14648
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "duration": 19.853061,
+      "hasAudio": true,
+      "file": "A076.mp4"
+    },
+    "A077": {
+      "id": "A077",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A077-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 11464
+        },
+        {
+          "file": "A077-1200.webp",
+          "width": 800,
+          "height": 450,
+          "bytes": 26152
+        }
+      ],
+      "width": 1280,
+      "height": 720,
+      "duration": 23.591474,
+      "hasAudio": true,
+      "file": "A077.mp4"
+    },
+    "A029": {
+      "id": "A029",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A029-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 10952
+        },
+        {
+          "file": "A029-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 73998
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A030": {
+      "id": "A030",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A030-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 11236
+        },
+        {
+          "file": "A030-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 66694
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A028": {
+      "id": "A028",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A028-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 12542
+        },
+        {
+          "file": "A028-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 77546
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A036": {
+      "id": "A036",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A036-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 11136
+        },
+        {
+          "file": "A036-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 90734
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A045": {
+      "id": "A045",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A045-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 10784
+        },
+        {
+          "file": "A045-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 57296
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A048": {
+      "id": "A048",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A048-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 10634
+        },
+        {
+          "file": "A048-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 49170
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A005": {
+      "id": "A005",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A005-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 7860
+        },
+        {
+          "file": "A005-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 24770
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A011": {
+      "id": "A011",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A011-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 7552
+        },
+        {
+          "file": "A011-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 36658
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A075": {
+      "id": "A075",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A075-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 4944
+        },
+        {
+          "file": "A075-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 28670
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A074": {
+      "id": "A074",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A074-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 6588
+        },
+        {
+          "file": "A074-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 49542
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A056": {
+      "id": "A056",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A056-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 11996
+        },
+        {
+          "file": "A056-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 123968
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A041": {
+      "id": "A041",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A041-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 11420
+        },
+        {
+          "file": "A041-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 137298
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A012": {
+      "id": "A012",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A012-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 3994
+        },
+        {
+          "file": "A012-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 37074
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A014": {
+      "id": "A014",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A014-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 9190
+        },
+        {
+          "file": "A014-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 65654
+        }
+      ],
+      "width": 4608,
+      "height": 2592
+    },
+    "A082": {
+      "id": "A082",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A082-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 2798
+        },
+        {
+          "file": "A082-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 14746
+        }
+      ],
+      "width": 3840,
+      "height": 2160
+    },
+    "A050": {
+      "id": "A050",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A050-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 8062
+        },
+        {
+          "file": "A050-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 34378
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A020": {
+      "id": "A020",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A020-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 25326
+        },
+        {
+          "file": "A020-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 81944
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A022": {
+      "id": "A022",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A022-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 7508
+        },
+        {
+          "file": "A022-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 23214
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A013": {
+      "id": "A013",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A013-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 10132
+        },
+        {
+          "file": "A013-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 32818
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A001": {
+      "id": "A001",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A001-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 19290
+        },
+        {
+          "file": "A001-1200.webp",
+          "width": 1200,
+          "height": 2133,
+          "bytes": 128044
+        }
+      ],
+      "width": 2592,
+      "height": 4608
+    },
+    "A009": {
+      "id": "A009",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A009-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 9580
+        },
+        {
+          "file": "A009-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 45480
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    "A010": {
+      "id": "A010",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A010-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 8190
+        },
+        {
+          "file": "A010-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 38478
+        }
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    "A052": {
+      "id": "A052",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A052-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 5368
+        },
+        {
+          "file": "A052-1200.webp",
+          "width": 800,
+          "height": 450,
+          "bytes": 11360
+        }
+      ],
+      "width": 1920,
+      "height": 1080,
+      "duration": 69.218685,
+      "hasAudio": true,
+      "file": "A052.mp4"
+    },
+    "A053": {
+      "id": "A053",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A053-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 3736
+        },
+        {
+          "file": "A053-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 19598
+        }
+      ],
+      "width": 3840,
+      "height": 2160
+    },
+    "A051": {
+      "id": "A051",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A051-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 12302
+        },
+        {
+          "file": "A051-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 39858
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A032": {
+      "id": "A032",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A032-400.webp",
+          "width": 400,
+          "height": 533,
+          "bytes": 15792
+        },
+        {
+          "file": "A032-1200.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": 81848
+        }
+      ],
+      "width": 1200,
+      "height": 1600
+    },
+    "A033": {
+      "id": "A033",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A033-400.webp",
+          "width": 400,
+          "height": 533,
+          "bytes": 19050
+        },
+        {
+          "file": "A033-1200.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": 117002
+        }
+      ],
+      "width": 1200,
+      "height": 1600
+    },
+    "A034": {
+      "id": "A034",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A034-400.webp",
+          "width": 400,
+          "height": 533,
+          "bytes": 20514
+        },
+        {
+          "file": "A034-1200.webp",
+          "width": 1200,
+          "height": 1600,
+          "bytes": 105566
+        }
+      ],
+      "width": 1200,
+      "height": 1600
+    },
+    "A026": {
+      "id": "A026",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A026-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 2646
+        },
+        {
+          "file": "A026-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 8726
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A027": {
+      "id": "A027",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A027-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 3696
+        },
+        {
+          "file": "A027-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 12662
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A037": {
+      "id": "A037",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A037-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 8390
+        },
+        {
+          "file": "A037-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 25372
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A068": {
+      "id": "A068",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A068-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 4706
+        },
+        {
+          "file": "A068-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 14720
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A073": {
+      "id": "A073",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A073-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 13652
+        },
+        {
+          "file": "A073-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 43136
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A019": {
+      "id": "A019",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A019-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 12864
+        },
+        {
+          "file": "A019-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 41454
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A070": {
+      "id": "A070",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A070-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 33552
+        },
+        {
+          "file": "A070-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 107184
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A057": {
+      "id": "A057",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A057-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 21474
+        },
+        {
+          "file": "A057-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 67812
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A055": {
+      "id": "A055",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A055-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 30100
+        },
+        {
+          "file": "A055-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 99104
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A044": {
+      "id": "A044",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A044-400.webp",
+          "width": 400,
+          "height": 400,
+          "bytes": 19708
+        },
+        {
+          "file": "A044-1200.webp",
+          "width": 1200,
+          "height": 1200,
+          "bytes": 100098
+        }
+      ],
+      "width": 2048,
+      "height": 2048
+    },
+    "A072": {
+      "id": "A072",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A072-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 36602
+        },
+        {
+          "file": "A072-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 126122
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A061": {
+      "id": "A061",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A061-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 47494
+        },
+        {
+          "file": "A061-1200.webp",
+          "width": 1200,
+          "height": 2133,
+          "bytes": 258204
+        }
+      ],
+      "width": 3840,
+      "height": 2160
+    },
+    "A004": {
+      "id": "A004",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A004-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 4508
+        },
+        {
+          "file": "A004-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 18768
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A024": {
+      "id": "A024",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A024-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 5768
+        },
+        {
+          "file": "A024-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 24322
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A081": {
+      "id": "A081",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A081-400.webp",
+          "width": 400,
+          "height": 179,
+          "bytes": 5180
+        },
+        {
+          "file": "A081-1200.webp",
+          "width": 1024,
+          "height": 458,
+          "bytes": 17166
+        }
+      ],
+      "width": 1024,
+      "height": 458
+    },
+    "A040": {
+      "id": "A040",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A040-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 9278
+        },
+        {
+          "file": "A040-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 41132
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A062": {
+      "id": "A062",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A062-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 14400
+        },
+        {
+          "file": "A062-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 44010
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A063": {
+      "id": "A063",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A063-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 15302
+        },
+        {
+          "file": "A063-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 46512
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A064": {
+      "id": "A064",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A064-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 14186
+        },
+        {
+          "file": "A064-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 43840
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A065": {
+      "id": "A065",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A065-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 11826
+        },
+        {
+          "file": "A065-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 35414
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A015": {
+      "id": "A015",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A015-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 14814
+        },
+        {
+          "file": "A015-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 44836
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A006": {
+      "id": "A006",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A006-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 15960
+        },
+        {
+          "file": "A006-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 129662
+        }
+      ],
+      "width": 3840,
+      "height": 2160
+    },
+    "A007": {
+      "id": "A007",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A007-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 61540
+        },
+        {
+          "file": "A007-1200.webp",
+          "width": 1200,
+          "height": 2133,
+          "bytes": 613590
+        }
+      ],
+      "width": 2160,
+      "height": 3840
+    },
+    "A008": {
+      "id": "A008",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A008-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 20156
+        },
+        {
+          "file": "A008-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 147218
+        }
+      ],
+      "width": 3840,
+      "height": 2160
+    },
+    "A071": {
+      "id": "A071",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A071-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 28896
+        },
+        {
+          "file": "A071-1200.webp",
+          "width": 1080,
+          "height": 1920,
+          "bytes": 251504
+        }
+      ],
+      "width": 1080,
+      "height": 1920
+    },
+    "A016": {
+      "id": "A016",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A016-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 10328
+        },
+        {
+          "file": "A016-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 31906
+        }
+      ],
+      "width": 1920,
+      "height": 1080
+    },
+    "A079": {
+      "id": "A079",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A079-400.webp",
+          "width": 400,
+          "height": 400,
+          "bytes": 20684
+        },
+        {
+          "file": "A079-1200.webp",
+          "width": 800,
+          "height": 800,
+          "bytes": 43152
+        }
+      ],
+      "width": 1080,
+      "height": 1080,
+      "duration": 125.178776,
+      "hasAudio": true,
+      "file": "A079.mp4"
+    },
+    "A002": {
+      "id": "A002",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A002-400.webp",
+          "width": 400,
+          "height": 711,
+          "bytes": 10426
+        },
+        {
+          "file": "A002-1200.webp",
+          "width": 450,
+          "height": 800,
+          "bytes": 12156
+        }
+      ],
+      "width": 720,
+      "height": 1280,
+      "duration": 21.880333,
+      "hasAudio": true,
+      "file": "A002.mp4"
+    },
+    "A038": {
+      "id": "A038",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A038-400.webp",
+          "width": 400,
+          "height": 179,
+          "bytes": 8194
+        },
+        {
+          "file": "A038-1200.webp",
+          "width": 1200,
+          "height": 537,
+          "bytes": 35066
+        }
+      ],
+      "width": 4624,
+      "height": 2068
+    },
+    "A080": {
+      "id": "A080",
+      "kind": "video",
+      "variants": [
+        {
+          "file": "A080-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 10380
+        },
+        {
+          "file": "A080-1200.webp",
+          "width": 800,
+          "height": 450,
+          "bytes": 26778
+        }
+      ],
+      "width": 1920,
+      "height": 1080,
+      "duration": 44.6954,
+      "hasAudio": true,
+      "file": "A080.mp4"
+    },
+    "A003": {
+      "id": "A003",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A003-400.webp",
+          "width": 400,
+          "height": 300,
+          "bytes": 14184
+        },
+        {
+          "file": "A003-1200.webp",
+          "width": 1200,
+          "height": 900,
+          "bytes": 77910
+        }
+      ],
+      "width": 4096,
+      "height": 3072
+    },
+    "A021": {
+      "id": "A021",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A021-400.webp",
+          "width": 400,
+          "height": 300,
+          "bytes": 21744
+        },
+        {
+          "file": "A021-1200.webp",
+          "width": 1200,
+          "height": 900,
+          "bytes": 176932
+        }
+      ],
+      "width": 4096,
+      "height": 3072
+    },
+    "A078": {
+      "id": "A078",
+      "kind": "image",
+      "variants": [
+        {
+          "file": "A078-400.webp",
+          "width": 400,
+          "height": 225,
+          "bytes": 14596
+        },
+        {
+          "file": "A078-1200.webp",
+          "width": 1200,
+          "height": 675,
+          "bytes": 73426
+        }
+      ],
+      "width": 4096,
+      "height": 2304
+    }
+  }
+}

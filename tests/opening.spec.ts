@@ -13,6 +13,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await page.goto("/");
       const book = page.locator("#book");
       await expect(book).toHaveAttribute("data-ready", "true");
+      await page.evaluate(() => document.fonts.ready);
       const scope =
         motion === "reduce"
           ? '.plain-face[aria-hidden="false"]'
@@ -52,6 +53,7 @@ for (const width of [375, 768, 1280, 1920]) {
       ).toBeFocused();
       if (width < 768) {
         await expect(visible()).toHaveCount(1);
+        await page.waitForTimeout(300);
         await page.keyboard.press("ArrowRight");
         await settled(2);
       } else {
@@ -86,6 +88,7 @@ for (const width of [375, 768, 1280, 1920]) {
       ).toBeDisabled();
       await page.keyboard.press("ArrowRight");
       await settled(lastGroupStart);
+      await page.getByRole("button", { name: "Contents", exact: true }).click();
       await page
         .getByRole("navigation", { name: "Portfolio chapters" })
         .getByRole("button", { name: "Cover", exact: true })
@@ -113,24 +116,42 @@ test("page identity survives resizing and reading-mode changes from either openi
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 1400 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await page.goto("/");
-  await page.locator("#book[data-ready=true]").waitFor();
-  await page.getByRole("button", { name: "Open book", exact: true }).click();
-  await expect(page.locator("#book")).toHaveAttribute("data-current-page", "1");
-  await expect(page.locator("#book")).toHaveAttribute("data-turning", "false");
+  const book = page.locator("#book");
+  await expect(book).toHaveAttribute("data-ready", "true");
+  await page.evaluate(() => document.fonts.ready);
+  await expect(book).toHaveAttribute("data-current-page", "0");
+  await expect(book).toHaveAttribute("data-turning", "false");
+  const open = page.getByRole("button", { name: "Open book", exact: true });
+  await open.focus();
+  await page.keyboard.press("Enter");
+  await expect(book).toHaveAttribute("data-current-page", "1");
+  await expect(book).toHaveAttribute("data-turning", "false");
+  await expect(page.getByRole("status")).toHaveText(
+    `Page 2 of ${pages.length}. Introduction.`,
+  );
+  await expect(
+    page.locator('.library-slot [data-page][aria-hidden="false"][data-page-id="introduction"] h2'),
+  ).toBeFocused();
+  await expect(
+    page.locator('.library-slot [data-page][aria-hidden="false"] [data-page-id], .library-slot [data-page][aria-hidden="false"][data-page-id]'),
+  ).toHaveCount(1);
+  await page.waitForTimeout(300);
   await page.keyboard.press("ArrowRight");
-  await expect(page.locator("#book")).toHaveAttribute("data-current-page", "2");
-  await expect(page.locator("#book")).toHaveAttribute("data-turning", "false");
+  await expect(book).toHaveAttribute("data-current-page", "2");
+  await expect(book).toHaveAttribute("data-turning", "false");
   await page.setViewportSize({ width: 1280, height: 1400 });
   await expect(page.locator("#book")).toHaveAttribute("data-current-page", "1");
   await expect(
     page.locator(".library-slot [data-page][aria-hidden=false]"),
   ).toHaveCount(2);
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
+  await page.getByRole("button", { name: "Reading view", exact: true }).click();
   await expect(page.locator(".flip-engine")).toHaveCount(0);
   await expect(page.locator(".reading-document .book-page")).toHaveCount(
     pages.length,
   );
+  await page.getByRole("button", { name: "Contents", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Portfolio chapters" })
     .getByRole("button", { name: "Cover", exact: true })

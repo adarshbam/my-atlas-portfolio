@@ -20,8 +20,7 @@ test("first chapter feedback paints before native rendering while latest request
   await expect(book).toHaveAttribute("data-turning", "false");
   await expect(page.getByRole("status")).toContainText("Page 13 of 13");
   await expect(
-    page
-      .getByRole("navigation", { name: "Portfolio chapters" })
+    page.locator(".chapter-nav")
       .getByRole("button", { name: "Contact", exact: true }),
   ).toHaveAttribute("aria-current", "page");
 });

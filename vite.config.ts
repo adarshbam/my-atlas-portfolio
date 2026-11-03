@@ -13,6 +13,31 @@ export default defineConfig({
       generateBundle(_, bundle) {
         const html = bundle["index.html"];
         if (html?.type !== "asset" || typeof html.source !== "string") return;
+        const book = Object.values(bundle).find(
+          (item) =>
+            item.type === "chunk" &&
+            item.facadeModuleId
+              ?.replaceAll("\\", "/")
+              .endsWith("/components/ui/book-slider.tsx"),
+        );
+        if (book?.type === "chunk") {
+          // Warm the complete static dependency graph of the initial route.
+          // Preloading only the leaf leaves shared Motion modules behind a
+          // second network round trip. Do not preload dynamic story imports.
+          const files = new Set<string>();
+          const collect = (file: string) => {
+            const chunk = bundle[file];
+            if (files.has(file) || chunk?.type !== "chunk") return;
+            files.add(file);
+            chunk.imports.forEach(collect);
+          };
+          collect(book.fileName);
+          const hrefs = JSON.stringify([...files].map(file => `/${file}`));
+          html.source = html.source.replace(
+            "</head>",
+            `<script>if(location.pathname.replace(/\\/+$/,'')!=='/story'){for(const href of ${hrefs}){const p=document.createElement('link');p.rel='modulepreload';p.href=href;document.head.appendChild(p)}}</script></head>`,
+          );
+        }
         // This small static portfolio has one stylesheet. Deliver its exact
         // built bytes with the document to remove the render-blocking roundtrip.
         html.source = html.source.replace(
@@ -28,18 +53,4 @@ export default defineConfig({
     },
   ],
   resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (
-            /node_modules\/(?:page-flip|motion|framer-motion|motion-dom|motion-utils)\//.test(
-              id.replaceAll("\\", "/"),
-            )
-          )
-            return "animation";
-        },
-      },
-    },
-  },
 });

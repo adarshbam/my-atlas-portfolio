@@ -1,3 +1,4 @@
+import { goToChapter, chapterButton, openContents } from "./helpers/book";
 import { test, expect } from "@playwright/test";
 import { chapters, pages } from "../src/data/portfolio";
 
@@ -14,12 +15,10 @@ for (const width of [375, 768, 1280, 1920]) {
       await page.goto("/");
       const book = page.locator("#book");
       await expect(book).toHaveAttribute("data-ready", "true");
-      const nav = page.getByRole("navigation", { name: "Portfolio chapters" });
+      const nav = page.locator(".chapter-nav");
       for (const chapter of chapters) {
-        const action = nav.getByRole("button", {
-          name: chapter.label,
-          exact: true,
-        });
+        await openContents(page);
+        const action = chapterButton(page, chapter.label);
         const box = (await action.boundingBox())!;
         expect(box.width).toBeGreaterThanOrEqual(44);
         expect(box.height).toBeGreaterThanOrEqual(44);
@@ -44,7 +43,7 @@ for (const width of [375, 768, 1280, 1920]) {
       ).toBeDisabled();
       await page.keyboard.press("ArrowRight");
       await expect(book).toHaveAttribute("data-turning", "false");
-      await nav.getByRole("button", { name: "Cover", exact: true }).click();
+      await goToChapter(page, "Cover");
       await expect(book).toHaveAttribute("data-current-page", "0");
       await expect(book).toHaveAttribute("data-turning", "false");
       await expect(
@@ -66,13 +65,13 @@ test("D5-5.1.4 latest interior chapter request wins and mode changes clear stale
   await page.goto("/");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
-  const nav = page.getByRole("navigation", { name: "Portfolio chapters" });
-  await nav.getByRole("button", { name: "Vault Storage", exact: true }).click();
+  const nav = page.locator(".chapter-nav");
+  await goToChapter(page, "Vault Storage");
   await expect(book).toHaveAttribute("data-turning", "false");
-  await nav.getByRole("button", { name: "Pipeline", exact: true }).click();
+  await goToChapter(page, "Pipeline");
   await expect(book).toHaveAttribute("data-turning", "true");
-  await nav.getByRole("button", { name: "References", exact: true }).click();
-  await nav.getByRole("button", { name: "Contact", exact: true }).click();
+  await goToChapter(page, "References");
+  await goToChapter(page, "Contact");
   await expect(book).toHaveAttribute(
     "data-current-page",
     String(indexOf("colophon") - 1),
@@ -82,11 +81,11 @@ test("D5-5.1.4 latest interior chapter request wins and mode changes clear stale
     "data-logical-page",
     String(indexOf("colophon")),
   );
-  await nav.getByRole("button", { name: "Vault Storage", exact: true }).click();
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
+  await goToChapter(page, "Vault Storage");
+  await page.getByRole("button", { name: "Reading view", exact: true }).click();
   await expect(book).toHaveAttribute("data-mode", "reading");
   await expect(page.locator(".flip-engine")).toHaveCount(0);
-  await nav.getByRole("button", { name: "Harigurus", exact: true }).click();
+  await goToChapter(page, "Harigurus");
   await page
     .getByRole("button", { name: "Return to book", exact: true })
     .click();
@@ -101,14 +100,11 @@ test("D5-5.1.5 exact right-hand destination survives phone resize and reading ro
   await page.goto("/");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
-  await page
-    .getByRole("navigation", { name: "Portfolio chapters" })
-    .getByRole("button", { name: "Contact", exact: true })
-    .click();
+  await goToChapter(page, "Contact");
   await expect(book).toHaveAttribute("data-turning", "false");
   await page.setViewportSize({ width: 375, height: 844 });
   await expect(book).toHaveAttribute("data-current-page", "12");
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
+  await page.getByRole("button", { name: "Reading view", exact: true }).click();
   await expect(book).toHaveAttribute("data-current-page", "12");
   await expect(book).toHaveAttribute("data-mode", "reading");
   await page

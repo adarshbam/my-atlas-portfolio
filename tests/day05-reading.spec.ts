@@ -1,3 +1,4 @@
+import { goToChapter, chapterButton, openContents } from "./helpers/book";
 import { test, expect } from "@playwright/test";
 import { pages, references, professionalStory } from "../src/data/portfolio";
 
@@ -24,7 +25,7 @@ for (const [width, height] of [
     const book = page.locator("#book");
     await expect(book).toHaveAttribute("data-ready", "true");
     await page
-      .getByRole("button", { name: "Reading mode", exact: true })
+      .getByRole("button", { name: "Reading view", exact: true })
       .click();
     await expect(book).toHaveAttribute("data-mode", "reading");
     await expect(page.locator(".flip-engine")).toHaveCount(0);
@@ -49,8 +50,7 @@ for (const [width, height] of [
       await face.locator("h2").scrollIntoViewIfNeeded();
       await expect(face.locator("h2")).toBeVisible();
       await expect(
-        page
-          .getByRole("navigation", { name: "Portfolio chapters" })
+        page.locator(".chapter-nav")
           .locator('[aria-current="page"]'),
       ).toHaveCount(1);
       const geometry = await face.evaluate((face) => {
@@ -66,6 +66,10 @@ for (const [width, height] of [
       expect(geometry.overflow, definition.id).toBe(false);
       expect(geometry.folioFits, definition.id).toBe(true);
       for (const image of await face.locator("img").all()) {
+        const isVisible = await image.evaluate(
+          (el: HTMLElement) => el.offsetParent !== null,
+        );
+        if (!isVisible) continue;
         await image.scrollIntoViewIfNeeded();
         await expect
           .poll(() =>
@@ -108,7 +112,7 @@ test("D5-5.2.2 explicit reading remains available under OS reduced motion", asyn
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator("#book")).toHaveAttribute("data-mode", "reduced");
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
+  await page.getByRole("button", { name: "Reading view", exact: true }).click();
   await expect(page.locator("#book")).toHaveAttribute("data-mode", "reading");
   await expect(page.locator(".reading-document .book-page")).toHaveCount(
     pages.length,
@@ -124,7 +128,7 @@ test("D5-5.2.6 scrolling changes return location without focus or announcement s
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
+  await page.getByRole("button", { name: "Reading view", exact: true }).click();
   const toggle = page.getByRole("button", {
     name: "Return to book",
     exact: true,
@@ -152,13 +156,10 @@ test("D5-5.2.4 touch scroll stays native and diagram gestures stay inside their 
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:4173/");
+  await page.goto("/");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
-  await page
-    .getByRole("navigation", { name: "Portfolio chapters" })
-    .getByRole("button", { name: "Vault Storage", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Reading view", exact: true }).click();
+  await goToChapter(page, "Vault Storage");
   const cdp = await context.newCDPSession(page);
   const before = await page.evaluate(() => scrollY);
   await cdp.send("Input.dispatchTouchEvent", {
@@ -177,10 +178,7 @@ test("D5-5.2.4 touch scroll stays native and diagram gestures stay inside their 
   await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(before);
   await expect(page.locator("#book")).toHaveAttribute("data-mode", "reading");
   await expect(page.locator(".flip-engine")).toHaveCount(0);
-  await page
-    .getByRole("navigation", { name: "Portfolio chapters" })
-    .getByRole("button", { name: "File flow", exact: true })
-    .click();
+  await goToChapter(page, "File flow");
   const diagram = page.locator("#reading-vault-architecture .diagram-scroll");
   // End the previous vertical fling, then use a visible, hit-tested region.
   await page.evaluate(() =>

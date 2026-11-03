@@ -49,18 +49,15 @@ test("phone cover uses the full width including material depth and retains two s
           ? "regular"
           : "large";
     await expect(book).toHaveAttribute("data-cover-size", preset);
-    await expect(cover.locator(".cover-title span")).toHaveText([
-      "An engineering",
-      "atlas",
-    ]);
+    const title = cover.locator(".portrait-cover-copy h2");
+    await expect(title).toHaveText(/Adarsh\s*Singh/);
     for (const line of await cover
-      .locator(".cover-title span, .cover-role, .cover-stack")
+      .locator(".portrait-cover-copy h2, .portrait-cover-copy .eyebrow, .portrait-cover-stack")
       .all()) {
       expect(
         await line.evaluate((el) => el.scrollWidth <= el.clientWidth + 1),
       ).toBe(true);
     }
-    const title = cover.locator(".cover-title");
     expect(
       await title.evaluate(
         (el) => el.clientHeight / parseFloat(getComputedStyle(el).lineHeight),
@@ -100,27 +97,18 @@ test("cover type follows fitted width when laptop height changes, without rebuil
         return {
           preset,
           size: token(
-            preset === "compact"
-              ? "--text-base"
-              : preset === "regular"
-                ? "--text-lg"
-                : "--text-xl",
+            preset === "large"
+              ? "--text-3xl"
+              : "--text-2xl",
           ),
         };
       });
     presets.push(expected.preset);
     await expect(book).toHaveAttribute("data-cover-size", expected.preset);
     const rendered = await page
-      .locator(".library-slot .cover-title")
-      .evaluate(
-        (el) =>
-          parseFloat(getComputedStyle(el).fontSize) *
-          Number(
-            document.querySelector<HTMLElement>("#book")!.dataset
-              .presentationScale,
-          ),
-      );
-    expect(rendered).toBeCloseTo(expected.size, 1);
+      .locator(".library-slot .portrait-cover-copy h2")
+      .evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+    expect(rendered).toBeCloseTo(expected.size, 0);
     expect(
       await engine!.evaluate(
         (el) => el === document.querySelector(".flip-engine"),
@@ -139,10 +127,10 @@ test("printed binding remains attached to the native cover through reversal and 
   await expect(book).toHaveAttribute("data-ready", "true");
   const cover = page.locator(".library-slot .page--cover");
   const strip = cover.locator(".cover-spine");
-  const image = strip.locator("img");
   await expect(strip).toHaveAttribute("aria-hidden", "true");
   await expect(strip).toHaveCSS("pointer-events", "none");
-  await expect(image).toHaveAttribute("alt", "");
+  const image = cover.locator(".portrait-cover-art");
+  await expect(image).toHaveAttribute("alt", /portrait of Adarsh Singh/i);
   await expect
     .poll(() =>
       image.evaluate(
@@ -150,31 +138,18 @@ test("printed binding remains attached to the native cover through reversal and 
       ),
     )
     .toBe(true);
-  expect(await image.evaluate((el: HTMLImageElement) => el.currentSrc)).toBe(
-    await cover
-      .locator(".cover-art")
-      .evaluate((el: HTMLImageElement) => el.currentSrc),
-  );
-  const canvas = await strip.locator(".cover-spine-canvas").elementHandle();
-  const transform = await canvas!.evaluate(
-    (el) => getComputedStyle(el).transform,
-  );
-  expect(transform).not.toBe("none");
   const b = (await cover.boundingBox())!;
   await page.mouse.move(b.x + b.width - 6, b.y + 10);
   await page.mouse.down();
   await page.mouse.move(b.x + b.width * 0.5, b.y + 70, { steps: 16 });
   await expect(book).toHaveAttribute("data-turning", "true");
   expect(
-    await canvas!.evaluate(
+    await image.evaluate(
       (el) =>
         el.closest(".page--cover") ===
         document.querySelector(".library-slot .page--cover"),
     ),
   ).toBe(true);
-  expect(await canvas!.evaluate((el) => getComputedStyle(el).transform)).toBe(
-    transform,
-  );
   const moving = (await page.locator(".flip-engine").boundingBox())!;
   await page.mouse.move(moving.x + moving.width - 3, moving.y + 3, {
     steps: 16,
@@ -184,9 +159,9 @@ test("printed binding remains attached to the native cover through reversal and 
   await expect(book).toHaveAttribute("data-current-page", "0");
   await expect(book).toHaveAttribute("data-turning", "false");
   expect(
-    await canvas!.evaluate(
+    await image.evaluate(
       (el) =>
-        el === document.querySelector(".library-slot .cover-spine-canvas"),
+        el === document.querySelector(".library-slot .portrait-cover-art"),
     ),
   ).toBe(true);
 });

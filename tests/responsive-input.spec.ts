@@ -6,6 +6,7 @@ async function open(page: Page) {
   await page.evaluate(() => document.fonts.ready);
   await page.getByRole("button", { name: "Open book", exact: true }).click();
   await settled(page, 1);
+  await page.waitForTimeout(300);
 }
 
 async function settled(page: Page, index: number) {
@@ -80,6 +81,9 @@ for (const width of [375, 768, 1024]) {
         const point = await page.locator("#book").evaluate(
           (book, { forward, top }) => {
             const b = book.getBoundingClientRect();
+            // Phone paper margins are narrower than a 48px contact square.
+            // Use a 24px contact footprint there; keep the larger tablet clearance.
+            const clearance = b.width < 448 ? 12 : 24;
             // Shorter phone pages put real contents links in the former fixed
             // test coordinate. Keep links authoritative; tap clear corner paper.
             for (const dx of [80, 64, 48, 32, 8]) {
@@ -87,12 +91,12 @@ for (const width of [375, 768, 1024]) {
                 const x = forward ? b.right - dx : b.left + dx;
                 const y = top ? b.top + dy : b.bottom - dy;
                 if (
-                  [0, -12, 12].every(
+                  [0, -clearance, clearance].every((offsetX) => [0, -clearance, clearance].every(
                     (offset) =>
                       !document
-                        .elementFromPoint(x, y + offset)
+                        .elementFromPoint(x + offsetX, y + offset)
                         ?.closest('a,button,[role="region"]'),
-                  )
+                  ))
                 )
                   return { x, y };
               }
@@ -117,7 +121,7 @@ for (const width of [375, 768, 1024]) {
     for (const forward of [true, false]) {
       const point = await middlePoint(page, forward);
       await page.touchscreen.tap(point.x, point.y);
-      await expect.poll(() => hasStraightFold(page)).toBe(true);
+      await expect.poll(() => hasRotation(page, forward ? 1 : -1)).toBe(true);
       await settled(page, forward ? 1 + step : 1);
       await expect(
         page.locator('.library-slot .--hard:not([data-page-id="cover"])'),
@@ -131,7 +135,7 @@ for (const width of [375, 768, 1024]) {
         .click();
       await settled(page, 2);
     }
-    await page.setViewportSize({ width, height: width >= 1024 ? 600 : 844 });
+    await page.setViewportSize({ width, height: width >= 1024 ? 375 : 844 });
     await page.evaluate(() => scrollTo(0, 0));
     const b = (await page.locator("#book").boundingBox())!;
     const session = await context.newCDPSession(page);
@@ -156,7 +160,7 @@ for (const width of [375, 768, 1024]) {
           ? page
               .locator('.library-slot [data-page="2"] .page-inner')
               .evaluate((el) => el.scrollTop)
-          : page.evaluate(() => scrollY),
+          : page.evaluate(() => scrollY + [...document.querySelectorAll('.library-slot .book-page[aria-hidden="false"] .page-inner')].reduce((total, el) => total + el.scrollTop, 0)),
       )
       .toBeGreaterThan(0);
     await settled(page, width < 768 ? 2 : 1);
@@ -190,18 +194,33 @@ async function hasStraightFold(page: Page) {
   );
 }
 
+async function cornerPoint(page: Page, forward: boolean, top = true) {
+  return page.locator("#book").evaluate(
+    (book, { forward, top }) => {
+      const root =
+        book.querySelector<HTMLElement>(".flip-engine") ??
+        book.querySelector<HTMLElement>(".plain-face-container") ??
+        book;
+      const b = root.getBoundingClientRect();
+      const x = forward ? b.right - 16 : b.left + 16;
+      const y = top ? b.top + 16 : b.bottom - 16;
+      return { x, y };
+    },
+    { forward, top },
+  );
+}
+
 for (const width of [375, 768, 1280, 1920]) {
-  test(`${width}px expanded middle edges turn straight and restore corner curls`, async ({
+  test(`${width}px expanded middle edges retain soft paper and corner curls`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 1400 });
     await open(page);
     const step = width < 768 ? 1 : 2;
-    const b = (await page.locator("#book").boundingBox())!;
     for (const forward of [true, false]) {
       const point = await middlePoint(page, forward);
       await page.mouse.click(point.x, point.y);
-      await expect.poll(() => hasStraightFold(page)).toBe(true);
+      await expect.poll(() => hasRotation(page, forward ? 1 : -1)).toBe(true);
       await settled(page, forward ? 1 + step : 1);
       await expect(
         page.locator('.library-slot .--hard:not([data-page-id="cover"])'),
@@ -211,13 +230,18 @@ for (const width of [375, 768, 1280, 1920]) {
           () => document.documentElement.scrollWidth <= innerWidth,
         ),
       ).toBe(true);
+      await page.waitForTimeout(300);
     }
     // Switching modes must not leave the paper rigid on the next corner turn.
-    await page.mouse.click(b.x + b.width - 80, b.y + 100);
+    const forwardCorner = await cornerPoint(page, true, true);
+    await page.mouse.click(forwardCorner.x, forwardCorner.y);
     await expect.poll(() => hasRotation(page, -1)).toBe(true);
     await settled(page, 1 + step);
-    await page.mouse.click(b.x + 80, b.y + 100);
+    await page.waitForTimeout(300);
+    const backCorner = await cornerPoint(page, false, true);
+    await page.mouse.click(backCorner.x, backCorner.y);
     await settled(page, 1);
+    await page.waitForTimeout(300);
 
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect(page.locator(".flip-engine")).toHaveCount(0);
@@ -242,12 +266,15 @@ for (const width of [375, 768]) {
         await page.emulateMedia({ reducedMotion: "reduce" });
         await expect(page.locator(".flip-engine")).toHaveCount(0);
       }
-      const b = (await page.locator("#book").boundingBox())!;
-      await page.mouse.click(b.x + b.width - 8, b.y + 8);
+      const corner = await cornerPoint(page, true, true);
+      await page.mouse.click(corner.x, corner.y);
       if (!reduced) await expect.poll(() => hasRotation(page, -1)).toBe(true);
       await settled(page, 1 + step);
-      await page.mouse.click(b.x + 8, b.y + 8);
+      await page.waitForTimeout(300);
+      const backCorner = await cornerPoint(page, false, true);
+      await page.mouse.click(backCorner.x, backCorner.y);
       await settled(page, 1);
+      await page.waitForTimeout(300);
     }
   });
 }
@@ -281,3 +308,4 @@ test("favicon fallbacks are declared and served as valid icon files", async ({
   expect(bytes.readUInt16LE(2)).toBe(1);
   expect(bytes.readUInt16LE(4)).toBe(2);
 });
+

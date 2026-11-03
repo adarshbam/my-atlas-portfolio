@@ -1,3 +1,4 @@
+import { goToChapter, chapterButton, openContents } from "./helpers/book";
 import { test, expect, type Page } from "@playwright/test";
 import { pages } from "../src/data/portfolio";
 
@@ -24,18 +25,14 @@ for (const width of [375, 768, 1280, 1920]) {
       page.on("pageerror", (error) => errors.push(error.message));
       await page.goto("/");
       await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
-      await page
-        .getByRole("navigation", { name: "Portfolio chapters" })
-        .getByRole("button", { name: "Vault Storage", exact: true })
-        .click();
+      await goToChapter(page, "Vault Storage");
       await settled(page, vaultIndex);
-      const activeChapter = page
-        .getByRole("navigation", { name: "Portfolio chapters" })
+      const activeChapter = page.locator(".chapter-nav")
         .locator("button[aria-current]");
-      await expect(activeChapter).toHaveCSS("color", "rgb(22, 21, 19)");
+      await expect(activeChapter).toHaveCSS("color", "rgb(42, 40, 37)");
       await expect(activeChapter).toHaveCSS(
         "text-decoration-color",
-        "rgb(118, 88, 24)",
+        "rgb(42, 40, 37)",
       );
       const visible = () =>
         page.locator(
@@ -114,10 +111,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await expect(
         page.getByRole("button", { name: "Next page", exact: true }),
       ).toBeDisabled();
-      await page
-        .getByRole("navigation", { name: "Portfolio chapters" })
-        .getByRole("button", { name: "File flow", exact: true })
-        .click();
+      await goToChapter(page, "File flow");
       await settled(page, architectureIndex);
       await expect(visible().locator(".diagram-scroll")).toHaveCount(1);
       expect(

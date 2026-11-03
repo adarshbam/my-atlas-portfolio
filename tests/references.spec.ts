@@ -1,3 +1,4 @@
+import { goToChapter, chapterButton, openContents } from "./helpers/book";
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { pages, references, chapters } from "../src/data/portfolio";
@@ -30,19 +31,17 @@ for (const width of [375, 768, 1280, 1920]) {
       await expect(book).toHaveAttribute("data-ready", "true");
       if (mode === "reading")
         await page
-          .getByRole("button", { name: "Reading mode", exact: true })
+          .getByRole("button", { name: "Reading view", exact: true })
           .click();
-      const nav = page.getByRole("navigation", { name: "Portfolio chapters" });
-      const referenceButton = nav.getByRole("button", {
-        name: "References",
-        exact: true,
-      });
+      await openContents(page);
+      const nav = page.locator(".chapter-nav");
+      const referenceButton = chapterButton(page, "References");
       for (const button of await nav.getByRole("button").all()) {
         const box = (await button.boundingBox())!;
         expect(box.width).toBeGreaterThanOrEqual(44);
         expect(box.height).toBeGreaterThanOrEqual(44);
       }
-      await nav.getByRole("button", { name: "Cover", exact: true }).focus();
+      await chapterButton(page, "Cover").focus();
       for (
         let index = 0;
         index < chapters.findIndex((chapter) => chapter.id === "references");
@@ -70,6 +69,8 @@ for (const width of [375, 768, 1280, 1920]) {
           mode !== "reading" &&
           id === "references-continued"
         ) {
+          const prevFace = page.locator(`${scope}[data-page-id="references"]`);
+          await prevFace.locator("h2").focus();
           await page.keyboard.press("ArrowRight");
           await expect(book).toHaveAttribute(
             "data-current-page",
@@ -79,13 +80,23 @@ for (const width of [375, 768, 1280, 1920]) {
         }
         const face = page.locator(`${scope}[data-page-id="${id}"]`);
         await expect(face.locator("h2")).toBeVisible();
+        if(id === "references-continued") {
+          await expect(face.getByRole("tablist")).toHaveCount(0);
+          await expect(face.locator('[data-reference-id="saatvik-nagpal"]')).toHaveAttribute('role','group');
+        }
         for (const reference of references.filter(
           (record) => record.pageId === id,
         )) {
+          const tab = face.locator(`[data-reference-select="${reference.id}"]`);
+          if (await tab.count()) {
+            await tab.click();
+            await expect(tab).toHaveAttribute("aria-selected", "true");
+          }
           const original = evidence.records.find(
             (record: { id: string }) => record.id === reference.id,
           );
           const figure = face.locator(`[data-reference-id="${reference.id}"]`);
+          await expect(figure).toHaveAttribute("aria-hidden", "false");
           expect(original.raw_quote).toContain(reference.quote);
           await expect(figure.locator("blockquote")).toHaveText(
             `“${original.excerpt}”`,
@@ -125,7 +136,7 @@ for (const width of [375, 768, 1280, 1920]) {
         ).toBe(false);
       }
       await expect(page.getByRole("status")).toContainText(
-        `of ${pages.length}`,
+        width < 768 && mode !== "reading" ? `of ${pages.length}` : "Reference by",
       );
       expect(
         await page.evaluate(() =>
@@ -136,7 +147,7 @@ for (const width of [375, 768, 1280, 1920]) {
             ),
         ),
       ).toBe(false);
-      await nav.getByRole("button", { name: "Contact", exact: true }).click();
+      await goToChapter(page, "Contact");
       await expect(book).toHaveAttribute(
         "data-current-page",
         String(
@@ -146,6 +157,9 @@ for (const width of [375, 768, 1280, 1920]) {
         ),
       );
       await expect(book).toHaveAttribute("data-turning", "false");
+      await expect(page.getByRole("status")).toContainText(
+        `of ${pages.length}`,
+      );
       await expect(
         page.getByRole("button", { name: "Next page", exact: true }),
       ).toBeDisabled();

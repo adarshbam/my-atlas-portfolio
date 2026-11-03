@@ -7,13 +7,25 @@ import {
 } from "react";
 import { PageFlip } from "page-flip";
 import { animate } from "motion/mini";
-import { ArrowLeft, ArrowRight, ArrowUpRight, BookOpen } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  BookOpen,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import { BookPage } from "@/components/book-pages";
 import { ReadingView } from "@/components/reading-view";
 import { github, opening, pages, chapters } from "@/data/portfolio";
 import { adjacentPage, pageIndex, visiblePages } from "@/lib/book-navigation";
 import { useBookPresentation } from "@/lib/use-book-presentation";
 import { useMediaQuery } from "@/lib/use-media-query";
+import { useReferenceInteractions } from "@/lib/use-reference-interactions";
+import { usePageMotion } from "@/lib/use-page-motion";
+import { ThemeSwitch } from "@/components/theme-switch";
+import { useSound } from "@/lib/audio/use-sound";
+import { soundEngine, type Interaction } from "@/lib/audio/sound-engine";
 
 type Dimensions = { width: number; height: number; mobile: boolean };
 type FlipEvent = { data: number | string };
@@ -163,16 +175,21 @@ function cornerAt(...args: Parameters<typeof turnZoneAt>): Corner | null {
     : null;
 }
 
-function setTurnDensity(engine: PageFlip, straight: boolean) {
-  // Both rendering paths belong to StPageFlip: soft corners and a straight
-  // native hinge for the middle edge. Restore each page's original density.
-  pages.forEach((_, i) => {
-    const page = engine.getPage(i);
-    page.setDrawingDensity(straight ? "hard" : page.getDensity());
-  });
+function setTurnDensity(engine: PageFlip) {
+  pages.forEach((_, i) =>
+    engine.getPage(i).setDrawingDensity(engine.getPage(i).getDensity()),
+  );
 }
 
-export default function Book() {
+export default function Book({
+  initialPosition,
+}: {
+  initialPosition?: { page: number; readMode: boolean };
+}) {
+  const initialPage = Math.max(
+    0,
+    Math.min(pages.length - 1, initialPosition?.page ?? 0),
+  );
   const requestedMobile = useMediaQuery("(max-width: 767px)");
   const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
   const stage = useRef<HTMLDivElement>(null);
@@ -181,9 +198,9 @@ export default function Book() {
   const slot = useRef<HTMLDivElement>(null);
   const flip = useRef<PageFlip | null>(null);
   const materializePages = useRef<(() => void) | null>(null);
-  const current = useRef(0);
-  const logical = useRef(0);
-  const [logicalPage, setLogicalPage] = useState(0);
+  const current = useRef(initialPage);
+  const logical = useRef(initialPage);
+  const [logicalPage, setLogicalPage] = useState(initialPage);
   const readingRoot = useRef<HTMLDivElement>(null);
   const lastPageFocus = useRef<number | null>(null);
   const [announcement, setAnnouncement] = useState("");
@@ -191,15 +208,57 @@ export default function Book() {
   const firstTurnFrame = useRef<number | null>(null);
   const focusAfterPage = useRef(false);
   const pendingTarget = useRef<number | null>(null);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(initialPage);
   const [dimensions, setDimensions] = useState<Dimensions | null>(null);
   // A collapsed/hidden viewport must not replace a working engine. Commit its
   // responsive mode together with usable page geometry, never independently.
   const mobile = dimensions?.mobile ?? requestedMobile;
   const [ready, setReady] = useState(false);
-  const [readMode, setReadMode] = useState(false);
+  const [readMode, setReadMode] = useState(initialPosition?.readMode ?? false);
   const [turning, setTurning] = useState(false);
+  const focusedReadingReturn = useRef<number | null>(null);
   const plain = reduced || readMode;
+  const sound = useSound(reduced);
+  const [contentsOpen, setContentsOpen] = useState(false);
+  const contentsTrigger = useRef<HTMLButtonElement>(null);
+  const contentsPanel = useRef<HTMLDivElement>(null);
+  const closeContents = () => {
+    setContentsOpen(false);
+    contentsTrigger.current?.focus({ preventScroll: true });
+  };
+  useEffect(() => {
+    if (!contentsOpen) return;
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setContentsOpen(false);
+        contentsTrigger.current?.focus({ preventScroll: true });
+      }
+    };
+    const outside = (event: PointerEvent) => {
+      if (
+        !contentsPanel.current?.contains(event.target as Node) &&
+        !contentsTrigger.current?.contains(event.target as Node)
+      )
+        setContentsOpen(false);
+    };
+    document.addEventListener("keydown", escape);
+    document.addEventListener("pointerdown", outside);
+    return () => {
+      document.removeEventListener("keydown", escape);
+      document.removeEventListener("pointerdown", outside);
+    };
+  }, [contentsOpen]);
+  useReferenceInteractions({
+    root: presentation,
+    reduced,
+    readMode,
+    ready,
+    turning,
+    onReading: setReadMode,
+    announce: setAnnouncement,
+  });
+  usePageMotion(presentation, reduced, readMode, turning, ready, page);
   const group = readMode ? [page] : visiblePages(page, mobile);
   const previous = adjacentPage(page, -1, readMode || mobile);
   const next = adjacentPage(page, 1, readMode || mobile);
@@ -305,10 +364,26 @@ export default function Book() {
       if (!Number.isFinite(available) || available <= 0) return;
       lastWidth = stage.current.clientWidth;
       lastViewportWidth = window.innerWidth;
-      const width = Math.floor(available / (requestedMobile ? 1 : 2));
+      const stageTop =
+        stage.current.getBoundingClientRect().top + window.scrollY;
+      const desktopHeight = Math.max(
+        numberToken("--premium-min-page-height"),
+        window.innerHeight - stageTop - numberToken("--premium-bottom-reserve"),
+      );
+      const width = Math.floor(
+        Math.min(
+          available / (requestedMobile ? 1 : 2),
+          requestedMobile || tablet
+            ? Infinity
+            : desktopHeight * numberToken("--page-ratio"),
+        ),
+      );
       const proportionalHeight = Math.round(
         requestedMobile
-          ? width / numberToken("--phone-page-ratio")
+          ? Math.max(
+              width / numberToken("--phone-page-ratio"),
+              numberToken("--premium-phone-page-height"),
+            )
           : width / numberToken("--page-ratio"),
       );
       if (
@@ -318,9 +393,10 @@ export default function Book() {
         proportionalHeight <= 0
       )
         return;
-      const height = tablet
-        ? readableHeight(width, proportionalHeight)
-        : proportionalHeight;
+      const height = Math.min(
+        tablet ? readableHeight(width, proportionalHeight) : proportionalHeight,
+        Math.round(width / numberToken("--premium-min-page-ratio")),
+      );
       if (!Number.isFinite(height) || height <= 0) return;
       source.current.style.setProperty("--page-width", `${width}px`);
       source.current.style.setProperty("--page-height", `${height}px`);
@@ -379,7 +455,11 @@ export default function Book() {
       current.current = normalized;
       setPage(normalized);
       const active = document.activeElement;
-      let transferFocus = focusAfterPage.current;
+      // A toolbar choice made during the turn owns focus. Only recover focus
+      // from the departing page or from the document after its removal.
+      let transferFocus =
+        focusAfterPage.current &&
+        (active === document.body || !!slot.current?.contains(active));
       focusAfterPage.current = false;
       slot.current
         ?.querySelectorAll<HTMLElement>("[data-page]")
@@ -462,7 +542,7 @@ export default function Book() {
           if (engine.getFlipController().getCalculation())
             engine.getRender().finishAnimation();
           pendingTarget.current = requested;
-          setTurnDensity(engine, corner === "middle");
+          setTurnDensity(engine);
           engine.getSettings().flippingTime = durationToken(
             current.current === 0 || target === 0
               ? "--dur-cover"
@@ -542,7 +622,7 @@ export default function Book() {
     const originals = Array.from(source.current.children);
     const deferContents = logical.current === 0;
     const copies = originals.map(
-      (x, i) => x.cloneNode(!deferContents || i === 0) as HTMLElement,
+      (x, index) => x.cloneNode(!deferContents || index < 3) as HTMLElement,
     );
     root.append(...copies);
     const engine = new PageFlip(root, {
@@ -567,18 +647,18 @@ export default function Book() {
     const initialLogical = logical.current;
     let initialized = false;
     let contentsReady = !deferContents;
-    let contentsFrame: number | undefined;
     const fillContents = () => {
-      if (contentsReady) return;
-      contentsReady = true;
-      copies.forEach((copy, i) => {
-        if (i)
-          copy.append(
-            ...Array.from(originals[i].childNodes, (node) =>
-              node.cloneNode(true),
-            ),
-          );
-      });
+      if (!contentsReady) {
+        contentsReady = true;
+        originals.forEach((original, index) => {
+          if (index >= 3)
+            copies[index].append(
+              ...Array.from(original.childNodes, (node) =>
+                node.cloneNode(true),
+              ),
+            );
+        });
+      }
       if (initialized) setReady(true);
     };
     materializePages.current = fillContents;
@@ -588,6 +668,9 @@ export default function Book() {
     root.addEventListener("pointerdown", fillContents, true);
     let stagingFrame: number | undefined;
     let transitionStart = current.current;
+    let interaction: Interaction | null = null;
+    let previousProgress = 0;
+    let previousTime = 0;
     let mouseActive = false;
     const nativePoint = (x: number, y: number) => {
       const rect = root.getBoundingClientRect();
@@ -597,6 +680,20 @@ export default function Book() {
     const sampleStage = () => {
       const calculation = engine.getFlipController().getCalculation();
       if (calculation) {
+        if (interaction) {
+          const progress = calculation.getFlippingProgress() / 100;
+          const now = performance.now();
+          soundEngine.dispatch({
+            ...interaction,
+            phase: "update",
+            progress,
+            velocity:
+              (progress - previousProgress) /
+              Math.max(0.016, (now - previousTime) / 1000),
+          });
+          previousProgress = progress;
+          previousTime = now;
+        }
         const backward = calculation.getDirection() === 1;
         const coverTurn =
           transitionStart === 0 ||
@@ -676,6 +773,7 @@ export default function Book() {
           };
           return () => controller.showCorner(point);
         });
+
         engine
           .getRender()
           .startAnimation(frames, durationToken("--dur-fast"), () => {});
@@ -697,11 +795,10 @@ export default function Book() {
       setVisible(engine.getCurrentPageIndex());
       pendingTarget.current = null;
       present(current.current === 0 ? 0 : 1, true);
-      if (contentsReady) setReady(true);
-      else
-        contentsFrame = requestAnimationFrame(() => {
-          contentsFrame = requestAnimationFrame(fillContents);
-        });
+      // The cover and opening spread are already complete. Later pages are
+      // materialized synchronously by navigation/pointer input, not on a cold
+      // startup frame that would compete with the portrait's first paint.
+      setReady(true);
     });
     engine.on("flip", (event: FlipEvent) => {
       // A retiring engine can emit its old group while the responsive mode
@@ -717,6 +814,24 @@ export default function Book() {
     engine.on("changeState", (event: FlipEvent) => {
       setTurning(event.data === "flipping" || event.data === "user_fold");
       if (event.data === "flipping" || event.data === "user_fold") {
+        if (!interaction && (event.data === "flipping" || mouseActive)) {
+          const backward =
+            engine.getFlipController().getCalculation()?.getDirection() === 1;
+          const from = current.current;
+          const to =
+            pendingTarget.current ??
+            adjacentPage(from, backward ? -1 : 1, mobile);
+          interaction = {
+            id: crypto.randomUUID(),
+            kind: from === 0 ? "cover-open" : to === 0 ? "cover-close" : "page",
+            phase: "start",
+            from,
+            to,
+          };
+          previousProgress = 0;
+          previousTime = performance.now();
+          soundEngine.dispatch(interaction);
+        }
         if (stagingFrame === undefined) {
           transitionStart = current.current;
           presentation.current?.style.setProperty("will-change", "transform");
@@ -727,6 +842,14 @@ export default function Book() {
         previewCorner = null;
       }
       if (event.data === "read") {
+        if (interaction) {
+          soundEngine.dispatch({
+            ...interaction,
+            to: current.current,
+            phase: current.current === interaction.from ? "cancel" : "commit",
+          });
+          interaction = null;
+        }
         if (stagingFrame !== undefined) cancelAnimationFrame(stagingFrame);
         stagingFrame = undefined;
         presentation.current?.style.removeProperty("will-change");
@@ -734,7 +857,7 @@ export default function Book() {
           delete presentation.current.dataset.coverTransition;
         present(current.current === 0 ? 0 : 1, true);
         pendingTarget.current = null;
-        setTurnDensity(engine, false);
+        setTurnDensity(engine);
         engine.getSettings().flippingTime = durationToken("--dur-slow");
       }
       if (event.data === "read" && wanted.current !== null) {
@@ -972,7 +1095,7 @@ export default function Book() {
       root.addEventListener("mouseleave", dismissPreview);
     }
     return () => {
-      if (contentsFrame !== undefined) cancelAnimationFrame(contentsFrame);
+      soundEngine.cancelAll();
       root.removeEventListener("pointerover", fillContents, true);
       root.removeEventListener("pointerdown", fillContents, true);
       if (firstTurnFrame.current !== null) {
@@ -1011,6 +1134,7 @@ export default function Book() {
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
       if (
+        location.pathname.replace(/\/+$/, "") === "/story" ||
         readMode ||
         event.defaultPrevented ||
         event.altKey ||
@@ -1052,6 +1176,7 @@ export default function Book() {
   }, [mobile, plain, readMode]);
 
   const readingLocation = useCallback((index: number) => {
+    if (location.pathname.replace(/\/+$/, "") === "/story") return;
     logical.current = index;
     current.current = index;
     setLogicalPage(index);
@@ -1115,90 +1240,39 @@ export default function Book() {
       <a href="#book" className="skip-link">
         Skip to portfolio
       </a>
-      <header className="site-header">
-        <a className="wordmark" href={github} target="_blank" rel="noreferrer">
-          {opening.name}
-          <span aria-hidden="true">.</span>
-        </a>
-        <span className="site-subtitle">{opening.title}</span>
-        <nav aria-label="Profile links">
-          <a href={github} target="_blank" rel="noreferrer">
-            GitHub <ArrowUpRight aria-hidden="true" />
-          </a>
-          <a href="/adarsh-singh-resume.pdf" download>
-            Résumé <ArrowUpRight aria-hidden="true" />
-          </a>
-        </nav>
-      </header>
       <h1 className="sr-only">Adarsh Singh — Engineering Atlas</h1>
       <div className="book-toolbar">
-        <nav
-          className="chapter-nav book-toolbar__chapters"
-          aria-label="Portfolio chapters"
+        <button
+          type="button"
+          className="contents-trigger"
+          ref={contentsTrigger}
+          aria-expanded={contentsOpen}
+          aria-controls="atlas-contents"
+          onClick={() => setContentsOpen((open) => !open)}
         >
-          {chapters.map((chapter) => {
-            const target = pageIndex(chapter.id)!;
-            return (
-              <button
-                key={chapter.id}
-                type="button"
-                aria-current={
-                  chapter.id === activeChapter?.id ? "page" : undefined
-                }
-                onClick={() => navigate(target)}
-              >
-                {chapter.label}
-              </button>
-            );
-          })}
-        </nav>
-        <p className="turn-hint sr-only">
-          {plain
-            ? "A quieter way to read."
-            : mobile
-              ? "Tap an outer edge or swipe to turn."
-              : "Click an outer edge or drag a corner."}
-        </p>
-        <nav className="pagination" aria-label="Page navigation">
-          <PageNavButton
-            quiet={plain}
-            type="button"
-            className="page-nav"
-            aria-label="Previous page"
-            disabled={previous === page}
-            onClick={() =>
-              navigate(adjacentPage(current.current, -1, readMode || mobile))
-            }
-          >
-            <ArrowLeft aria-hidden="true" />
-          </PageNavButton>
-          <span className="page-counter" aria-hidden="true">
-            {group
-              .map((index) => String(index + 1).padStart(2, "0"))
-              .join(" — ")}
-            <span className="counter-divider">/</span>
-            {String(pages.length).padStart(2, "0")}
-          </span>
-          <PageNavButton
-            quiet={plain}
-            type="button"
-            className="page-nav"
-            aria-label="Next page"
-            disabled={next === page}
-            onClick={() =>
-              navigate(adjacentPage(current.current, 1, readMode || mobile))
-            }
-          >
-            <ArrowRight aria-hidden="true" />
-          </PageNavButton>
-        </nav>
+          Contents <span aria-hidden="true">{contentsOpen ? "−" : "+"}</span>
+        </button>
         <button
           className="reading-toggle"
           type="button"
           aria-pressed={readMode}
+          onPointerDown={() => {
+            const focused = document.activeElement?.closest<HTMLElement>(
+              ".reading-document [data-page]",
+            );
+            focusedReadingReturn.current =
+              readMode && focused ? Number(focused.dataset.page) : null;
+          }}
           onClick={() => {
             wanted.current = null;
             pendingTarget.current = null;
+            if (readMode && focusedReadingReturn.current !== null) {
+              logical.current = focusedReadingReturn.current;
+              current.current = focusedReadingReturn.current;
+              setLogicalPage(focusedReadingReturn.current);
+              setPage(focusedReadingReturn.current);
+            }
+            focusedReadingReturn.current = null;
             setReadMode((v) => !v);
           }}
         >
@@ -1207,8 +1281,94 @@ export default function Book() {
             ? reduced
               ? "Return to pages"
               : "Return to book"
-            : "Reading mode"}
+            : "Reading view"}
         </button>
+        <ThemeSwitch />
+        <div
+          id="atlas-contents"
+          className="contents-panel"
+          ref={contentsPanel}
+          hidden={!contentsOpen}
+        >
+          <nav className="chapter-nav" aria-label="Portfolio chapters">
+            {chapters.map((chapter) => (
+              <button
+                key={chapter.id}
+                type="button"
+                aria-current={
+                  chapter.id === activeChapter?.id ? "page" : undefined
+                }
+                onClick={() => {
+                  closeContents();
+                  navigate(pageIndex(chapter.id)!);
+                }}
+              >
+                {chapter.label}
+              </button>
+            ))}
+          </nav>
+          <nav className="contents-shortcuts" aria-label="Atlas index">
+            {(
+              [
+                ["contents", "The work · 02"],
+                ["vault-architecture", "The systems · 05"],
+                ["references", "The people · 09"],
+                ["colophon", "Contact · 12"],
+              ] as const
+            ).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => {
+                  closeContents();
+                  navigate(pageIndex(id)!);
+                }}
+              >
+                {label}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => {
+                closeContents();
+                navigate(pageIndex("contents")!);
+              }}
+            >
+              Begin with selected work
+            </button>
+          </nav>
+          <nav className="contents-links" aria-label="Profile links">
+            <a href={github} target="_blank" rel="noreferrer">
+              GitHub <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a href="/adarsh-singh-resume.pdf" download>
+              Résumé <ArrowUpRight aria-hidden="true" />
+            </a>
+            <a
+              href="/story"
+              data-open-story
+              onClick={() => setContentsOpen(false)}
+            >
+              My story <ArrowUpRight aria-hidden="true" />
+            </a>
+            <button
+              type="button"
+              className="audio-toggle"
+              aria-label={
+                sound.muted ? "Enable sound design" : "Mute sound design"
+              }
+              aria-pressed={!sound.muted}
+              onClick={sound.toggle}
+            >
+              {sound.muted ? (
+                <VolumeX aria-hidden="true" />
+              ) : (
+                <Volume2 aria-hidden="true" />
+              )}
+              {sound.muted ? "Enable sound" : "Mute sound"}
+            </button>
+          </nav>
+        </div>
       </div>
       <div
         ref={stage}
@@ -1240,6 +1400,7 @@ export default function Book() {
               initialPage={logical.current}
               onLocation={readingLocation}
               onNavigate={readingNavigate}
+              reduced={reduced}
             />
           ) : (
             <>
@@ -1341,6 +1502,37 @@ export default function Book() {
           )}
         </section>
       </div>
+      <nav className="pagination" aria-label="Page navigation">
+        <PageNavButton
+          quiet={plain}
+          type="button"
+          className="page-nav"
+          aria-label="Previous page"
+          disabled={previous === page}
+          onClick={() =>
+            navigate(adjacentPage(current.current, -1, readMode || mobile))
+          }
+        >
+          <ArrowLeft aria-hidden="true" />
+        </PageNavButton>
+        <span className="page-counter" aria-hidden="true">
+          {group.map((index) => String(index + 1).padStart(2, "0")).join(" — ")}
+          <span className="counter-divider">/</span>
+          {String(pages.length).padStart(2, "0")}
+        </span>
+        <PageNavButton
+          quiet={plain}
+          type="button"
+          className="page-nav"
+          aria-label="Next page"
+          disabled={next === page}
+          onClick={() =>
+            navigate(adjacentPage(current.current, 1, readMode || mobile))
+          }
+        >
+          <ArrowRight aria-hidden="true" />
+        </PageNavButton>
+      </nav>
       <div
         ref={source}
         className="page-measure-source"
@@ -1351,9 +1543,6 @@ export default function Book() {
           <BookPage key={definition.id} page={definition} />
         ))}
       </div>
-      <p className="preview-note">
-        Selected applications, employment work and engineering practice · 2026.
-      </p>
       <div
         className="sr-only"
         role="status"

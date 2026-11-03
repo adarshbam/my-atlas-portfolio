@@ -43,10 +43,10 @@
     ]
   },
   "design": {
-    "direction": "Reference-led architectural monograph, approved 24 October 2026",
-    "colorMode": "Fixed paper / ink composition",
+    "direction": "Premium cloth-bound Engineering Atlas, approved 3 November 2026",
+    "colorMode": "Remembered Light / Dark desk; identical ivory paper and black book",
     "colors": {
-      "ink": "#161513",
+      "ink": "#000000",
       "inkSoft": "#2a2825",
       "charcoalSurface": "#282624",
       "hardcoverSurface": "#161513",
@@ -54,13 +54,14 @@
       "paper": "#efe9de",
       "paperDeep": "#e4dccd",
       "graphite": "#6e685f",
-      "desk": "#c9b8a0",
-      "accent": "#765818 (active chapter underline only)"
+      "desk": "#d8d6d0",
+      "accent": "Selected chapter uses desk-text underline",
+      "deskDark": "#343635"
     },
     "typography": {
       "display": "Cormorant Garamond 300/500",
       "text": "EB Garamond 400",
-      "scale": "10,14,18,24,32,43,57,76px; display clamp 48–96px"
+      "scale": "10,14,18,24,32,43,57,76px; named compact display tokens"
     },
     "spacing": {
       "scale": "4,8,12,16,24,32,48,64,96,128px",
@@ -70,29 +71,30 @@
       "desktopPageWidthToHeight": 0.88,
       "maximumSpreadWidth": "1536px",
       "tablet": "Facing pages with shared height measured from actual readable content; no arbitrary tall minimum",
-      "phone": "One page at the approved 0.68 width/height ratio with vertical content scrolling",
+      "phone": "Single readable page, minimum640px height, native document/content scrolling",
       "turning": "Native page dimensions remain stable throughout each turn"
     },
     "materials": {
       "foreEdgeDepth": "16px",
       "bottomPaperDepth": "12px",
-      "boardOverhang": "8px",
-      "darkGrainOpacity": 0.1,
+      "boardOverhang": "12px",
+      "darkGrainOpacity": "Cover0.20 / charcoal0.16; static shared tile",
       "paperGrainOpacity": 0.035,
       "contour": "Static optical silhouette and material shading on inner .sheet-surface, carried by each engine-owned page",
-      "construction": "Irregular fine paper layers, neutral contact shadows, attached gutter relief and restrained edge highlights"
+      "construction": "Irregular fine paper layers, neutral contact shadows, attached gutter relief and restrained edge highlights",
+      "boardThickness": "3px"
     },
     "composition": {
       "shell": "Compact outside-book toolbar",
       "contents": "Restrained display title, four factual project rows and an interconnected technical drawing",
       "diagram": "Original monochrome SVG geometry with live HTML labels for evidenced Vault signing, direct B2 upload and Cloudflare delivery; separate GitHub and Google Drive integrations",
-      "portraits": "Retain the current cover portrait/composition and identity-based generated introduction portrait; preserve the original identity source"
+      "portraits": "Unchanged approved portrait asset, separate cover and introduction crops; semantic live text"
     },
     "radius": {
-      "book": "2px"
+      "book": "4px boards; square paper"
     },
     "shadows": {
-      "book": "One soft desk shadow",
+      "book": "Restrained contact and ambient desk shadow",
       "curl": "Native engine, maximum opacity .25",
       "materials": "Static neutral contact and gutter shading on engine-owned surfaces"
     },
@@ -139,6 +141,8 @@
     ]
   },
   "decisions": [
+    "3 November 2026: approved premium modernization; Light stone #d8d6d0 / Dark graphite #343635, same ivory book; portrait opening restored; compact Contents; 12/16/12 material geometry, 4px board radius; hard cover/soft interiors; 1200ms cover retained. docs/MODERNIZATION-IMPLEMENTATION.md",
+    "27 October 2026: user approved final-update plan: pure-black portrait cover, cream atlas map replacing introduction, reading motion and sticky Vault evidence, manual paired reference crossfades in both modes. Implementation in progress; verification pending. docs/FINAL-INTERACTION-UPDATE.md",
     "25 October 2026 Day 5: implemented nine wrapped persistent chapter routes, separate continuous semantic reading with ordinary scrolling and persistent reading controls, retained native/reduced paginated book, exact logical destinations/focus/media cleanup. Same page data, authentic references and tokens. Continuous execution authorized; final human review pending. No new dependency or engine. See docs/DAY-05-REVIEW.md.",
     "25 October 2026: user requested authentic colour portraits, complementary tricolour styling, stronger premium editorial emphasis, 21st.dev animation and no previous-portfolio links. References use ivory/ink/muted gold, 96px portraits, 43px titles and 24px names. Adapted Mask Reveal by balick (21st component 39591) to token motion after native settlement, readable quotes, max 1.04 scale and static reduced/reading modes. Source provenance retained only in repository evidence; no visitor-facing old-site link or cite. No dependency or engine change. Verification: docs/TASK-5.0-REVIEW.md.",
     "25 October 2026: continued authorized Day 04. Reused semantic PageTemplate, case hierarchy and existing tokens for four supporting pages. Harigurus repository is a written case study, Pipeline host processes are not a sandbox, and local JWT work remains unpublished. Catalog search failed (fetch failed); 21st review of initial implementation returned 0 findings. No dependency, motion or deployment change. Day 4 now complete 24/24: full 87-case pass, final 27-case rerun, 96 responsive states, 763 contrast samples, 51 zero-violation Axe states; final report docs/DAY-04-REVIEW.md. Mobile LCP and physical motion targets remain open.",
@@ -157,7 +161,14 @@
     "24 October 2026: requested left portrait/edition and right live cover copy, slower cover turn, and 0.68 phone page ratio with scrollable long interior content; docs/COVER-REFINEMENT-AMENDMENT.md",
     "24 October 2026: user requested regeneration for the left side with left unfinished strokes and no central crop seam. New transparent artwork is contained on one ink cover surface; paper text and live typography retained. docs/SEAMLESS-COVER-DECISION.md",
     "24 October 2026: user rejected the low/small portrait and undersized right copy. Reuse artwork at 96% canvas width (20% larger), vertically centered with left bleed for separation; use 57px desktop/43px compact name, 32px desktop title, 18px desktop metadata and natural-height nonshrinking copy. docs/COVER-BALANCE-REVIEW.md",
-    "24 October 2026: user approved narrow 35-degree illustrated binding wrap carried by the existing native cover, seven-column copy, deliberate two-line subtitle, cover-width typography presets and wider readable phone fitting. docs/WRAPPED-BINDING-DECISION.md"
+    "24 October 2026: user approved narrow 35-degree illustrated binding wrap carried by the existing native cover, seven-column copy, deliberate two-line subtitle, cover-width typography presets and wider readable phone fitting. docs/WRAPPED-BINDING-DECISION.md",
+    "30 October 2026: user selected close composition match to Rooftop Observatory reference. Layered archival paper, authentic colour media, original-ten fan watch and full-size physics; representative live-review gate before remaining chapters. Actual 21st 36189/25500 sources retrieved; 2511 denied by daily code quota; 11714 not retrieved. Book identity preserved.",
+    "31 October 2026 Stage5: user accepted general story design and requested actual fluid polaroid mechanics. Source36189 string/damped physics restored via Motion scheduler; story-only momentum/pendulum settlement exception documented. Manual controls, touch, reduced motion, authentic media and no idle loop; book motion unchanged. See docs/story/STAGE-5.md.",
+    "31 October 2026: user approved all17 Rooftop Observatory chapter compositions and story-only three-family roles: EB Garamond600 headings/400 text, IBM Plex Sans500 labels, Nothing You Could Do400 annotations. Concise cinematic metadata is separate from exact complete reading text/archive order. Reusable compositions replace alternating columns; book design unchanged. See docs/story/COMPOSITION-REBUILD.md; LCP3.212s remains above target, human review pending.",
+    "31 October 2026: selective story green on chapter-period and From the archive labels; archive label spacing24px above/16px below. User explicitly approved this orientation-label accent exception. Main serif headings, handwritten numbers and book unchanged. docs/story/LABEL-REFINEMENT.md.",
+    "31 October2026 follow-up: green orientation-label treatment includes watch/physics/sum/bus and equivalent film/recollection section labels. Shared selector group prevents inconsistent overrides. Book and main headings unchanged.",
+    "31 October2026: user requires Vault custom iframe controls directly visible without parent Play gate. Near-viewport automatic mount,320px minimum control space, explicit player Play/autoplay0, native scrolling and frame cleanup/remount. Multiple ready visible frames with focus-based audio coordination. See docs/story/VAULT-DIRECT.md; all8 width/motion states and actual central Play pass.",
+    "31 October2026: user withdraws Gautham Chengappa reference from public presentation; other3 exact excerpts retained and historical evidence kept. Restore existing diagrams by isolating icon SVG sizing and correcting delivery-label width cascade; preserve Atlas materials/tokens/page IDs. Single-author continuation has no tablist. docs/ATLAS-DIAGRAM-REFERENCE-REPAIR.md."
   ],
   "evidence": [
     "docs/MONOGRAPH-MATERIALS-REVIEW.md",
@@ -179,5 +190,21 @@
     "docs/WRAPPED-BINDING-REVIEW.md",
     "tests/wrapped-binding.spec.ts"
   ],
-  "generatedAt": "2026-10-23T13:40:03.167Z"
+  "generatedAt": "2026-10-23T13:40:03.167Z",
+  "restoration": {
+    "date": "2026-10-28",
+    "direction": "Book-focused; recorded physical foley with rare resonance; explicit audio opt-in",
+    "reference": "docs/RESTORATION-UPDATE.md",
+    "materials": {
+      "foreEdge": 8,
+      "bottom": 4,
+      "boardOverhang": 4
+    },
+    "preserve": [
+      "native StPageFlip",
+      "Motion supporting effects",
+      "semantic live lettering",
+      "authentic evidence"
+    ]
+  }
 }

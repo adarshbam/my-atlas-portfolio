@@ -25,7 +25,7 @@ async function duration(page: Page, selector: string, target: number) {
 
 for (const width of [375, 768, 1280, 1920]) {
   for (const reduced of [false, true]) {
-    test(`${width}px ${reduced ? "reduced" : "native"}: portrait left, copy right, mobile cover proportions`, async ({
+    test(`${width}px ${reduced ? "reduced" : "native"}: editorial portrait right, copy left, mobile cover proportions`, async ({
       page,
     }) => {
       await page.setViewportSize({ width, height: width === 375 ? 844 : 1080 });
@@ -58,33 +58,31 @@ for (const width of [375, 768, 1280, 1920]) {
         (element) => ({
           bounds: element.getBoundingClientRect().toJSON(),
           portrait: element
-            .querySelector(".cover-art")!
+            .querySelector(".portrait-cover-art")!
             .getBoundingClientRect()
             .toJSON(),
           kicker: element
-            .querySelector(".cover-kicker")!
+            .querySelector(".running-head")!
             .getBoundingClientRect()
             .toJSON(),
           copy: element
-            .querySelector(".cover-copy")!
+            .querySelector(".portrait-cover-copy")!
             .getBoundingClientRect()
             .toJSON(),
-          children: Array.from(element.querySelectorAll(".cover-copy > *")).map(
+          children: Array.from(element.querySelectorAll(".portrait-cover-copy > *")).map(
             (child) => child.getBoundingClientRect().toJSON(),
           ),
         }),
       );
-      // The transparent canvas extends behind the copy; the illustration is
-      // composed at its left. Contain preserves the complete, uncropped head.
-      await expect(cover.locator(".cover-art")).toHaveCSS(
+      await expect(cover.locator(".portrait-cover-art")).toHaveCSS(
         "object-fit",
         "contain",
       );
-      expect(portrait.x).toBeLessThan(copy.x);
+      expect(copy.x).toBeLessThan(portrait.x + portrait.width);
+      expect(copy.x).toBeGreaterThanOrEqual(bounds.x - 1);
       expect(portrait.x + portrait.width).toBeLessThanOrEqual(
         bounds.x + bounds.width + 1,
       );
-      expect(kicker.x).toBeLessThan(copy.x);
       expect(kicker.y).toBeLessThan(copy.y + 1);
       for (const b of children) {
         expect(b.x).toBeGreaterThanOrEqual(copy.x - 1);
@@ -94,8 +92,16 @@ for (const width of [375, 768, 1280, 1920]) {
         );
       }
       if (width === 375) {
-        expect(bounds.width / bounds.height).toBeGreaterThan(0.65);
-        expect(bounds.width / bounds.height).toBeLessThan(0.72);
+        const readable = await cover.evaluate(element => {
+          const scale = Number(element.closest<HTMLElement>('#book')!.dataset.presentationScale);
+          return {
+            height: element.getBoundingClientRect().height / scale,
+            body: parseFloat(getComputedStyle(element.querySelector('.portrait-cover-note')!).fontSize) * scale,
+          };
+        });
+        // The premium phone page grows to preserve the text and touch targets.
+        expect(bounds.width / bounds.height).toBeGreaterThanOrEqual(0.679);
+        expect(readable.body).toBeGreaterThanOrEqual(18);
       }
     });
   }

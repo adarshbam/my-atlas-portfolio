@@ -16,7 +16,7 @@ export const opening = {
     src: "/images/editorial-portrait-960.webp",
     srcSet:
       "/images/editorial-portrait-480.webp 480w, /images/editorial-portrait-640.webp 640w, /images/editorial-portrait-960.webp 960w",
-    alt: "AI-generated editorial portrait of Adarsh Singh seated in a dark sweater, with his forearms resting in front",
+    alt: "Editorial portrait of Adarsh Singh seated in a dark sweater, with his forearms resting in front",
     width: 960,
     height: 1440,
   },
@@ -24,7 +24,7 @@ export const opening = {
 
 export type PageKind =
   | "cover"
-  | "portrait"
+  | "atlas-map"
   | "contents"
   | "project"
   | "contributions"
@@ -56,7 +56,7 @@ export const pages = [
   },
   {
     id: "introduction",
-    kind: "portrait",
+    kind: "atlas-map",
     title: "Introduction",
     runningHead: ["Portfolio", opening.edition],
     folio: "01",
@@ -245,14 +245,7 @@ export const references = [
     quote:
       "Adarsh is a talented, committed individual who will leave no stone unturned in his pursuit to provide with the best.",
   },
-  {
-    id: "gautham-chengappa",
-    pageId: "references-continued",
-    name: "Gautham Chengappa",
-    role: "Web Developer, UX Consultancy",
-    quote:
-      "He could peek inside my mind and made the site exactly as I wanted. Much appreciated",
-  },
+
 ] as const;
 
 export const professionalStory = {

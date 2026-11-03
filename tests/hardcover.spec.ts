@@ -57,7 +57,7 @@ for (const [width, height] of [
         geometry.foreEdge,
         geometry.bottomDepth,
         geometry.overhang,
-      ]).toEqual([16, 12, 8]);
+      ]).toEqual([16, 12, 12]);
       expect(Math.abs(board.x + board.width / 2 - width / 2)).toBeLessThan(2);
       expect(board.width).toBeCloseTo(
         b.width + (geometry.foreEdge + geometry.overhang * 2) * geometry.scale,
@@ -68,8 +68,8 @@ for (const [width, height] of [
       expect(target!.height).toBeGreaterThanOrEqual(44);
       expect(target!.width).toBeGreaterThanOrEqual(44);
       expect(geometry.overflow).toBe(false);
-      const artwork = cover.locator(".cover-art");
-      await expect(artwork).toHaveAttribute("alt", /unfinished charcoal/);
+      const artwork = cover.locator(".portrait-cover-art");
+      await expect(artwork).toHaveAttribute("alt", /portrait of Adarsh Singh/i);
       expect(
         await artwork.evaluate(
           (img: HTMLImageElement) => img.complete && img.naturalWidth > 0,
@@ -111,9 +111,9 @@ for (const [width, height] of [
 test("native cover drag grows with progress, reverses, cancels and commits without changing engines", async ({
   page,
 }) => {
-  // The proportional desktop pages already fit at taller sizes. A short
-  // viewport exercises the approved fit-closed / grow-open presentation.
-  await page.setViewportSize({ width: 1280, height: 720 });
+  // The desktop spread exceeds the closed cover height cap, exercising
+  // the approved fit-closed / grow-open presentation.
+  await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto("/");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
@@ -174,7 +174,7 @@ test("scaled middle-edge tap opens once and short-window resizing preserves a se
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto("http://127.0.0.1:4173");
+  await page.goto("/");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   const b = (await page
@@ -188,6 +188,7 @@ test("scaled middle-edge tap opens once and short-window resizing preserves a se
   await page.setViewportSize({ width: 768, height: 768 });
   await expect(book).toHaveAttribute("data-ready", "true");
   await expect(book).toHaveAttribute("data-presentation-scale", "1");
+  await page.getByRole("button", { name: "Contents", exact: true }).click();
   await page
     .getByRole("navigation", { name: "Portfolio chapters" })
     .getByRole("button", { name: "Cover", exact: true })
@@ -205,7 +206,7 @@ test("scaled middle-edge tap opens once and short-window resizing preserves a se
 test("native cover drag commits and reverse closing drag can cancel", async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.setViewportSize({ width: 1920, height: 1080 });
   await page.goto("/");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");

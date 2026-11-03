@@ -1,3 +1,4 @@
+import { goToChapter, chapterButton, openContents } from "./helpers/book";
 import { test, expect } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 import { pages } from "../src/data/portfolio";
@@ -7,10 +8,7 @@ test("D5-5.3.2 editable controls, widgets and consumed events own their arrow ke
 }) => {
   await page.goto("/");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
-  await page
-    .getByRole("navigation", { name: "Portfolio chapters" })
-    .getByRole("button", { name: "Vault Storage", exact: true })
-    .click();
+  await goToChapter(page, "Vault Storage");
   await expect(page.locator("#book")).toHaveAttribute("data-turning", "false");
   for (const kind of ["input", "textarea", "editable", "slider", "consumed"]) {
     await page.evaluate((kind) => {
@@ -48,8 +46,8 @@ for (const width of [375, 1280]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto("/");
     await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
-    const nav = page.getByRole("navigation", { name: "Portfolio chapters" });
-    await nav.getByRole("button", { name: "Pipeline", exact: true }).click();
+    const nav = page.locator(".chapter-nav");
+    await goToChapter(page, "Pipeline");
     await expect(page.locator("#book")).toHaveAttribute(
       "data-turning",
       "false",
@@ -93,13 +91,10 @@ for (const width of [375, 1280]) {
     await expect(book).toHaveAttribute("data-mode", "reduced");
     await expect(book).toHaveAttribute("data-turning", "false");
     await expect(page.locator(".flip-engine")).toHaveCount(0);
-    await page
-      .getByRole("navigation", { name: "Portfolio chapters" })
-      .getByRole("button", { name: "Contact", exact: true })
-      .click();
+    await goToChapter(page, "Contact");
     await expect(book).toHaveAttribute("data-logical-page", "12");
     await page
-      .getByRole("button", { name: "Reading mode", exact: true })
+      .getByRole("button", { name: "Reading view", exact: true })
       .click();
     await page.emulateMedia({ reducedMotion: "no-preference" });
     await expect(book).toHaveAttribute("data-mode", "reading");
@@ -120,7 +115,7 @@ test("D5-5.3.1 D5-5.3.5 full linear tab order reaches contact; active headings a
   page,
 }) => {
   await page.goto("/");
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
+  await page.getByRole("button", { name: "Reading view", exact: true }).click();
   await page.locator(".reading-document .cover-open").focus();
   await page.keyboard.press("Enter");
   await expect(page.locator("#reading-introduction h2")).toBeFocused();
@@ -162,7 +157,7 @@ for (const width of [375, 1280]) {
       await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
       if (mode === "reading")
         await page
-          .getByRole("button", { name: "Reading mode", exact: true })
+          .getByRole("button", { name: "Reading view", exact: true })
           .click();
       const targets =
         mode === "reading"

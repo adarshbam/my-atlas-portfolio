@@ -15,6 +15,7 @@ async function open(page: Page) {
   await page.evaluate(() => document.fonts.ready);
   await page.getByRole("button", { name: "Open book", exact: true }).click();
   await settled(page, 1);
+  await page.waitForTimeout(300);
 }
 async function drag(page: Page, forward: boolean, cancel = false, top = false) {
   const b = (await book(page).boundingBox())!;
@@ -307,7 +308,7 @@ for (const width of [375, 768, 1280, 1920])
       page.getByRole("button", { name: "Reading mode", exact: true }),
     ).toBeEnabled();
     await page
-      .getByRole("button", { name: "Introduction", exact: false })
+      .getByRole("button", { name: "Atlas map", exact: false })
       .click();
     await settled(page, 1);
     await page.getByRole("button", { name: "Next page", exact: true }).click();
@@ -402,7 +403,7 @@ test("keyboard, focus, contents link, repeated turns and resize cleanup", async 
   await expect(page.locator(".flip-engine")).toHaveCount(0);
   await page
     .getByRole("navigation", { name: "Portfolio chapters" })
-    .getByRole("button", { name: "Introduction", exact: true })
+    .getByRole("button", { name: "Atlas map", exact: true })
     .click();
   await settled(page, 1);
   await page.getByRole("button", { name: "Return to book" }).click();

@@ -17,6 +17,7 @@ function RunningHead({ left, right }: { left: string; right: string }) {
     <header className="running-head">
       <span>{left}</span>
       <span>{right}</span>
+      <span className="rule-draw" data-draw-rule aria-hidden="true" />
     </header>
   );
 }
@@ -68,21 +69,17 @@ function PageTemplate({
   );
 }
 
-function CoverArtwork({ decorative = false }: { decorative?: boolean }) {
+function CoverArtwork() {
   return (
     <img
-      className={decorative ? "cover-spine-art" : "cover-art"}
-      src="/images/charcoal-left-960.webp"
-      srcSet="/images/charcoal-left-480.webp 480w, /images/charcoal-left-640.webp 640w, /images/charcoal-left-960.webp 960w"
-      sizes="(max-width: 767px) 60vw, (max-width: 1439px) 40vw, 35vw"
-      width="960"
-      height="1440"
-      alt={
-        decorative
-          ? ""
-          : "An unfinished charcoal study of Adarsh Singh, dissolving into loose strokes"
-      }
-      fetchPriority={decorative ? "auto" : "high"}
+      className="portrait-cover-art"
+      src={opening.portrait.src}
+      srcSet={opening.portrait.srcSet}
+      sizes="(max-width: 767px) 84vw, (max-width: 1439px) 50vw, 45vw"
+      width={opening.portrait.width}
+      height={opening.portrait.height}
+      alt={opening.portrait.alt}
+      fetchPriority="high"
       draggable={false}
     />
   );
@@ -91,56 +88,42 @@ function CoverArtwork({ decorative = false }: { decorative?: boolean }) {
 export function CoverPage({ page }: PageProps) {
   return (
     <article
-      className="book-page page--cover"
+      className="book-page page--cover page--portrait-cover"
+      data-density="hard"
       data-page={pageIndex(page.id)}
       data-page-id={page.id}
       aria-label={page.title}
     >
       <div className="sheet-surface">
         <CoverArtwork />
-        <div className="cover-spine" aria-hidden="true">
-          <div className="cover-spine-canvas">
-            <CoverArtwork decorative />
-          </div>
-        </div>
-        <div className="page-inner cover-inner">
-          <p className="cover-kicker">Portfolio · 2026</p>
-          <div className="cover-copy">
-            <h2 className="cover-name" tabIndex={-1}>
+        <div className="cover-spine" aria-hidden="true" />
+        <div className="page-inner cover-inner portrait-cover-inner">
+          <RunningHead left="Portfolio" right={opening.edition} />
+          <div className="portrait-cover-copy">
+            <h2 tabIndex={-1}>
               {opening.firstName}
               <br />
               {opening.lastName}
-              <span aria-hidden="true">.</span>
             </h2>
-            <p className="cover-title">
-              <em>
-                {opening.coverTitleLines.map((line) => (
-                  <span key={line}>{line}</span>
-                ))}
-              </em>
+            <div className="short-rule" />
+            <p className="eyebrow">{opening.role}</p>
+            <p className="portrait-cover-stack">
+              <span>React · Node.js</span>
+              <span className="stack-separator"> · </span>
+              <span>TypeScript</span>
             </p>
-            <p className="cover-positioning">
-              <span className="cover-role">{opening.role}</span>
-              <span className="cover-stack">
-                {opening.stack.split(" · ").map((technology, index) => (
-                  <span key={technology}>
-                    {index ? " · " : ""}
-                    {technology}
-                  </span>
-                ))}
-              </span>
-            </p>
+          </div>
+          <p className="portrait-cover-note">{opening.introduction}</p>
+          <div className="portrait-cover-footer">
             <button
               type="button"
-              className="text-link cover-open"
+              className="text-link cover-open cover-folio-button"
               data-turn-page-id="introduction"
+              aria-label="Open book"
             >
-              Open book <ArrowRight aria-hidden="true" />
+              Open book
             </button>
-            <p className="cover-volume" aria-hidden="true">
-              <span>Selected work</span>
-              <span>Vol. 01</span>
-            </p>
+            <span className="portrait-cover-atlas">{opening.title}</span>
           </div>
         </div>
       </div>
@@ -238,10 +221,14 @@ export function SystemDiagram({ compact = false }: { compact?: boolean }) {
         className="diagram-nodes diagram-scroll"
         tabIndex={0}
         role="region"
-        aria-label="System components; scroll horizontally on small screens"
+        aria-label={
+          compact
+            ? "Selected work system overview; scroll horizontally on small screens"
+            : "Vault file flow; scroll horizontally on small screens"
+        }
       >
         <div className="diagram-canvas">
-          <FileFlowDrawing />
+          {compact ? <CompactFileDrawing /> : <FileFlowDrawing />}
           <div className="diagram-node diagram-node--browser">
             <span>Browser</span>
             <small>Workspaces & UI</small>
@@ -274,6 +261,13 @@ export function SystemDiagram({ compact = false }: { compact?: boolean }) {
       </span>
       {!compact && (
         <>
+          <button
+            type="button"
+            className="text-link trace-flow"
+            data-trace-flow
+          >
+            Trace file flow
+          </button>
           <div className="diagram-integrations">
             <div className="diagram-integration">
               <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
@@ -322,34 +316,81 @@ export function SystemDiagram({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function PortraitPage({ page }: PageProps) {
+export function AtlasMapPage({ page }: PageProps) {
   return (
-    <PageTemplate page={page} className="page--portrait">
-      <img
-        className="portrait"
-        src={opening.portrait.src}
-        srcSet={opening.portrait.srcSet}
-        sizes="(max-width: 767px) 60vw, (max-width: 1439px) 40vw, 35vw"
-        width={opening.portrait.width}
-        height={opening.portrait.height}
-        fetchPriority="low"
-        loading="lazy"
-        decoding="async"
-        alt={opening.portrait.alt}
-        draggable={false}
-      />
-      <div className="portrait-copy">
-        <h2 tabIndex={-1}>
-          {opening.firstName}
-          <br />
-          {opening.lastName}
-        </h2>
-        <div className="short-rule" />
-        <p className="eyebrow">{opening.role}</p>
-        <p className="portrait-stack">{opening.stack}</p>
+    <article
+      className="book-page page--portrait page--introduction"
+      data-page={pageIndex(page.id)}
+      data-page-id={page.id}
+      aria-label="Introduction"
+    >
+      <div className="sheet-surface">
+        <img
+          className="introduction-portrait"
+          src={opening.portrait.src}
+          srcSet={opening.portrait.srcSet}
+          sizes="(max-width: 767px) 84vw, 45vw"
+          width={opening.portrait.width}
+          height={opening.portrait.height}
+          alt={opening.portrait.alt}
+          draggable={false}
+        />
+        <div className="page-inner introduction-inner">
+          <RunningHead left="Portfolio" right="2026" />
+          <div className="introduction-copy">
+            <h2 tabIndex={-1}>
+              {opening.firstName}
+              <br />
+              {opening.lastName}
+            </h2>
+            <div className="short-rule" />
+            <p className="eyebrow">{opening.role}</p>
+            <p className="introduction-stack">{opening.stack}</p>
+          </div>
+          <p className="introduction-note">{opening.introduction}</p>
+          <Folio number={page.folio} label={page.footer} />
+        </div>
       </div>
-      <p className="portrait-note">{opening.introduction}</p>
-    </PageTemplate>
+    </article>
+  );
+}
+
+function CompactFileDrawing() {
+  return (
+    <svg
+      className="diagram-geometry"
+      viewBox="0 0 720 330"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <g className="diagram-routes">
+        <path className="diagram-route" d="M124 190H286" />
+        <path className="diagram-route" d="M286 204H124" />
+        <path className="diagram-route" d="M100 150V62Q100 50 112 50H424" />
+        <path className="diagram-route" d="M504 76H610Q622 76 622 88V152" />
+        <path className="diagram-route" d="M610 152V100Q610 88 598 88H504" />
+        <path className="diagram-route" d="M594 220V312H100V218" />
+        <path
+          className="diagram-arrowhead"
+          d="m278 186 8 4-8 4m-146 6-8 4 8 4m278-158 8 4-8 4m194 94 4 8 4-8m-126-60-8 4 8 4M96 226l4-8 4 8"
+        />
+      </g>
+      <g className="diagram-platform">
+        <path className="diagram-plane-side" d="m45 118 65 27v58l-65-27Z" />
+        <path className="diagram-plane-top" d="m51 128 53 22v44l-53-22Z" />
+        <path className="diagram-plane-top" d="m45 176 65 27 27 16-65-27Z" />
+        <path className="diagram-detail" d="m56 184 51 21m-40-16 20 8" />
+      </g>
+      <DiagramStack x={333} y={160} />
+      <DiagramStack x={465} y={36} />
+      <g className="diagram-platform">
+        <path
+          className="diagram-plane-top"
+          d="M579 208c-24-2-27-31-8-40 0-20 24-28 38-15 20-23 54-6 52 17 26 3 27 37 0 38Z"
+        />
+        <path className="diagram-detail" d="M579 214h82c16 0 25-13 23-23" />
+      </g>
+    </svg>
   );
 }
 
@@ -433,7 +474,11 @@ export function VaultPage({ page }: PageProps) {
   );
 }
 
-function VaultFigure({ image }: { image: keyof typeof vaultStudy.images }) {
+export function VaultFigure({
+  image,
+}: {
+  image: keyof typeof vaultStudy.images;
+}) {
   const asset = vaultStudy.images[image];
   return (
     <figure className={`vault-figure vault-figure--${image}`}>
@@ -653,20 +698,22 @@ export function HarigurusPage({ page }: PageProps) {
 }
 
 export function ReferencesPage({ page }: PageProps) {
+  const pair = references.filter((reference) => reference.pageId === page.id);
   return (
     <PageTemplate page={page} className="page--case page--references">
       <h2 className="case-title" tabIndex={-1}>
         {page.title}
       </h2>
-      <div className="reference-list">
-        {references
-          .filter((reference) => reference.pageId === page.id)
-          .map((reference) => (
-            <figure
-              className="reference"
-              key={reference.id}
-              data-reference-id={reference.id}
-            >
+      <div className="reference-list reference-featured">
+        {pair.map((reference, index) => (
+          <div
+            className="reference"
+            key={reference.id}
+            data-reference-id={reference.id}
+            aria-hidden={index !== 0}
+            inert={index !== 0}
+          >
+            <figure className="reference-quote">
               <blockquote>
                 <p>“{reference.quote}”</p>
               </blockquote>
@@ -688,8 +735,43 @@ export function ReferencesPage({ page }: PageProps) {
                 </div>
               </figcaption>
             </figure>
-          ))}
+          </div>
+        ))}
       </div>
+      {pair.length > 1 && (
+        <div
+          className="reference-tabs"
+          role="tablist"
+          aria-label={`${page.title} authors`}
+        >
+          {pair.map((reference, index) => (
+            <button
+              type="button"
+              role="tab"
+              key={reference.id}
+              data-reference-select={reference.id}
+              aria-selected={index === 0}
+              tabIndex={index === 0 ? 0 : -1}
+            >
+              {reference.name}
+            </button>
+          ))}
+        </div>
+      )}
+      <button
+        type="button"
+        className="text-link reference-read-all"
+        data-reference-all
+      >
+        Read all references <ArrowRight aria-hidden="true" />
+      </button>
+      <button
+        type="button"
+        className="text-link reference-show-featured"
+        data-reference-featured
+      >
+        Show featured quotes
+      </button>
     </PageTemplate>
   );
 }
@@ -792,7 +874,7 @@ export function ColophonPage({ page }: PageProps) {
 
 const pageRenderers: Record<PageKind, React.ComponentType<PageProps>> = {
   cover: CoverPage,
-  portrait: PortraitPage,
+  "atlas-map": AtlasMapPage,
   contents: ContentsPage,
   project: VaultPage,
   contributions: ContributionsPage,

@@ -233,3 +233,65 @@ Use a compact outside-book toolbar and reference-led editorial hierarchy: a rest
 
 The five-surface sample, native cover/interior timings, accessibility and reduced-motion behavior, performance/asset budgets, seven-session/21-hour schedule and October 30 off remain unchanged. This approval authorizes the redesign; it does not establish visual likeness or continuous-motion acceptance, authorize a deployment, or expand the schedule.
 
+
+## Explicit final-update amendment — 27 October 2026
+The user approved pure black ink (#000000), the existing editorial portrait as the sole cover, a cream atlas map replacing the duplicate introduction, purposeful reading-mode motion independent of reduced motion, desktop sticky Vault evidence, and two-author manual testimonial crossfades on each reference face in both presentations. Thirteen surfaces, durable IDs, native engine/timing, authentic content and reduced-motion support remain. This supersedes earlier near-black, illustrated-cover and static-reading requirements. Full scope/checkpoint: docs/FINAL-INTERACTION-UPDATE.md. No publication or schedule extension.
+
+## Approved restoration amendment — 28 October 2026
+The user approved the book-focused restoration plan: preserve the portrait composition using the clean transparent editorial portrait on pure-black ink and live HTML copy; use one restrained material stack with 8px fore-edge, 4px bottom depth and 4px board overhang. Remove the trailer, stock-photo carousel, magnetic footer and word-by-word effects. Keep native StPageFlip geometry, immediate readable text, 13 surfaces and factual evidence. Supporting Motion routes/rules and complete testimonial crossfades are allowed; printed text remains anchored. Recorded licensed physical foley and rare synthesized resonance require explicit visitor opt-in, remembered preference, cancellation, hidden/reduced suppression and no hover/scroll audio. No deployment or automatic schedule extension. Implementation and measured results: docs/RESTORATION-UPDATE.md.
+
+## Story-only amendment — 30 October 2026
+The user explicitly approved the Stage 3 story plan: illustration plus authentic-colour archive media, native scroll-led scenes, larger purposeful illustrated-object travel and transitions, captions-first narration, and five optional interactions. This overrides sections 2/4/5 only for the isolated story experience where required by that plan; the main book remains unchanged. Keep semantic text, keyboard/touch equivalents, reduced motion, no scroll trapping, no autoplay audio, no mandatory task gates and Motion as the sole story animation library. Implementation: docs/story/STAGE-3.md. No deployment or automatic schedule extension.
+
+
+## Rooftop Observatory story-only amendment — user approved
+The separate /story documentary uses its own dark night-sky design, warm archival materials, handwritten notes, full-colour real archives and Motion-driven 2D narrative. A manually controlled memory carousel may have brief bounded swing after user action; no auto-loop, and reduced motion is still. Original alien-inspired silhouettes and custom opt-in click sound are permitted for the optional watch. Native scrolling, immediate readable semantic text, keyboard/touch, contrast, reduced-motion and performance requirements remain. The book's palette, typography, thirteen surfaces, page-turn, audio and design are unchanged; short route crossfade and entry/return link are allowed. No deployment.
+
+
+## Reference-led story rebuild — 30 October 2026
+The user explicitly approved a close composition match to the Rooftop Observatory reference: layered warm paper, overlapping authentic archives, large illustrated physics and watch scenes, compact editorial controls, native-scroll cinematic progression and a manually controlled hanging-photo gallery. The watch uses newly drawn recognisable fan silhouettes of the original ten Ben 10 aliens, selectable dial, repeatable activation, non-strobing transformation wash and optional custom click sound. This supersedes the earlier four invented symbols only in /story. Static material textures and bounded scene movement remain story-only; keep semantic text, native scroll, reduced motion, keyboard/touch and unchanged book identity. Retrieve 21st source before claiming integration; catalogue denial is a limitation, not permission to bypass retrieval controls. Review the representative sequence before applying its treatment to all remaining chapters. No deployment.
+
+
+## Stage 5 carousel amendment — 31 October 2026
+Adarsh explicitly accepted the story’s current general design and requested the fluid, interactive hanging-photo mechanics of kedhareswer’s 21st carousel. Permit velocity-coupled pendulum swing, critically damped translation, release momentum and small reversible physical settlement only within the story’s manually operated memory carousel. The thread and peg positions must agree; active-print clicks may trigger a short tactile response. Stop scheduling at rest, offscreen, on hide and under reduced motion. No autoplay, idle breeze, mandatory dragging or changes to book motion. This supersedes only the earlier canned/bounded no-spring interpretation for the story carousel. Stage 5 also authorizes critique and polish of the story’s current design, not replacement with another direction.
+
+
+## Chapter organization and type roles — 31 October 2026
+The user explicitly approved the full17-chapter composition/typography plan. Tighten cinematic narration while preserving all original reading text and archive IDs. The isolated story may use three families: EB Garamond400/600 for body/headings, IBM Plex Sans500 for labels/controls, Nothing You Could Do400 for restrained notes. This supersedes the story's former two-serif-plus-system-handwriting treatment and its two-family default only for this approved story system. Self-host Latin WOFF2 with licences. All17 chapters receive explicit, related compositions; automatic alternating columns and indiscriminate paper wrappers are removed. Keep native scroll, semantic text, stable chapter IDs, all70 distinct images/ten local recordings, existing interactions, reduced motion, and the book's identity/return state. User explicitly authorized expansion beyond the earlier representative-sequence gate. Video hosting remains a separate pending decision; no uploads, storage migration or deployment.
+
+
+## Physics landing sound — 31 October 2026
+The user explicitly requests a default-on short thud when the brick and pebble land, without a separate sound toggle. This story-only exception applies to user-triggered predictions and Replay; no sound on load or scroll. Synchronize with actual animation completion, or immediate static outcome under reduced motion. Cancel stale/repeated runs and stop on scene exit, hiding, other media or unmount. Watch opt-in and book audio rules stay unchanged.
+
+
+## Story section-label emphasis — 31 October 2026
+The user explicitly requests accent green for chapter period labels and numbered From the archive labels, with more separation around the archive labels. Permit these selective orientation labels to use the existing story green; this is scoped to /story and does not recolour serif headings, body copy, handwritten chapter numerals or book labels. Reuse existing spacing tokens.
+
+
+31 October 2026 follow-up: user explicitly requested fixing the missed Omnitrix interaction label. Apply the same existing green to equivalent night-surface interaction, films and recollection section labels. Keep hero/footer labels, watch counters, main headings and paper-stage captions in their established roles.
+
+
+## Vault recording delivery — 31 October2026
+The user supplied the published public-folder manifest and authorized integrating its original filenames/API metadata. This is the previously separate video-delivery follow-up, now approved for playback integration. Resolve signed streams at runtime; preserve stable archive IDs, captions, poster layout, explicit Play, native controls and cleanup. Nine hosted recordings verified; missing unboxing remains local. Retain all local copies as fallback in this task; no uploads, deletion, Vault policy/code changes or portfolio deployment. Book and story visual identity remain unchanged.
+
+
+31 October2026 hosted-film follow-up: user explicitly replaces YouTube playback with the3 uploaded Vault films in the published subfolder, plus adds laptop unboxing. Permit native Vault film players and Vault playlist links in both story views, preserving exact source-film association, explicit Play, controls, failure/retry handling and media cleanup. All13 videos verified hosted. Original YouTube IDs may remain as provenance/matching identifiers; no YouTube embed fallback required. No book change or deployment.
+
+
+## Vault custom iframe player — 31 October2026
+The user explicitly replaces native browser controls with Vault's own iframe player for all13 recordings/films in both story views. Use the manifest's per-file embed URL, securely normalized to HTTPS on the known Vault host. Retain explicit Play, controls, fullscreen/PiP and a titled responsive frame. Lazy click-to-load presentation and one mounted iframe at a time keep the story usable. Without a documented cross-origin pause API, scene exit/hiding/other media/unmount removes the frame; reopening restarts playback. This supersedes the prior native-player choice only for story video presentation. Book identity unchanged; no deployment.
+
+
+## Direct Vault controls — 31 October2026 follow-up
+User explicitly removes the extra parent Play-to-load gate. Automatically mount near-viewport titled Vault iframes so the provider's own Play control is directly available; keep autoplay disabled. Multiple visible ready frames are permitted, with focus-based reset of other audio frames. Unload on scene exit/hide/unmount and remount paused on return; no fabricated cross-origin pause API. Minimum320px embed control area is a story media sizing token, preserving content aspect within the provider's player. This supersedes the previous click-to-load/one-mounted-frame presentation. All8 responsive/motion states and actual central Play verified; Vault root-height conflict fixed by user. No book change or deployment.
+
+
+## Reference withdrawal and diagram repair — 31 October2026
+The user explicitly requests removing Gautham Chengappa from the public portfolio. Remove his runtime quote, name, role, author control and two public portrait derivatives. Preserve the other3 quotations verbatim and keep historical source/provenance outside shipped presentation; no Git history rewrite. Preserve reference page IDs/folio count; a single remaining author is a direct figure without a redundant tab selector, with appropriate grouped panel semantics and focus recovery. Restore existing book SVG diagrams by restricting generic icon sizing to actual icon SVGs, keep labelled geometry full size, preserve the approved Atlas tokens and responsive diagram-only scrolling. No story redesign or deployment.
+
+
+## Approved amendment — 3 November 2026, modernization pass
+
+Adarsh approved the complete premium-book implementation plan. Supersede section 2 desk-only palette restrictions: Light stone #d8d6d0 / Dark graphite #343635, Light default with remembered manual choice, one static desk light falloff. Ivory #efe9de and black cover remain. Require fine static grain on all black/charcoal book/story surfaces. Supersede section 4 and prior material geometry with 12px board overhang, 4px board-only radius, 3px board band, 16px maximum fore-edge and 12px bottom page depth. Permit static cloth, page curvature, top-left lighting, neutral contact/ambient shadows; pages stay square. Restore approved portrait at introduction ID in place of cream atlas map, preserve navigation in Contents. Match generated previews using existing portrait assets, live HTML and factual SVG; preserve 13 IDs and content. Compact shell: Contents, Reading view, Light/Dark and bottom arrows; viewport-fit complete object without shrinking readable body text, accessible scroll fallback.
+
+Supersede gesture-dependent density: native hard cover and soft interior pages for all inputs; remove independent perspective spine projection; native progress owns presentation. Retain 1200ms cover, 800ms interior, 180/420ms support, 70ms stagger, 200ms reduced crossfade and prior cover-fit scale exception. /story retains night identity, imagery and interactions, adding static grain and overflow correction. No deployment, new engine/dependency or schedule extension. Accessibility, texture <=30KB, portrait <=200KB, CLS <0.05 and other budgets remain. Approval is implementation authorization, not final visual/live-motion acceptance. Active record docs/MODERNIZATION-IMPLEMENTATION.md.
