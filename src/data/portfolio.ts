@@ -138,9 +138,9 @@ export const pages = [
     id: "security-lab",
     kind: "security",
     title: "Security Lab & Practice",
-    runningHead: ["04 / Security Lab", "Loopback laboratory & stack"],
+    runningHead: ["04 / Security Lab", "Seven connected labs"],
     folio: "11",
-    footer: "Local-only lab · evidenced stack",
+    footer: "28 experiments · local HTTPS",
   },
   {
     id: "colophon",
@@ -179,7 +179,7 @@ export const projects: readonly Project[] = [
   {
     number: "02",
     name: "CI/CD Pipeline Engine",
-    detail: "DAG scheduling & bounded concurrency",
+    detail: "Signed webhooks · DAG runner · live dashboard",
     href: "https://github.com/adarshbam/ci-cd-pipeline-engine",
     repository: "https://github.com/adarshbam/ci-cd-pipeline-engine",
     destination: { kind: "page", id: "pipeline" },
@@ -196,7 +196,7 @@ export const projects: readonly Project[] = [
   {
     number: "04",
     name: "Security Lab",
-    detail: "Loopback cookie, CSRF & JWT lab",
+    detail: "Seven labs · access control to JWT",
     href: "https://github.com/adarshbam/security-lab",
     repository: "https://github.com/adarshbam/security-lab",
     destination: { kind: "page", id: "security-lab" },
@@ -281,7 +281,7 @@ export const professionalStory = {
     {
       company: "Harigurus",
       role: "Full Stack Developer",
-      dates: "2022–2023 · 8 months",
+      dates: "2022 · about 8 months",
       detail:
         "React and Node.js booking flows, Razorpay verification and Twilio SMS.",
     },
@@ -290,7 +290,7 @@ export const professionalStory = {
       role: "Freelance Frontend Developer",
       dates: "2022",
       detail:
-        "Delivered three responsive client pages in HTML, CSS and JavaScript.",
+        "Delivered a small set of responsive client pages in HTML, CSS and JavaScript.",
     },
   ],
 } as const;
@@ -305,6 +305,15 @@ export const vaultStudy = {
   contribution:
     "I independently built the GitHub and Drive workspaces, cross-service transfers, owner controls, runtime plan rules, and billing.",
   images: {
+    accounts: {
+      full: "/images/vault/accounts-1920.webp",
+      src: "/images/vault/accounts-1200.webp",
+      srcSet: "/images/vault/accounts-640.webp 640w, /images/vault/accounts-1200.webp 1200w, /images/vault/accounts-1920.webp 1920w",
+      width: 1200,
+      height: 297,
+      alt: "Vault administration snapshot showing 10 registered accounts, 1 active session, 3 admin nodes and 45.01 TB cumulative provisioned storage quota",
+      caption: "Supplied administration snapshot · 10 registered accounts · 45.01 TB provisioned quota. Quota is allocated capacity; occupied storage is not shown.",
+    },
     workspace: {
       full: "/images/vault/github-workbench-source.jpg",
       src: "/images/vault/github-workbench-1200.webp",
@@ -364,3 +373,14 @@ export const vaultStudy = {
     },
   ],
 } as const;
+
+
+export const securityLabs = [
+  { title: "Broken access control", detail: "Object ownership on file reads, deletion and folder cascades." },
+  { title: "Privilege escalation", detail: "Persisted role changes, profile allowlists and admin permissions." },
+  { title: "HttpOnly cookies vs localStorage", detail: "Script access, automatic credentials, scope and expiry." },
+  { title: "SameSite & CSRF", detail: "Cross-site requests, state changes, token and Origin checks." },
+  { title: "Injection attacks", detail: "SQLite parameters, document query operators and type coercion." },
+  { title: "XSS attacks & CSP", detail: "Reflected, stored and DOM input; safe rendering and policy enforcement." },
+  { title: "JWT: decode, verify & exploit", detail: "Signature verification, historical verifier flaws, credential isolation and request size." },
+] as const;

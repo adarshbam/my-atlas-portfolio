@@ -138,6 +138,15 @@
   --hairline: 1px;
   --book-radius: 4px;
   --target: 44px;
+  --pipeline-preview-height: var(--s32);
+  --harigurus-evidence-height: var(--s32);
+  --page-scroll-hint-space: var(--s16);
+  --page-scroll-hint-layer: 2;
+  --page-scroll-control-size: var(--target);
+  --page-scroll-disc-size: var(--s8);
+  --page-scroll-control-radius: 50%;
+  --page-scroll-control-inset: var(--s2);
+  --page-scroll-step: var(--s32);
   --focus-offset: 3px;
   --reading-toolbar-layer: 30;
   --icon-stroke: 1.25;

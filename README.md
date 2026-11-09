@@ -9,7 +9,10 @@ Adarsh Singh's software engineering portfolio, presented as an editorial book wi
 - Thirteen semantic book-page records covering selected projects, contribution boundaries, engineering decisions, references, and contact details.
 - Native hard-cover/interior page turns, chapter navigation, keyboard/touch input, and a reduced-motion presentation.
 - Continuous Reading view using the same project content and preserving logical position when returning.
-- A separate `/story` experience for personal history and media.
+- A twenty-chapter `/story` tracing early experiments, learning projects, professional work, client feedback and Octoworlds.
+- Full-screen framed image inspection with lazy high-resolution originals, zoom, panning and keyboard controls.
+- An in-page résumé PDF preview with optional download and a new-tab alternative.
+- Seven connected Security Lab modules and 28 experiments, described with a clear local-only runtime boundary.
 
 React · TypeScript · Vite · StPageFlip · Motion. Static output; no portfolio-owned backend or account configuration is required to run the book. Hosted story media can use an external provider.
 

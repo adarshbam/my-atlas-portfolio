@@ -2183,6 +2183,28 @@ button {
 .vault-figure figcaption {
   margin-top: var(--s2);
 }
+.pipeline-preview img {
+  max-height: var(--pipeline-preview-height);
+  object-fit: contain;
+  object-position: left center;
+}
+.vault-adoption > .vault-figure { margin-top: var(--s3); }
+.reading-evidence .vault-figure + .vault-figure { margin-top: var(--s6); }
+.harigurus-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s4);
+}
+.harigurus-figure img {
+  max-height: var(--harigurus-evidence-height);
+  object-fit: contain;
+  object-position: left center;
+}
+@media (max-width: 767px) {
+  .harigurus-gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
 .page--case .project-links {
   margin: 0;
   gap: var(--s2) var(--s4);
@@ -2721,4 +2743,11 @@ button {
   .portrait-cover-stack > span { display: block; }
   .portrait-cover-stack > .stack-separator { display: none; }
   .portrait-cover-note { width: var(--cover-mobile-note-width); max-width: none; font-size: var(--cover-note-size); }
+}
+
+/* Authentic lab evidence retains its native colour and aspect ratio. */
+.security-figure img {
+  max-height: calc(var(--s32) + var(--s16));
+  object-fit: contain;
+  object-position: left center;
 }

@@ -23,6 +23,7 @@ import { useBookPresentation } from "@/lib/use-book-presentation";
 import { useMediaQuery } from "@/lib/use-media-query";
 import { useReferenceInteractions } from "@/lib/use-reference-interactions";
 import { usePageMotion } from "@/lib/use-page-motion";
+import { usePageScrollHints } from "@/lib/use-page-scroll-hints";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { useSound } from "@/lib/audio/use-sound";
 import { soundEngine, type Interaction } from "@/lib/audio/sound-engine";
@@ -236,6 +237,7 @@ export default function Book({
       }
     };
     const outside = (event: PointerEvent) => {
+      if ((event.target as Element).closest(".media-inspector")) return;
       if (
         !contentsPanel.current?.contains(event.target as Node) &&
         !contentsTrigger.current?.contains(event.target as Node)
@@ -259,6 +261,7 @@ export default function Book({
     announce: setAnnouncement,
   });
   usePageMotion(presentation, reduced, readMode, turning, ready, page);
+  usePageScrollHints(presentation, readMode, ready);
   const group = readMode ? [page] : visiblePages(page, mobile);
   const previous = adjacentPage(page, -1, readMode || mobile);
   const next = adjacentPage(page, 1, readMode || mobile);
@@ -812,6 +815,7 @@ export default function Book({
       setVisible(Number(event.data));
     });
     engine.on("changeState", (event: FlipEvent) => {
+      presentation.current?.setAttribute("data-native-state", String(event.data));
       setTurning(event.data === "flipping" || event.data === "user_fold");
       if (event.data === "flipping" || event.data === "user_fold") {
         if (!interaction && (event.data === "flipping" || mouseActive)) {
@@ -1341,7 +1345,7 @@ export default function Book({
             <a href={github} target="_blank" rel="noreferrer">
               GitHub <ArrowUpRight aria-hidden="true" />
             </a>
-            <a href="/adarsh-singh-resume.pdf" download>
+            <a href="/adarsh-singh-resume.pdf">
               Résumé <ArrowUpRight aria-hidden="true" />
             </a>
             <a

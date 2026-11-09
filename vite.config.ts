@@ -4,6 +4,14 @@ import tailwindcss from "@tailwindcss/vite";
 import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig({
+  build: {
+    rollupOptions: {
+      input: {
+        atlas: fileURLToPath(new URL("./index.html", import.meta.url)),
+        pipeline: fileURLToPath(new URL("./projects/ci-cd-engine.html", import.meta.url)),
+      },
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),

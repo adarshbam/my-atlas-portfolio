@@ -1,7 +1,8 @@
 import { memo } from "react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight } from "lucide-react";
 import {
   opening,
+  securityLabs,
   projects,
   vaultStudy,
   harigurusShop,
@@ -64,6 +65,9 @@ function PageTemplate({
           <div className="page-content page-grid">{children}</div>
           <Folio number={page.folio} label={page.footer} />
         </div>
+        <button type="button" className="page-scroll-hint" hidden aria-label="Scroll down this page">
+          <ArrowDown aria-hidden="true" />
+        </button>
       </div>
     </article>
   );
@@ -460,6 +464,11 @@ export function VaultPage({ page }: PageProps) {
         <p>{vaultStudy.problem}</p>
       </div>
       <VaultFigure image="workspace" />
+      <section className="case-group vault-adoption" aria-label="Vault adoption evidence">
+        <h3>In use beyond the demo</h3>
+        <p>Deployed with external users. The administration snapshot records 10 registered accounts and 45.01 TB of provisioned quota.</p>
+        <VaultFigure image="accounts" />
+      </section>
       <div className="project-links">
         <External href={projects[0].href}>Explore Vault</External>
         <External href={projects[0].repository}>Source</External>
@@ -486,7 +495,7 @@ export function VaultFigure({
         href={asset.full}
         target="_blank"
         rel="noreferrer"
-        aria-label={`Open full ${image === "workspace" ? "GitHub workbench" : "Owner Control Center"} capture`}
+        aria-label={`Open full ${image === "workspace" ? "GitHub workbench" : image === "accounts" ? "Vault account metrics" : "Owner Control Center"} capture`}
       >
         <img
           src={asset.src}
@@ -596,49 +605,50 @@ export function DecisionsPage({ page }: PageProps) {
 
 export function PipelinePage({ page }: PageProps) {
   return (
-    <PageTemplate page={page} className="page--case page--supporting">
+    <PageTemplate page={page} className="page--case page--supporting page--pipeline">
       <h2 className="case-title" tabIndex={-1}>
-        CI/CD Pipeline Engine
+        GitHub CI/CD Engine
       </h2>
       <div className="story">
         <p>
-          A TypeScript engine for webhook-triggered workflows and
-          dependency-aware job execution.
+          From a signed GitHub push to dependency-aware jobs, live logs and
+          a React Flow dashboard.
         </p>
       </div>
-      <section className="case-group">
-        <h3>From milestones to an engine</h3>
-        <p>
-          From structured deployment prompts, I implemented scheduling,
-          concurrency and process lifecycle handling.
-        </p>
-      </section>
+      <figure className="vault-figure pipeline-preview">
+        <a href="/projects/ci-cd-engine.html" target="_blank" rel="noreferrer" aria-label="Explore the GitHub CI/CD Engine case study and screenshots">
+          <img src="/images/pipeline/dashboard-640.webp" srcSet="/images/pipeline/dashboard-640.webp 640w, /images/pipeline/dashboard-1200.webp 1200w" sizes="(max-width: 767px) 76vw, 38vw" width={1200} height={654} alt="CI/CD management dashboard showing recent runs and configured workflows" loading="lazy" decoding="async" />
+        </a>
+        <figcaption>Original dashboard capture · Explore the case study ↗</figcaption>
+      </figure>
       <ol className="process-notes" aria-label="Pipeline execution flow">
         <li>
           <span>01</span>
-          <p>Verify webhook signatures and deduplicate deliveries.</p>
+          <p>Authenticate webhooks; filter and deduplicate pushes.</p>
         </li>
         <li>
           <span>02</span>
           <p>
-            Schedule dependencies with two slots per run; skip blocked jobs.
+            Resolve dependencies with two slots per run; diagnose cycles.
           </p>
         </li>
         <li>
           <span>03</span>
-          <p>Run host processes with retries, timeouts and cancellation.</p>
+          <p>Inspect logs and history; retry, time out or cancel jobs.</p>
         </li>
       </ol>
       <section className="case-group">
         <p>
-          <em>The tradeoff.</em> Readiness waits for each wave to settle. Host
-          processes retain the runner’s OS permissions.
+          Built from structured deployment milestones. Readiness waits for each
+          wave; commands retain the runner’s OS permissions.
         </p>
       </section>
       <p className="case-evidence-note">
-        Five unit-test files passed; full-engine behavior was source-reviewed.
+        Updated source and supplied captures reviewed; no production deployment
+        performed for this case study.
       </p>
       <div className="project-links">
+        <External href="/projects/ci-cd-engine.html">Full case study</External>
         <External href={projects[1].repository}>Repository</External>
         <External
           href={`${projects[1].repository}/blob/main/src/scheduler/pipeline-scheduler.ts`}
@@ -658,7 +668,7 @@ export function HarigurusPage({ page }: PageProps) {
           Harigurus
         </h2>
         <p className="case-audience">
-          Full Stack Developer · 2022–2023 · 8 months
+          Full Stack Developer · 2022 · about 8 months
         </p>
       </div>
       <div className="story">
@@ -666,6 +676,38 @@ export function HarigurusPage({ page }: PageProps) {
           I built ceremony-booking features connecting customers with purohits,
           from appointment details to confirmation.
         </p>
+      </div>
+      <div className="harigurus-gallery" role="group" aria-label="Inside Harigurus">
+        <figure className="vault-figure harigurus-figure">
+          <a href="/images/harigurus/services-1920.webp" target="_blank" rel="noreferrer" aria-label="View the Harigurus service-booking homepage screenshot full-size">
+            <img
+              src="/images/harigurus/services-640.webp"
+              srcSet="/images/harigurus/services-640.webp 640w, /images/harigurus/services-1200.webp 1200w"
+              sizes="(max-width: 767px) 76vw, 20vw"
+              width={1200}
+              height={653}
+              alt="Harigurus homepage introducing event services and a Book appointment action"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <figcaption>Service booking · Homepage ↗</figcaption>
+        </figure>
+        <figure className="vault-figure harigurus-figure">
+          <a href="/images/harigurus/shop-1920.webp" target="_blank" rel="noreferrer" aria-label="View the Harigurus handicraft shop screenshot full-size">
+            <img
+              src="/images/harigurus/shop-640.webp"
+              srcSet="/images/harigurus/shop-640.webp 640w, /images/harigurus/shop-1200.webp 1200w"
+              sizes="(max-width: 767px) 76vw, 20vw"
+              width={1200}
+              height={654}
+              alt="Harigurus shop displaying handicraft categories, product photographs and prices"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <figcaption>Handicraft shop · Catalogue ↗</figcaption>
+        </figure>
       </div>
       <section className="case-group">
         <h3>Booking, from browser to API</h3>
@@ -783,24 +825,53 @@ export function SecurityPage({ page }: PageProps) {
         Security Lab & practice
       </h2>
       <div className="story">
-        <p>Browser authentication experiments across real loopback origins.</p>
-      </div>
-      <section className="case-group">
-        <h3>Published baseline</h3>
         <p>
-          Cookie storage and SameSite & CSRF experiments with request
-          inspection. Repository record: 11 server and 29 Chromium checks.
+          Seven connected labs, from access control to JWT verification.
+          Twenty-eight experiments compare vulnerable and protected
+          implementations through real requests and browser evidence.
         </p>
-      </section>
-      <section className="case-group">
-        <h3>In progress · JWT verification</h3>
+      </div>
+      <section className="case-group" aria-label="Seven-lab learning path">
+        <h3>From foundations to advanced verification</h3>
         <p>
-          Comparing historical verifier flaws with hardened validation. This
-          local work has not been published.
+          Each lab builds on earlier concepts, with increasing difficulty.
+          The order guides study; every lab remains freely accessible.
+        </p>
+        <ol className="process-notes">
+          {securityLabs.map(({ title, detail }, index) => (
+            <li key={title}>
+              <span aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+              <p><em>{title}</em> — {detail}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <figure className="vault-figure security-figure">
+        <a href="/images/security-lab/workbench-1920.webp" target="_blank" rel="noreferrer">
+          <img
+            src="/images/security-lab/workbench-1200.webp"
+            srcSet="/images/security-lab/workbench-640.webp 640w, /images/security-lab/workbench-1200.webp 1200w, /images/security-lab/workbench-1920.webp 1920w"
+            sizes="(max-width: 767px) 84vw, (max-width: 1279px) 42vw, 640px"
+            width={1920}
+            height={1048}
+            loading="lazy"
+            alt="JWT workbench showing the seven lab tabs and the Understand, Predict, Experiment, Compare and Learn stages"
+          />
+        </a>
+        <figcaption>Lab 07 · JWT comparison on local HTTPS. Open the full screenshot.</figcaption>
+      </figure>
+      <section className="case-group">
+        <h3>Predict, test, explain</h3>
+        <p>
+          Understand → Predict → Experiment → Compare → Learn. Inspect
+          redacted server observations, compare executable source and record
+          findings. Concept feedback and recall practice stay in the browser.
         </p>
       </section>
       <p className="case-evidence-note">
-        Loopback only. Vulnerable routes stay off public hosting.
+        Published source; loopback only. Labs share concepts, not credentials
+        or runtime state. Deliberately vulnerable routes and historical JWT
+        libraries stay off public hosting.
       </p>
       <section className="case-group" aria-label="Engineering practice">
         <h3>Tools in practice</h3>
@@ -815,7 +886,10 @@ export function SecurityPage({ page }: PageProps) {
       </section>
       <div className="project-links">
         <External href={projects[3].repository}>
-          Lab source & verification
+          Lab source
+        </External>
+        <External href={`${projects[3].repository}/blob/main/docs/verification.md`}>
+          Verification record
         </External>
       </div>
     </PageTemplate>
@@ -848,9 +922,8 @@ export function ColophonPage({ page }: PageProps) {
         <a
           className="text-link"
           href="/adarsh-singh-resume.pdf"
-          download="Adarsh-Singh-Resume.pdf"
         >
-          Download résumé (PDF) <ArrowRight aria-hidden="true" />
+          View résumé (PDF) <ArrowRight aria-hidden="true" />
         </a>
         <div className="project-links">
           <a className="text-link" href={`mailto:${professionalStory.email}`}>

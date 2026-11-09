@@ -527,3 +527,41 @@ body::before {
     font-size: calc(var(--text-sm) * var(--cover-type-compensation));
   }
 }
+
+/* Keep native page scrolling, with a reserved, quiet cue instead of scrollbar chrome. */
+.book-shell:not(.book-shell--reading) .book-page .page-inner { scrollbar-width: none; }
+.book-shell:not(.book-shell--reading) .book-page .page-inner::-webkit-scrollbar { display: none; }
+.book-shell:not(.book-shell--reading) .sheet-surface[data-page-overflow] > .page-inner { height: calc(100% - var(--page-scroll-hint-space)); }
+.page-scroll-hint { display: none; }
+.book-shell:not(.book-shell--reading) .page-scroll-hint:not([hidden]) {
+  display: grid;
+  place-items: center;
+  position: absolute;
+  right: var(--page-scroll-control-inset);
+  bottom: var(--s2);
+  z-index: var(--page-scroll-hint-layer);
+  width: var(--page-scroll-control-size);
+  height: var(--page-scroll-control-size);
+  min-width: var(--target);
+  min-height: var(--target);
+  padding: 0;
+  border: 0;
+  color: var(--graphite);
+  background: transparent;
+  cursor: pointer;
+}
+.page-scroll-hint::before {
+  content: "";
+  position: absolute;
+  width: var(--page-scroll-disc-size);
+  height: var(--page-scroll-disc-size);
+  border: var(--hairline) solid var(--rule);
+  border-radius: var(--page-scroll-control-radius);
+  background: var(--paper-deep);
+}
+.book-shell .page-scroll-hint > svg.lucide { position: relative; width: var(--s4); height: var(--s4); }
+.book-shell[data-mode="native"][data-native-state]:not([data-native-state="read"]) .page-scroll-hint {
+  visibility: hidden;
+  pointer-events: none;
+}
+.book-shell:not(.book-shell--reading) .page-inner:focus-visible { outline: var(--hairline) solid var(--graphite); outline-offset: calc(var(--s2) * -1); }

@@ -1,0 +1,65 @@
+{
+  "roles": [
+    {
+      "company": "EazyGrad",
+      "period": "Around January 2022",
+      "role": "Freelance frontend development",
+      "detail": "A small set of responsive pages, built with HTML, CSS and JavaScript micro-interactions.",
+      "note": "The delivered pages are not archived here; the current company website has changed.",
+      "links": []
+    },
+    {
+      "company": "Harigurus",
+      "period": "Approximately February–late 2022 · about eight months",
+      "role": "Full Stack Developer",
+      "detail": "React booking flows; Node.js and Express APIs; Razorpay payment verification; Twilio SMS confirmations.",
+      "note": "The public repository is a written engineering case study. Production source remains private with the company.",
+      "links": [
+        {
+          "label": "Company website",
+          "href": "https://harigurus.com/"
+        },
+        {
+          "label": "Written case study",
+          "href": "https://github.com/adarshbam/harigurus-enterprise-architecture"
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "title": "Vault Storage",
+      "detail": "The deployed storage product, with connected GitHub and Google Drive workspaces.",
+      "links": [
+        {
+          "label": "Open Vault Storage",
+          "href": "https://yourvaultstorage.com/"
+        },
+        {
+          "label": "Vault source code",
+          "href": "https://github.com/adarshbam/my-storage"
+        }
+      ]
+    },
+    {
+      "title": "CI/CD Pipeline Engine",
+      "detail": "Signed GitHub webhooks, dependency-aware execution, bounded concurrency and a live dashboard.",
+      "links": [
+        {
+          "label": "Engine source code",
+          "href": "https://github.com/adarshbam/ci-cd-pipeline-engine"
+        }
+      ]
+    },
+    {
+      "title": "Web Security Laboratory",
+      "detail": "Seven connected labs and 28 experiments comparing vulnerable and protected implementations. The application runs locally.",
+      "links": [
+        {
+          "label": "Lab source code",
+          "href": "https://github.com/adarshbam/security-lab"
+        }
+      ]
+    }
+  ]
+}

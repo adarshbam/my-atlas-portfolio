@@ -169,7 +169,7 @@ export function ReadingView({
               <div className="reading-vault-narrative">{section(page, index)}{section(pages[index + 1], index + 1)}</div>
               <aside ref={evidenceRoot} className="reading-evidence" aria-label="Vault evidence">
                 {(["workspace", "owner"] as const).map((image) => (
-                  <div key={image} data-evidence={image} aria-hidden={evidence !== image} inert={evidence !== image}><VaultFigure image={image} /></div>
+                  <div key={image} data-evidence={image} aria-hidden={evidence !== image} inert={evidence !== image}><VaultFigure image={image} />{image === "workspace" && <VaultFigure image="accounts" />}</div>
                 ))}
               </aside>
             </div>

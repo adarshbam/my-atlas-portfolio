@@ -5,16 +5,8 @@ contents.querySelectorAll('a').forEach(link=>link.addEventListener('click',event
  history.pushState(null,'',link.getAttribute('href'));section?.scrollIntoView();section?.querySelector('h2')?.focus({preventScroll:true});
 }));
 contents.addEventListener('keydown',event=>{if(event.key==='Escape'){contents.open=false;contents.querySelector('summary').focus();}});
-const dialog=document.querySelector('.image-dialog');let opener=null;
-document.querySelectorAll('[data-enlarge]').forEach(link=>link.addEventListener('click',event=>{
- if(event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;
- event.preventDefault();opener=link;
- const image=dialog.querySelector('[data-full-image]');image.src=link.href;image.alt=link.querySelector('img').alt;
- dialog.querySelector('[data-full-caption]').textContent=link.closest('figure').querySelector('figcaption').textContent;
- dialog.showModal();dialog.querySelector('[data-close]').focus();
-}));
-dialog.querySelector('[data-close]').addEventListener('click',()=>dialog.close());
-dialog.addEventListener('close',()=>{opener?.focus({preventScroll:true});});
+import {attachInspector} from '/media-viewer.js';
+attachInspector(document);
 const playbackPositions=new WeakMap();
 const releasedVideos=new WeakSet();
 function releaseVideo(video){

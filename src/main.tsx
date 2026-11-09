@@ -46,6 +46,14 @@ function readPrevious(): PreviousBook {
   return { url: "/", scroll: 0 };
 }
 function App() {
+  useEffect(() => {
+    let disposed = false;
+    let detach: (() => void) | undefined;
+    void import("../public/media-viewer.js").then(({attachInspector}) => {
+      if (!disposed) detach = attachInspector(document);
+    });
+    return () => { disposed = true; detach?.(); };
+  }, []);
   const [story, setStory] = useState(isStory());
   const [visitedBook, setVisitedBook] = useState(!isStory());
   const [returned, setReturned] = useState(false);

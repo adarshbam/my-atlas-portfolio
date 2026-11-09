@@ -1,0 +1,26 @@
+[
+  {
+    "id": "space-tourism",
+    "title": "Space Tourism",
+    "url": "https://ready-space-tourism.netlify.app/",
+    "detail": "HTML and CSS practice: page composition and responsive layouts from a Frontend Mentor brief."
+  },
+  {
+    "id": "shopyy",
+    "title": "Shopyy dashboard",
+    "url": "https://shopyyadarshsinghbam.netlify.app/ecommerce",
+    "detail": "Early React practice: composing a dashboard with navigation, charts and reusable interface pieces. Figures are demo data."
+  },
+  {
+    "id": "cryptoverse",
+    "title": "Cryptoverse",
+    "url": "https://cryptoversebyadarsh.netlify.app/",
+    "detail": "Learning to work with APIs: requesting cryptocurrency data and presenting it in a React interface."
+  },
+  {
+    "id": "social",
+    "title": "Social media frontend",
+    "url": "https://anonymoussocialmedia.netlify.app/",
+    "detail": "An unfinished React frontend exercise with sample content. The backend was never implemented."
+  }
+]

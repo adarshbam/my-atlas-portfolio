@@ -3,6 +3,7 @@
 @font-face{font-family:ObservatorySans;src:url('/story/fonts/ibm-plex-sans-latin-500.woff2') format('woff2');font-weight:500;font-display:swap}
 @font-face{font-family:ObservatoryHand;src:url('/story/fonts/nothing-you-could-do-latin-400.woff2') format('woff2');font-weight:400;font-display:swap}
 .observatory{
+ --obs-game-width:var(--obs-reading-width);
  --obs-night:#0d1213;--obs-surface:#192021;--obs-paper:#e9ddc8;--obs-paper-deep:#d3bea0;--obs-paper-ink:#282820;--obs-muted:#c1c4b9;--obs-green:#a8cc9c;--obs-line:rgba(233,221,200,.25);
  --obs-serif:ObservatorySerif,Georgia,serif;--obs-sans:ObservatorySans,Arial,sans-serif;--obs-hand:ObservatoryHand,cursive;--obs-display:var(--obs-serif);--obs-text:var(--obs-serif);--obs-note-font:var(--obs-hand);
  --obs-t1:11px;--obs-t2:14px;--obs-t3:18px;--obs-t4:23px;--obs-t5:29px;--obs-t6:36px;--obs-t7:45px;--obs-t8:56px;--obs-t9:70px;--obs-t10:88px;--obs-small:var(--obs-t2);--obs-body:var(--obs-t3);--obs-note-size:var(--obs-t3);--obs-large:clamp(var(--obs-t6),4.4vw,var(--obs-t8));--obs-hero:clamp(var(--obs-t7),6.3vw,var(--obs-t10));
@@ -71,3 +72,43 @@
 .observatory :is(.obs-hero-copy,.obs-opening-scraps,.obs-film-screen,.obs-recordings-group)>* {min-width:0;}
 .observatory .obs-films-grid {grid-template-columns:repeat(3,minmax(0,1fr));}
 @media(max-width:767px){.observatory .obs-films-grid {grid-template-columns:minmax(0,1fr);}}
+
+/* Recovered project: a factual, static addition to the games chapter. */
+.obs-recovered-game{display:grid;gap:var(--obs-s8);padding-block:var(--obs-s12);border-top:var(--obs-rule) solid var(--obs-line);margin-top:var(--obs-s12)}
+.obs-recovered-game h3{margin-block:var(--obs-s3) var(--obs-s6)}
+.obs-recovered-game p+p{margin-top:var(--obs-s4)}
+.obs-recovered-game>div>a{margin-top:var(--obs-s6)}
+.obs-recovered-game figure{max-width:var(--obs-game-width);margin:0}
+.obs-recovered-game figure>a{display:block}
+.obs-recovered-game figcaption{margin-top:var(--obs-s3);font-size:var(--obs-small);color:var(--obs-muted)}
+@media(min-width:768px){.obs-recovered-game{grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;gap:var(--obs-s12)}}
+
+/* Original learning-project captures use the existing story grid and tokens. */
+.obs-learning-projects{margin-block:var(--obs-s12)}
+.obs-learning-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--obs-s12);margin-block:var(--obs-s8)}
+.obs-learning-grid article{min-width:0;display:flex;flex-direction:column;gap:var(--obs-s4)}
+.obs-learning-grid h4{font-size:var(--obs-t4);font-weight:600;margin:0}
+.obs-learning-grid .obs-photo{margin-top:auto}
+.obs-learning-grid .obs-photo a,.obs-interaction .obs-photo a{display:block}
+@media(max-width:767px){.obs-learning-grid{grid-template-columns:minmax(0,1fr)}}
+
+/* Closing chapters reuse the story's existing type, spacing and materials. */
+.obs-professional-timeline{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--obs-s12);margin-block:var(--obs-s8)}
+.obs-professional-timeline article,.obs-project-records article{border-top:var(--obs-rule) solid var(--obs-line);padding-top:var(--obs-s6);min-width:0}
+.obs-professional-timeline :is(h3,p),.obs-project-records :is(h3,p){margin-bottom:var(--obs-s4)}
+.obs-role-title{font-style:italic}
+.obs-evidence-links{display:flex;flex-wrap:wrap;gap:var(--obs-s4) var(--obs-s6)}
+.obs-story-feedback{display:grid;gap:var(--obs-s12)}
+.obs-story-feedback figure{display:grid;grid-template-columns:var(--obs-s24) minmax(0,1fr);gap:var(--obs-s6);border-top:var(--obs-rule) solid var(--obs-line);padding-top:var(--obs-s8)}
+.observatory .obs-story-feedback img{width:var(--obs-s24);height:var(--obs-s24);object-fit:cover}
+.obs-story-feedback blockquote{margin:0;font-size:var(--obs-t4);line-height:1.5}
+.obs-story-feedback figcaption{margin-top:var(--obs-s4);font-family:var(--obs-sans);font-size:var(--obs-t2)}
+.obs-story-feedback cite{font-style:normal;display:block}
+.obs-story-feedback figcaption span{display:block;color:var(--obs-muted);margin-top:var(--obs-s1)}
+.obs-current-work{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--obs-s12);align-items:start;margin-bottom:var(--obs-s12)}
+.obs-current-work .obs-photo a{display:block}
+.obs-project-records{display:grid;gap:var(--obs-s8)}
+.obs-next-note{margin-top:var(--obs-s12)}
+@media(max-width:767px){.obs-professional-timeline,.obs-current-work{grid-template-columns:minmax(0,1fr)}.obs-story-feedback figure{grid-template-columns:minmax(0,1fr)}}
+
+.obs-memory-detail{max-width:var(--obs-reading-width);margin-block:var(--obs-s12)}.obs-memory-detail :is(h3,p){margin-bottom:var(--obs-s6)}

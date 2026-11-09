@@ -60,7 +60,7 @@ for (const width of [375, 768, 1280, 1920]) {
           for (const img of await face.locator(".vault-figure img").all()) {
             await expect(img).toHaveCSS("filter", "none");
           }
-          for (const link of await face.locator(".vault-figure > a").all()) {
+          for (const link of await face.locator('.vault-figure > a[href^="/images/vault/"]').all()) {
             // Enter keyboard modality and reach the real link through Tab order.
             // Programmatic focus after the chapter's mouse click need not match :focus-visible.
             for (let tab = 0; tab < 24; tab++) {
@@ -81,8 +81,9 @@ for (const width of [375, 768, 1280, 1920]) {
             const popup = await popupPromise;
             await popup.waitForLoadState();
             expect(popup.url()).toContain("/images/vault/");
-            expect(popup.url()).toContain("-source.jpg");
-            await expect(popup.locator("img")).toHaveJSProperty("naturalWidth", 1440);
+            const aggregateCapture = popup.url().includes("accounts-1920.webp");
+            if (!aggregateCapture) expect(popup.url()).toContain("-source.jpg");
+            await expect(popup.locator("img")).toHaveJSProperty("naturalWidth", aggregateCapture ? 1920 : 1440);
             await popup.close();
             await settled(page, index);
           }

@@ -61,7 +61,7 @@ for (const width of [375, 768, 1280, 1920]) {
           await expect(face).toContainText("two slots per run");
           await expect(face).toContainText("runner’s OS permissions");
           await expect(face).toContainText(
-            "full-engine behavior was source-reviewed",
+            "no production deployment performed for this case study",
           );
         } else if (id === "harigurus") {
           await expect(face).toContainText("8 months");
@@ -69,8 +69,8 @@ for (const width of [375, 768, 1280, 1920]) {
             "repository is a written case study",
           );
         } else {
-          await expect(face).toContainText("has not been published");
-          await expect(face).toContainText("Loopback only");
+          await expect(face).toContainText("Seven connected labs");
+          await expect(face).toContainText("loopback only");
         }
       }
       await goToChapter(page, "Contact");
@@ -85,7 +85,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await expect(book).toHaveAttribute("data-turning", "false");
       const contact = page.locator(`${scope}[data-page-id="colophon"]`);
       const resume = contact.getByRole("link", {
-        name: "Download résumé (PDF)",
+        name: "View résumé (PDF)",
       });
       await contact.locator("h2").focus();
       await page.keyboard.press("Tab");
@@ -96,10 +96,7 @@ for (const width of [375, 768, 1280, 1920]) {
         expect(box.height).toBeGreaterThanOrEqual(44);
         expect(box.width).toBeGreaterThanOrEqual(44);
       }
-      await expect(resume).toHaveAttribute(
-        "download",
-        "Adarsh-Singh-Resume.pdf",
-      );
+      await expect(resume).not.toHaveAttribute("download");
       await expect(
         contact.getByRole("link", { name: professionalStory.email }),
       ).toHaveAttribute("href", `mailto:${professionalStory.email}`);
@@ -115,9 +112,12 @@ for (const width of [375, 768, 1280, 1920]) {
       }
       const downloadEvent = page.waitForEvent("download");
       await resume.press("Enter");
+      const preview = page.getByRole("dialog", {name: "Résumé preview"});
+      await preview.getByRole("link", {name: "Download PDF", exact:true}).click();
       expect((await downloadEvent).suggestedFilename()).toBe(
         "Adarsh-Singh-Resume.pdf",
       );
+      await preview.getByRole("button", {name: "Close", exact:true}).click();
       const response = await request.get("/adarsh-singh-resume.pdf");
       expect(response.ok()).toBe(true);
       expect(
