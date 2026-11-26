@@ -1,0 +1,320 @@
+/*
+ * Scroll-run rules shared by the story trailer and the atlas run: the pinned stage,
+ * the caption-and-art layout, the tick rail, still mode and the micro-interactions.
+ * Tokens are in tokens.css. With scroll, only transform, opacity, clip-path and
+ * stroke-dashoffset change.
+ *
+ * Per-scene variables written by src/trailer/engine.ts (all 0..1):
+ *   --t   progress through the scene        --in  arriving      --out  leaving
+ *   plus each scene's own segment variables (--a --b --c and the story's own).
+ * Stage variable: --travel (progress through the whole track).
+ */
+.obs-trailer {
+  position: relative;
+}
+.obs-trailer .obs-trailer-stage {
+  position: relative;
+  isolation: isolate;
+  --sky: 0;
+  --travel: 0;
+}
+.obs-trailer .obs-trailer-scene {
+  /* Resting values: the first frame, before any scroll. */
+  --t: 0;
+  --in: 1;
+  --out: 0;
+  --a: 0;
+  --b: 0;
+  --c: 0;
+  --copy: 0;
+  --rise: 0;
+  --cap: 0;
+  --draw1: 0;
+  --out1: 0;
+  --draw2: 0;
+  --fall: 0;
+  --scene2: 0;
+}
+.obs-trailer .obs-trailer-anchor {
+  position: absolute;
+  top: calc(100svh * var(--at-unit));
+  left: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* ---------- Scroll mode: one pinned stage, native scroll as the playhead ---------- */
+.obs-trailer[data-mode="scroll"] {
+  height: calc(100svh * (1 + var(--obs-trailer-units)));
+}
+.obs-trailer[data-mode="scroll"] .obs-trailer-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+}
+.obs-trailer[data-mode="scroll"] .obs-trailer-scene,
+.obs-trailer[data-mode="scroll"] .obs-trailer-layer {
+  position: absolute;
+  inset: 0;
+}
+/* Scenes that are not on screen, and the faded-out hero, leave the tab order. */
+.obs-trailer[data-mode="scroll"] .obs-trailer-scene:not([data-state="active"]),
+.obs-trailer[data-mode="scroll"] .obs-trailer-scene[data-past="true"] .obs-trailer-rooftop {
+  visibility: hidden;
+}
+
+/* ---------- Shared scene layout: caption lower left, art right ---------- */
+.obs-trailer .obs-trailer-split {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: center;
+  gap: var(--obs-s12);
+  padding: var(--obs-s16) max(var(--obs-gutter), calc((100vw - var(--obs-width)) / 2 + var(--obs-gutter)));
+  pointer-events: none;
+}
+.obs-trailer .obs-trailer-split :is(a, button) {
+  pointer-events: auto;
+}
+/* A scene arrives from a little way off and leaves by being passed through. */
+.obs-trailer .obs-trailer-pass {
+  transform-origin: 65% 50%;
+  opacity: calc(var(--in) * (1 - var(--out)));
+  transform: scale(calc(var(--obs-arrive) + var(--in) * (1 - var(--obs-arrive)) + var(--out) * (var(--obs-zoom-through) - 1)));
+}
+.obs-trailer .obs-trailer-art {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  max-height: 70svh;
+}
+.obs-trailer .obs-trailer-art > svg {
+  fill: none;
+  stroke: var(--obs-paper);
+  stroke-width: var(--obs-line-weight);
+}
+.obs-trailer .obs-trailer-art > :is(.obs-trailer-constellation, .obs-trailer-gravity, .obs-trailer-watch) {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+/* pathLength="1" on each path makes dash values a 0..1 fraction of its length.
+   No vector-effect here: non-scaling strokes measure dashes in screen pixels and break that. */
+.obs-trailer .obs-trailer-line {
+  stroke-dasharray: 1;
+}
+
+.obs-trailer .obs-trailer-caption {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: end;
+  padding-bottom: var(--obs-s16);
+}
+.obs-trailer .obs-trailer-caption h2 {
+  font-size: clamp(var(--obs-t8), 6vw, var(--obs-t10));
+}
+.obs-trailer .obs-trailer-lines {
+  display: grid;
+  margin-top: var(--obs-s4);
+}
+.obs-trailer .obs-trailer-lines p {
+  grid-area: 1 / 1;
+  max-width: var(--obs-caption-measure);
+  font-size: var(--obs-t4);
+  line-height: 1.5;
+}
+/* One line, silhouette or screenshot per beat. */
+.obs-trailer .obs-trailer-scene [data-line] {
+  opacity: 0;
+  transition: opacity var(--obs-speed-short) linear;
+}
+.obs-trailer .obs-trailer-scene[data-beat="1"] [data-line="1"],
+.obs-trailer .obs-trailer-scene[data-beat="2"] [data-line="2"],
+.obs-trailer .obs-trailer-scene[data-beat="3"] [data-line="3"] {
+  opacity: 1;
+}
+.obs-trailer .obs-trailer-progress {
+  display: block;
+  position: relative;
+  max-width: var(--obs-caption-measure);
+  height: var(--obs-rule);
+  margin-block: var(--obs-s6) var(--obs-s3);
+  background: var(--obs-line);
+}
+.obs-trailer .obs-trailer-progress span {
+  position: absolute;
+  inset: 0;
+  background: var(--obs-green);
+  transform-origin: left center;
+  transform: scaleX(var(--bar, var(--t)));
+}
+
+.obs-trailer .obs-trailer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--obs-s3) var(--obs-s8);
+  font: 500 var(--obs-t2) / 1.5 var(--obs-sans);
+}
+
+/* ---------- Tick rail ---------- */
+.obs-trailer .obs-trailer-rail {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 2;
+  display: grid;
+  transform: translateY(-50%);
+}
+.obs-trailer .obs-trailer-rail a {
+  width: var(--obs-target);
+  justify-content: flex-start;
+  text-decoration: none;
+}
+.obs-trailer .obs-trailer-rail a::before {
+  content: "";
+  width: var(--obs-s6);
+  height: 2px;
+  background: var(--obs-muted);
+  transform-origin: left center;
+  transform: scaleX(0.5);
+  transition: transform var(--obs-speed-short) linear;
+}
+.obs-trailer .obs-trailer-rail a[aria-current="true"]::before {
+  background: var(--obs-green);
+  transform: scaleX(1);
+}
+
+/* ---------- Still mode: reduced motion. Every scene at its final state, in document flow ---------- */
+.obs-trailer[data-mode="still"] .obs-trailer-scene {
+  --t: 1;
+  --a: 1;
+  --b: 1;
+  --c: 1;
+  --cap: 1;
+  --draw1: 1;
+  --draw2: 1;
+  --fall: 1;
+  --scene2: 1;
+  position: relative;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-layer {
+  position: relative;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-anchor {
+  top: 0;
+}
+.obs-trailer[data-mode="still"] :is(.obs-trailer-stars, .obs-trailer-rail, .obs-trailer-wash, .obs-trailer-chrome) {
+  display: none;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-split {
+  align-items: start;
+  padding-block: var(--obs-s24);
+}
+.obs-trailer[data-mode="still"] .obs-trailer-caption {
+  align-self: start;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-lines {
+  gap: var(--obs-s3);
+}
+.obs-trailer[data-mode="still"] .obs-trailer-lines p,
+.obs-trailer[data-mode="still"] .obs-trailer-scene [data-line],
+.obs-trailer[data-mode="still"] .obs-trailer-look .obs-small {
+  grid-area: auto;
+  opacity: 1;
+}
+
+/* ---------- Narrow screens: art above, caption below; no rail ---------- */
+@media (max-width: 800px) {
+  .obs-trailer .obs-trailer-split {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: var(--obs-s6);
+    padding-block: var(--obs-s8);
+  }
+  .obs-trailer .obs-trailer-art,
+  .obs-trailer .obs-trailer-caption {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .obs-trailer .obs-trailer-art {
+    max-height: 40svh;
+  }
+  .obs-trailer .obs-trailer-caption {
+    align-self: start;
+    padding-bottom: 0;
+  }
+  .obs-trailer .obs-trailer-lines p {
+    font-size: var(--obs-body);
+  }
+  .obs-trailer .obs-trailer-rail {
+    display: none;
+  }
+}
+
+/* ---------- Micro-interactions (plan Task 7). Transform, opacity and clip-path only. ---------- */
+/* Caption lines rise into place; the outgoing line simply fades. */
+.obs-trailer .obs-trailer-lines p[data-line] {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(var(--obs-s3));
+  transition: opacity var(--obs-speed-short) linear, clip-path 0s linear var(--obs-speed-short), transform 0s linear var(--obs-speed-short);
+}
+.obs-trailer .obs-trailer-scene[data-beat="1"] .obs-trailer-lines p[data-line="1"],
+.obs-trailer .obs-trailer-scene[data-beat="2"] .obs-trailer-lines p[data-line="2"],
+.obs-trailer .obs-trailer-scene[data-beat="3"] .obs-trailer-lines p[data-line="3"] {
+  clip-path: inset(0);
+  transform: none;
+  transition: opacity var(--obs-speed) var(--obs-ease), clip-path var(--obs-speed) var(--obs-ease), transform var(--obs-speed) var(--obs-ease);
+}
+.obs-trailer[data-mode="still"] .obs-trailer-lines p[data-line] {
+  clip-path: none;
+  transform: none;
+}
+/* Rail: the scene's name appears beside its tick on hover and keyboard focus. */
+.obs-trailer .obs-trailer-rail a {
+  position: relative;
+}
+.obs-trailer .obs-trailer-tick-label {
+  position: absolute;
+  left: calc(var(--obs-s6) + var(--obs-s3));
+  padding: var(--obs-s1) var(--obs-s2);
+  background: var(--obs-night);
+  color: var(--obs-paper);
+  font: 500 var(--obs-t1) / 1.4 var(--obs-sans);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateX(calc(var(--obs-s2) * -1));
+  transition: opacity var(--obs-speed-short) linear, transform var(--obs-speed-short) linear;
+}
+.obs-trailer .obs-trailer-rail a:is(:hover, :focus-visible) .obs-trailer-tick-label {
+  opacity: 1;
+  transform: none;
+}
+/* Closing links: a quiet rule that fills with the accent on hover and focus. */
+.obs-trailer .obs-trailer-links a {
+  position: relative;
+  text-decoration: none;
+}
+.obs-trailer .obs-trailer-links a::before,
+.obs-trailer .obs-trailer-links a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: var(--obs-s2);
+  left: 0;
+  height: var(--obs-rule);
+  background: var(--obs-line);
+}
+.obs-trailer .obs-trailer-links a::after {
+  background: var(--obs-green);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--obs-speed-short) linear;
+}
+.obs-trailer .obs-trailer-links a:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}

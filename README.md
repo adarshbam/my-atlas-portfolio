@@ -1,14 +1,14 @@
 # Engineering Atlas
 
-Adarsh Singh's software engineering portfolio, presented as an editorial book with a continuous Reading view and a separate personal story.
+Adarsh Singh's software engineering portfolio: a scroll-driven opening run through the main work, an editorial book that follows it on the same page, and a separate personal story.
 
 [Open portfolio](https://adarshbam.netlify.app/) · [Architecture](docs/ARCHITECTURE.md) · [Verification guide](docs/VERIFICATION.md)
 
 ## What it contains
 
+- A front-page run of six pinned scenes (introduction, Vault Storage, Harigurus, CI/CD Pipeline Engine, Security Lab, references), in priority order, which dissolves into a lamp-lit desk where the book lies and is then opened and read. With reduced motion, or in a very short window, the same content stands as plain blocks.
 - Thirteen semantic book-page records covering selected projects, contribution boundaries, engineering decisions, references, and contact details.
 - Native hard-cover/interior page turns, chapter navigation, keyboard/touch input, and a reduced-motion presentation.
-- Continuous Reading view using the same project content and preserving logical position when returning.
 - A twenty-chapter `/story` tracing early experiments, learning projects, professional work, client feedback and Octoworlds.
 - Full-screen framed image inspection with lazy high-resolution originals, zoom, panning and keyboard controls.
 - An in-page résumé PDF preview with optional download and a new-tab alternative.
@@ -32,7 +32,7 @@ npm run build
 npm run preview
 ```
 
-Build performs TypeScript checking and emits `dist/`. Preview binds to `http://127.0.0.1:4173` with a strict port. A local build does not update the hosted site; the public deployment can differ from the latest local or repository candidate.
+Build checks the video manifest, performs TypeScript checking and emits `dist/`. Preview binds to `http://127.0.0.1:4173` with a strict port. A local build does not update the hosted site; the public deployment can differ from the latest local or repository candidate.
 
 ## Source map
 
@@ -41,7 +41,8 @@ Build performs TypeScript checking and emits `dist/`. Preview binds to `http://1
 | Project facts, page IDs, and destinations | [portfolio.ts](src/data/portfolio.ts) |
 | Semantic book content | [book-pages.tsx](src/components/book-pages.tsx) |
 | Page-turn lifecycle, input, and focus | [book-slider.tsx](src/components/ui/book-slider.tsx) |
-| Continuous presentation | [reading-view.tsx](src/components/reading-view.tsx) |
+| Front-page run and the arrival at the book | [src/front/](src/front/) |
+| Scroll engine and tokens shared with the story trailer | [src/trailer/](src/trailer/) |
 | Design tokens and styles | [src/styles/](src/styles/) |
 | Personal story | [src/story/](src/story/) |
 | Browser regressions | [tests/](tests/) |
@@ -50,7 +51,7 @@ Build performs TypeScript checking and emits `dist/`. Preview binds to `http://1
 
 With a built preview running, set `PLAYWRIGHT_BASE_URL` and run `npm run test:e2e`. [Verification guide](docs/VERIFICATION.md) explains scope, visual review, responsive checks, and historical reports.
 
-Preserve stable page IDs, factual authorship, company-private source boundaries, original portraits, reference quotations, and content access with reduced motion. Book/Reading/story are related presentations, not permission to apply one visual system everywhere. [Project instructions](AGENTS.md) govern further UI work.
+Preserve stable page IDs, factual authorship, company-private source boundaries, original portraits, reference quotations, and content access with reduced motion. The run, the book and the story are related presentations, not permission to apply one visual system everywhere. [Project instructions](AGENTS.md) govern further UI work.
 
 Serve the static output from a domain root or deliberately adjust root-relative asset paths and verify them. Provider caching, CSP, redirects, and deployed media behavior require hosted checks. Third-party code/font/media notices remain in [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt) and [audio licenses](public/audio/LICENSES.md).
 

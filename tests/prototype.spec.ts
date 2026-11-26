@@ -10,7 +10,7 @@ async function settled(page: Page, index: number) {
   await expect(book(page)).toHaveAttribute("data-turning", "false");
 }
 async function open(page: Page) {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(book(page)).toHaveAttribute("data-ready", "true");
   await page.evaluate(() => document.fonts.ready);
   await page.getByRole("button", { name: "Open book", exact: true }).click();
@@ -304,9 +304,6 @@ for (const width of [375, 768, 1280, 1920])
     await settled(page, pages.length - step * 2);
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect(page.locator(".flip-engine")).toHaveCount(0);
-    await expect(
-      page.getByRole("button", { name: "Reading mode", exact: true }),
-    ).toBeEnabled();
     await page
       .getByRole("button", { name: "Atlas map", exact: false })
       .click();
@@ -399,14 +396,14 @@ test("keyboard, focus, contents link, repeated turns and resize cleanup", async 
   await expect(book(page)).toHaveAttribute("data-ready", "true");
   await settled(page, 3);
   await expect(page.locator(".flip-engine")).toHaveCount(1);
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".flip-engine")).toHaveCount(0);
   await page
     .getByRole("navigation", { name: "Portfolio chapters" })
     .getByRole("button", { name: "Atlas map", exact: true })
     .click();
   await settled(page, 1);
-  await page.getByRole("button", { name: "Return to book" }).click();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
   await expect(page.locator(".flip-engine")).toHaveCount(1);
 });
 
@@ -457,7 +454,7 @@ test("mobile touch swipe and diagram scroll stay inside the page", async ({
     ),
   ).toBe(true);
   await page.setViewportSize({ width: 375, height: 844 });
-  await page.evaluate(() => scrollTo(0, 0));
+  await page.evaluate(() => scrollTo(0, (() => { const a = document.getElementById("book-arrival")!; return a.getBoundingClientRect().top + scrollY + a.offsetHeight - (a.firstElementChild as HTMLElement).offsetHeight; })()));
   await cdp.send("Input.dispatchTouchEvent", {
     type: "touchStart",
     touchPoints: [{ x: 180, y: 600 }],

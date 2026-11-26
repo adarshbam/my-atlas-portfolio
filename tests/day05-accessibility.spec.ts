@@ -6,7 +6,7 @@ import { pages } from "../src/data/portfolio";
 test("D5-5.3.2 editable controls, widgets and consumed events own their arrow keys", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   await goToChapter(page, "Vault Storage");
   await expect(page.locator("#book")).toHaveAttribute("data-turning", "false");
@@ -44,7 +44,7 @@ for (const width of [375, 1280]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/");
+    await page.goto("/#book");
     await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
     const nav = page.locator(".chapter-nav");
     await goToChapter(page, "Pipeline");
@@ -82,7 +82,7 @@ for (const width of [375, 1280]) {
     await page.setViewportSize({ width, height: 900 });
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
-    await page.goto("/");
+    await page.goto("/#book");
     const book = page.locator("#book");
     await expect(book).toHaveAttribute("data-ready", "true");
     await page.getByRole("button", { name: "Open book", exact: true }).click();
@@ -93,15 +93,9 @@ for (const width of [375, 1280]) {
     await expect(page.locator(".flip-engine")).toHaveCount(0);
     await goToChapter(page, "Contact");
     await expect(book).toHaveAttribute("data-logical-page", "12");
-    await page
-      .getByRole("button", { name: "Reading view", exact: true })
-      .click();
     await page.emulateMedia({ reducedMotion: "no-preference" });
-    await expect(book).toHaveAttribute("data-mode", "reading");
-    await expect(page.locator(".flip-engine")).toHaveCount(0);
-    await page
-      .getByRole("button", { name: "Return to book", exact: true })
-      .click();
+    await expect(book).toHaveAttribute("data-mode", "native");
+    await expect(page.locator(".flip-engine")).toHaveCount(1);
     await expect(book).toHaveAttribute(
       "data-current-page",
       width < 768 ? "12" : "11",
@@ -114,27 +108,58 @@ for (const width of [375, 1280]) {
 test("D5-5.3.1 D5-5.3.5 full linear tab order reaches contact; active headings and controls are semantic", async ({
   page,
 }) => {
-  await page.goto("/");
-  await page.getByRole("button", { name: "Reading view", exact: true }).click();
-  await page.locator(".reading-document .cover-open").focus();
+  test.setTimeout(120000);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto("/#book");
+  const book = page.locator("#book");
+  await expect(book).toHaveAttribute("data-ready", "true");
+  await page.getByRole("button", { name: "Open book", exact: true }).focus();
   await page.keyboard.press("Enter");
-  await expect(page.locator("#reading-introduction h2")).toBeFocused();
+  await expect(book).toHaveAttribute("data-current-page", "1");
+  await expect(book).toHaveAttribute("data-turning", "false");
+  await expect(
+    page.locator('.library-slot [data-page-id="introduction"] h2'),
+  ).toBeFocused();
+  // The book is read a spread at a time: Tab through everything on the open spread, turn
+  // with the pager, and go on until the contact page's last link.
   const visited: string[] = [];
-  for (let n = 0; n < 65; n++) {
-    await page.keyboard.press("Tab");
-    const active = await page.evaluate(() => ({
-      text: document.activeElement?.textContent?.trim() ?? "",
-      hidden: !!document.activeElement?.closest('[inert],[aria-hidden="true"]'),
-      tag: document.activeElement?.tagName,
-      outline: getComputedStyle(document.activeElement!).outlineStyle,
-    }));
-    expect(active.hidden).toBe(false);
-    if (active.tag === "A" || active.tag === "BUTTON")
-      expect(active.outline).toBe("solid");
-    visited.push(active.text);
-    if (active.text.includes("Download résumé")) break;
+  let reached = false;
+  for (let spread = 0; spread < pages.length && !reached; spread++) {
+    await page.locator(".atlas").focus();
+    let turned = false;
+    for (let n = 0; n < 60; n++) {
+      await page.keyboard.press("Tab");
+      const active = await page.evaluate(() => ({
+        text: document.activeElement?.textContent?.trim() ?? "",
+        label: document.activeElement?.getAttribute("aria-label") ?? "",
+        inBook: !!document.activeElement?.closest(".atlas"),
+        hidden: !!document.activeElement?.closest('[inert],[aria-hidden="true"]'),
+        tag: document.activeElement?.tagName,
+        disabled: (document.activeElement as HTMLButtonElement | null)?.disabled === true,
+        outline: getComputedStyle(document.activeElement!).outlineStyle,
+      }));
+      if (!active.inBook) break;
+      expect(active.hidden, active.text || active.label).toBe(false);
+      if (active.tag === "A" || active.tag === "BUTTON")
+        expect(active.outline, active.text || active.label).toBe("solid");
+      visited.push(active.text || active.label);
+      if (active.text.includes("View résumé (PDF)")) reached = true;
+      if (active.label === "Next page") {
+        const before = (await book.getAttribute("data-current-page"))!;
+        await page.keyboard.press("Enter");
+        await expect(book).not.toHaveAttribute("data-current-page", before);
+        await expect(book).toHaveAttribute("data-turning", "false");
+        turned = true;
+        break;
+      }
+    }
+    if (!turned) break;
   }
-  expect(visited.some((x) => x.includes("Download résumé"))).toBe(true);
+  expect(visited.some((x) => x.includes("View résumé (PDF)"))).toBe(true);
+  await page
+    .locator('.library-slot .book-page[aria-hidden="false"]')
+    .getByRole("link", { name: /View résumé/ })
+    .focus();
   for (let n = 0; n < 5; n++) await page.keyboard.press("Shift+Tab");
   expect(
     await page.evaluate(
@@ -144,7 +169,7 @@ test("D5-5.3.1 D5-5.3.5 full linear tab order reaches contact; active headings a
 });
 
 for (const width of [375, 1280]) {
-  for (const mode of ["native", "reduced", "reading"] as const) {
+  for (const mode of ["native", "reduced"] as const) {
     test(`D5-5.3.5 ${width}px ${mode}: Axe for final content and presentation`, async ({
       page,
     }, testInfo) => {
@@ -153,18 +178,11 @@ for (const width of [375, 1280]) {
       await page.emulateMedia({
         reducedMotion: mode === "reduced" ? "reduce" : "no-preference",
       });
-      await page.goto("/");
+      await page.goto("/#book");
       await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
-      if (mode === "reading")
-        await page
-          .getByRole("button", { name: "Reading view", exact: true })
-          .click();
-      const targets =
-        mode === "reading"
-          ? [0]
-          : pages
-              .map((_, i) => i)
-              .filter((i) => width < 768 || i === 0 || i % 2 === 1);
+      const targets = pages
+        .map((_, i) => i)
+        .filter((i) => width < 768 || i === 0 || i % 2 === 1);
       const records = [];
       for (const index of targets) {
         if (index > 0)

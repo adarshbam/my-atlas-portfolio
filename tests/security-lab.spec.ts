@@ -3,22 +3,21 @@ import AxeBuilder from '@axe-core/playwright';
 import { openContents, chapterButton } from './helpers/book';
 
 for (const width of [375, 768, 1280, 1920]) {
-  for (const mode of ['native', 'reduced', 'reading'] as const) {
+  for (const mode of ['native', 'reduced'] as const) {
     test(`${width} ${mode}: security curriculum and evidence remain reachable`, async ({page}) => {
       await page.setViewportSize({width, height:900});
       await page.emulateMedia({reducedMotion:mode === 'reduced' ? 'reduce':'no-preference'});
       const errors:string[]=[];
       page.on('pageerror', e=>errors.push(e.message));
       page.on('console', m=>{if(m.type()==='error')errors.push(m.text());});
-      await page.goto('/');
+      await page.goto('/#book');
       await expect(page.locator('#book')).toHaveAttribute('data-ready','true');
-      if(mode==='reading')await page.getByRole('button',{name:'Reading view',exact:true}).click();
       await openContents(page);
       await chapterButton(page,'Security Lab').focus();
       await page.keyboard.press('Enter');
       await expect(page.locator('#book')).toHaveAttribute('data-current-page','11');
       await expect(page.locator('#book')).toHaveAttribute('data-turning','false');
-      const scope=mode==='reading'?'.reading-document':mode==='reduced'?'.plain-face[aria-hidden=false]':'.library-slot';
+      const scope=mode==='reduced'?'.plain-face[aria-hidden=false]':'.library-slot';
       const face=page.locator(`${scope} [data-page-id="security-lab"]`);
       await face.locator('h2').focus();
       await expect(face.locator('h2')).toBeFocused();

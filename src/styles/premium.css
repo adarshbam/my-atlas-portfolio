@@ -47,13 +47,6 @@ body::before {
   border: 0;
   background: transparent;
 }
-.book-toolbar > .reading-toggle {
-  font-size: var(--text-base);
-  margin: 0;
-}
-.book-toolbar > .reading-toggle svg {
-  display: none;
-}
 .book-toolbar :is(button, a):focus-visible,
 .atlas > .pagination button:focus-visible {
   outline: var(--hairline) solid var(--desk-text);
@@ -405,31 +398,6 @@ body::before {
 .book-page:not(.page--cover):not(.page--introduction) .folio {
   flex-shrink: 0;
 }
-.reading-progress > div {
-  background: var(--desk-text);
-}
-.reading-document .page--introduction > .sheet-surface {
-  height: auto;
-  aspect-ratio: var(--page-ratio);
-}
-.reading-document .page--introduction .introduction-inner {
-  height: 100%;
-  position: absolute;
-  inset: 0;
-}
-.reading-document .page--introduction .folio {
-  position: absolute;
-  margin-top: 0;
-}
-.reading-document
-  .book-page:not(.page--cover):not(.page--introduction)
-  .page-inner {
-  overflow: visible;
-}
-.atlas:has(.book-shell--reading) .book-toolbar {
-  background: var(--desk);
-  padding-top: var(--s2);
-}
 @container (max-width: 699px) {
   .page--contents .display-title,
   .introduction-copy h2,
@@ -482,18 +450,14 @@ body::before {
     gap: var(--s4);
     justify-content: space-between;
   }
+  /* Two things, one at each edge: the space between them does the dividing. */
   .theme-switch {
     gap: var(--s2);
-    padding-left: var(--s2);
+    padding-left: 0;
+    border-left: 0;
   }
   .book-toolbar > button {
     font-size: var(--text-sm);
-  }
-  .book-toolbar > .reading-toggle {
-    font-size: var(--text-sm);
-  }
-  .reading-document .page--introduction > .sheet-surface {
-    aspect-ratio: var(--phone-page-ratio);
   }
   .introduction-copy,
   .portrait-cover-copy {
@@ -507,17 +471,105 @@ body::before {
   }
 }
 @media (max-width: 767px) {
-  .reading-document .page--introduction > .sheet-surface,
-  .reading-document .page--cover > .sheet-surface {
-    min-height: var(--premium-phone-page-height);
-  }
   .portrait-cover-note,
   .introduction-note {
     background: var(--premium-scrim);
   }
+  /* One page at a time, on a page this narrow: the name block and the sentence are one
+     column in the page's flow, as on the cover, so neither can be printed over the other.
+     The sentence takes the page's full measure and rests on the folio. */
+  @container (max-width: 447px) {
+    .page--introduction .introduction-inner {
+      display: flex;
+    }
+    .page--introduction .introduction-inner > * {
+      flex-shrink: 0;
+    }
+    .page--introduction .introduction-copy {
+      position: relative;
+      inset: auto;
+      width: var(--premium-copy-width-flow);
+      margin-top: var(--s4);
+    }
+    .page--introduction .introduction-note {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      max-width: var(--measure);
+      margin-top: auto;
+    }
+    .page--introduction .folio {
+      position: relative;
+      inset: auto;
+      margin-top: var(--s3);
+    }
+  }
+  /* The narrowest phones (a page under 280px): tighter, so it all still fits without scrolling. */
+  @container (max-width: 279px) {
+    .page--introduction .introduction-copy {
+      margin-top: var(--s2);
+    }
+    .page--introduction .introduction-copy .short-rule {
+      margin-block: var(--s2);
+    }
+    .page--introduction .introduction-note {
+      font-size: var(--text-sm);
+    }
+  }
 }
 .page--portrait-cover .portrait-cover-note {
   font-size: calc(var(--text-base) * var(--cover-type-compensation));
+}
+.portfolio-video-link {
+  min-height: var(--target);
+  padding: var(--s2) 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  white-space: normal;
+  text-decoration: underline;
+  text-underline-offset: var(--s1);
+}
+.portfolio-video-link:focus-visible {
+  outline: var(--hairline) solid currentColor;
+  outline-offset: var(--focus-offset);
+}
+.portrait-cover-note--video p { margin: 0; }
+.portrait-cover-note--video .portfolio-video-link {
+  display: block;
+  margin-top: var(--s2);
+  min-height: calc(var(--target) * var(--cover-type-compensation));
+}
+.page--cover-video .portrait-cover-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  overflow-y: auto;
+}
+.page--cover-video .portrait-cover-inner > * { flex-shrink: 0; }
+.page--cover-video .portrait-cover-copy {
+  position: relative;
+  inset: auto;
+  margin-top: var(--s4);
+}
+.page--cover-video .portrait-cover-copy .eyebrow { margin-top: var(--s3); }
+.page--cover-video .portrait-cover-note {
+  position: relative;
+  inset: auto;
+  margin-top: auto;
+  width: 100%;
+  max-width: var(--measure);
+}
+.page--cover-video .portrait-cover-footer {
+  position: relative;
+  inset: auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
 }
 .page--portrait-cover .portrait-cover-stack {
   font-size: calc(var(--text-base) * var(--cover-type-compensation));
@@ -529,11 +581,11 @@ body::before {
 }
 
 /* Keep native page scrolling, with a reserved, quiet cue instead of scrollbar chrome. */
-.book-shell:not(.book-shell--reading) .book-page .page-inner { scrollbar-width: none; }
-.book-shell:not(.book-shell--reading) .book-page .page-inner::-webkit-scrollbar { display: none; }
-.book-shell:not(.book-shell--reading) .sheet-surface[data-page-overflow] > .page-inner { height: calc(100% - var(--page-scroll-hint-space)); }
+.atlas .book-shell .book-page .page-inner { scrollbar-width: none; }
+.atlas .book-shell .book-page .page-inner::-webkit-scrollbar { display: none; }
+.atlas .book-shell .sheet-surface[data-page-overflow] > .page-inner { height: calc(100% - var(--page-scroll-hint-space)); }
 .page-scroll-hint { display: none; }
-.book-shell:not(.book-shell--reading) .page-scroll-hint:not([hidden]) {
+.atlas .book-shell .page-scroll-hint:not([hidden]) {
   display: grid;
   place-items: center;
   position: absolute;
@@ -564,4 +616,4 @@ body::before {
   visibility: hidden;
   pointer-events: none;
 }
-.book-shell:not(.book-shell--reading) .page-inner:focus-visible { outline: var(--hairline) solid var(--graphite); outline-offset: calc(var(--s2) * -1); }
+.atlas .book-shell .page-inner:focus-visible { outline: var(--hairline) solid var(--graphite); outline-offset: calc(var(--s2) * -1); }

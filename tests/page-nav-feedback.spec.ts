@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test";
 test("navigation press releases outside the button and reduced motion clears its transform", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   const next = page.getByRole("button", { name: "Next page", exact: true });
   const scale = () =>

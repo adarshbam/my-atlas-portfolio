@@ -1,0 +1,1292 @@
+/*
+ * The atlas run and the arrival at the book. Front-page trailer amendment, 22 November 2026.
+ * Tokens first; components consume tokens. With scroll, only transform, opacity,
+ * clip-path and stroke-dashoffset change.
+ *
+ * Scene variables (0..1) written by src/trailer/engine.ts:
+ *   hello:    --copy (the opening words lift away)   --push (the portrait passes the camera)
+ *   projects: --b (the evidence print rises into the light)   --c (a second print, where there is one)
+ * The references scene has no segment: its quotations follow the scene's data-beat.
+ */
+:is(.atlas-run, .atlas-arrival) {
+  --atlas-art-drift: 1.06; /* the desk is this close at one end of a scene and at 1 at the other */
+  --atlas-face-origin: 68% 30%; /* the face in the opening portrait */
+  --atlas-portrait-height: 92svh;
+  --atlas-print-height: 40svh;
+  --atlas-print-height-short: 240px; /* in a window too short to measure a print by */
+  --atlas-heading: clamp(var(--obs-t7), 4.6vw, var(--obs-t9)); /* a scene's name */
+  /* A project's name never outgrows its caption column: at this share of the column's width
+     the longest line of the longest name ("Pipeline Engine", about 6.1em) stays on one line. */
+  --atlas-heading-fit: 15.5cqi;
+  /* The page's side margin: the gutter, inside the page's full measure. */
+  --atlas-edge: max(var(--obs-gutter), calc((100vw - var(--obs-width)) / 2 + var(--obs-gutter)));
+  /* A project scene's columns: caption, evidence, and room left for the objects on the desk. */
+  --atlas-body-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr);
+  --atlas-body-end: var(--atlas-edge); /* where those columns stop on the right */
+  /* On a desktop the evidence takes all the desk between the caption and the objects (below).
+     The caption keeps the width it has in three equal columns: a third of the page's measure. */
+  --atlas-caption-track: calc((min(100vw, var(--obs-width)) - 2 * var(--obs-gutter) - 2 * var(--obs-s12)) / 3);
+  /* The right of the desk, where every painting's objects lie: no print is laid over it. The
+     nearest object (the paper slip in the Harigurus painting) begins 69% of the way across at
+     the camera's closest; the prints stop at 68%. */
+  --atlas-objects-room: 32vw;
+  /* Two prints together are about nine tenths as tall as their column is wide, plus their
+     captions. In a short, wide window the column is held to this width so both stay on screen. */
+  --atlas-pair-fit: calc(110svh - 190px);
+  /* Two prints on the desk: each takes this share of the evidence column; the second lies
+     this far down (a share of the column's width, as the prints' height is) and under the first. */
+  --atlas-pair-width: 84%;
+  --atlas-pair-drop: 45%;
+  --atlas-pair-tilt: 1.2deg; /* they lean apart by this much each */
+  --atlas-print-lift: var(--obs-s1); /* a print under the hand, or holding keyboard focus, rises this far */
+  /* The film still in the Vault scene: the introduction's poster in a paper frame. */
+  --atlas-reel-width: 144px;
+  --atlas-reel-play: var(--obs-s8); /* the play mark's disc */
+  /* The references. */
+  --atlas-quote-size: clamp(var(--obs-t3), 1.75vw, var(--obs-t4));
+  --atlas-quote-leading: 1.45;
+  --atlas-quote-hang: -0.42em; /* the width of an opening quotation mark in the serif */
+  --atlas-quote-photo: 56px;
+  --atlas-quote-gap: var(--obs-s12); /* between the three columns */
+  --atlas-references-light: 0.6; /* how much of the lamp-lit desk shows behind the quotations */
+  --atlas-objects-band: 30svh; /* the foot of the desk, where a painting's objects lie */
+  /* The desk of the arrival lies pinned under the run's last two screens: one while the run
+     is still pinned and dissolves into it, one while the dissolved stage scrolls away unseen. */
+  --arrival-under: 200svh;
+  --atlas-noise: url("/images/book-fiber-light.webp");
+  --atlas-noise-strength: 0.08;
+}
+
+/* ---------- The night field and its type, as on the story page ---------- */
+.atlas-run {
+  position: relative;
+  isolation: isolate;
+  min-width: 0;
+  background: var(--obs-night);
+  color: var(--obs-paper);
+  font: 400 var(--obs-body) / 1.6 var(--obs-serif);
+}
+.atlas-run::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--atlas-noise) repeat;
+  opacity: var(--atlas-noise-strength);
+  mix-blend-mode: soft-light;
+}
+.atlas-run * {
+  box-sizing: border-box;
+}
+.atlas-run :is(h1, h2, p, figure) {
+  margin: 0;
+}
+.atlas-run :is(h1, h2) {
+  font-family: var(--obs-serif);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.atlas-run h1 {
+  font-size: var(--obs-hero);
+}
+.atlas-run svg {
+  display: block;
+}
+.atlas-run img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.atlas-run :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--obs-target);
+  color: inherit;
+}
+.atlas-run button {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.atlas-run :is(a, button):focus-visible {
+  outline: 2px solid var(--obs-green);
+  outline-offset: var(--obs-s1);
+}
+/* A heading only takes focus as the landing point of a rail tick; it shows no ring. */
+.atlas-run :is(h1, h2):focus {
+  outline: none;
+}
+.atlas-run .obs-kicker {
+  font: 500 var(--obs-t1) / 1.6 var(--obs-sans);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--obs-lamp);
+  text-wrap: balance; /* a label that needs two lines breaks evenly, not one word short */
+}
+/* Each phrase of a label is one unit: the label breaks after a dot, never inside a phrase.
+   A phrase wider than the whole line still wraps within itself. */
+.atlas-run .atlas-kicker-unit {
+  display: inline-block;
+}
+.atlas-run .obs-small {
+  font-size: var(--obs-t2);
+  color: var(--obs-muted);
+}
+/* Buttons in a link row read as the links beside them. */
+.atlas-run .obs-trailer-links :is(button, .portfolio-video-link) {
+  position: relative;
+  font: 500 var(--obs-t2) / 1.5 var(--obs-sans);
+  text-decoration: none;
+}
+.atlas-run .obs-trailer-links :is(button, .portfolio-video-link)::before,
+.atlas-run .obs-trailer-links :is(button, .portfolio-video-link)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: var(--obs-s2);
+  left: 0;
+  height: var(--obs-rule);
+  background: var(--obs-line);
+}
+.atlas-run .obs-trailer-links :is(button, .portfolio-video-link)::after {
+  background: var(--obs-green);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--obs-speed-short) linear;
+}
+.atlas-run .obs-trailer-links :is(button, .portfolio-video-link):is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+
+/* Where the desk of the arrival lies under the run, the run paints no night field of its own:
+   what shows through the dissolving stage is the desk. One flat colour, sized, not a gradient. */
+.atlas-run[data-mode="scroll"] {
+  background: linear-gradient(var(--obs-night), var(--obs-night)) top / 100% calc(100% - var(--arrival-under)) no-repeat;
+}
+.atlas-run[data-mode="scroll"]::before {
+  bottom: var(--arrival-under);
+}
+/* The run's own box reaches over the desk for those two screens. Only its stage takes a press;
+   the box itself lets everything through to the desk and the book under it. */
+.atlas-run[data-mode="scroll"] {
+  pointer-events: none;
+}
+.atlas-run[data-mode="scroll"] .obs-trailer-stage {
+  pointer-events: auto;
+}
+/* The run's way out: while it is still pinned, the last scene's words go first (the first half
+   of --leave), then the whole stage dissolves into the desk under it (the second half). Then
+   it scrolls away unseen, and takes no press. */
+.atlas-run .obs-trailer[data-mode="scroll"] .obs-trailer-stage {
+  --leave: 0;
+  opacity: calc(1 - clamp(0, var(--leave) * 2 - 1, 1));
+}
+.atlas-run .obs-trailer[data-mode="scroll"] .obs-trailer-stage[data-gone="true"],
+.atlas-run .obs-trailer[data-mode="scroll"] .obs-trailer-stage[data-gone="true"] * {
+  pointer-events: none !important;
+}
+
+/* Every scene stays in the tab order; one that is not on screen is only made invisible.
+   Focusing a link inside it scrolls it into place (FrontRun.tsx). */
+.atlas-run .obs-trailer[data-mode="scroll"] .obs-trailer-scene:not([data-state="active"]) {
+  visibility: visible;
+  opacity: 0;
+  pointer-events: none;
+}
+.atlas-run .obs-trailer[data-mode="scroll"] .obs-trailer-scene:not([data-state="active"]) * {
+  pointer-events: none;
+}
+
+/* ---------- Scene 1: hello ---------- */
+.atlas-run .atlas-scene--hello {
+  --copy: 0;
+  --push: 0;
+}
+.atlas-run .atlas-portrait {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  pointer-events: none;
+  opacity: calc(1 - clamp(0, (var(--push) - 0.45) / 0.55, 1));
+}
+/* The photograph grows about the face, so the camera goes in on it and it stays on screen. */
+.atlas-run .atlas-portrait img {
+  transform-origin: var(--atlas-face-origin);
+  transform: scale(calc(1 + var(--push) * (var(--obs-zoom-through) - 1)));
+  width: auto;
+  height: var(--atlas-portrait-height);
+  max-width: 50vw;
+  object-fit: contain;
+  object-position: bottom right;
+}
+.atlas-run .atlas-hello {
+  display: flex;
+  align-items: center;
+  padding: var(--obs-s16) max(var(--obs-gutter), calc((100vw - var(--obs-width)) / 2 + var(--obs-gutter)));
+  pointer-events: none;
+  opacity: calc(1 - var(--copy));
+  transform: translateY(calc(var(--copy) * var(--obs-lift) * -1));
+}
+.atlas-run .atlas-hello-copy {
+  display: grid;
+  gap: var(--obs-s4);
+  max-width: 34em;
+  pointer-events: auto;
+}
+/* Once the opening words have lifted away (beat 1) they can no longer be pressed by accident. */
+.atlas-run .atlas-scene--hello[data-beat="1"] .atlas-hello-copy {
+  pointer-events: none;
+}
+.atlas-run .atlas-role {
+  font: 500 var(--obs-t2) / 1.5 var(--obs-sans);
+  color: var(--obs-lamp);
+  text-wrap: balance;
+}
+/* No line of a scene, and not the opening sentence, ends on a word alone. */
+.atlas-run .obs-trailer-lines p,
+.atlas-run .atlas-lead {
+  text-wrap: balance;
+}
+.atlas-run .atlas-lead {
+  max-width: 24em;
+  font-size: var(--obs-t4);
+  line-height: 1.45;
+}
+.atlas-run .atlas-hello .obs-trailer-links {
+  margin-top: var(--obs-s4);
+}
+/* The first row is what a recruiter came for, a size up; the second is the ways further in. */
+.atlas-run .atlas-hello .atlas-hello-first {
+  font-size: var(--obs-t3);
+}
+.atlas-run .atlas-hello .atlas-hello-more {
+  margin-top: calc(var(--obs-s2) * -1);
+}
+/* A hyphenated compound stays on one line. */
+.atlas-run .atlas-nobreak {
+  white-space: nowrap;
+}
+
+/* ---------- Project scenes: a painting behind, caption and evidence in front ---------- */
+/* One desk. A scene's painting fades in over the one before it and stays until the next has
+   covered it, so the desk never dims between scenes: only the objects on it change. */
+.atlas-run .atlas-art {
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--obs-night); /* a painting shown at part strength, or missing, still covers the last one */
+  opacity: var(--in);
+}
+/* The camera drifts in through one scene and back out through the next (data-drift), so two
+   paintings meet at the same scale and the lamp does not jump where they cross. */
+.atlas-run .atlas-painting {
+  position: absolute;
+  inset: 0;
+  --drift: calc(1 - var(--t));
+  transform-origin: 80% 85%;
+  transform: scale(calc(1 + var(--drift) * (var(--atlas-art-drift) - 1)));
+}
+.atlas-run .atlas-scene[data-drift="out"] .atlas-painting {
+  --drift: var(--t);
+}
+.atlas-run .atlas-painting picture,
+.atlas-run .atlas-painting img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+/* The objects lie along the bottom right of the desk; wide screens crop from the top. */
+.atlas-run .atlas-painting img {
+  object-fit: cover;
+  object-position: 80% 88%;
+}
+/* The veil keeps the left of the frame dark enough for text over any painting. */
+.atlas-run .atlas-painting::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--obs-hero-veil);
+}
+.atlas-run .atlas-painting figcaption {
+  position: absolute;
+  right: max(var(--obs-gutter), calc((100vw - var(--obs-width)) / 2 + var(--obs-gutter)));
+  bottom: var(--obs-s4);
+  z-index: 1;
+  font: 500 var(--obs-t1) / 1.4 var(--obs-sans);
+  color: var(--obs-muted);
+}
+.atlas-run .atlas-body {
+  display: grid;
+  grid-template-columns: var(--atlas-body-columns);
+  align-items: center;
+  gap: var(--obs-s12);
+  padding: var(--obs-s16) var(--atlas-body-end) var(--obs-s16) var(--atlas-edge);
+  pointer-events: none;
+  transform-origin: 30% 55%;
+}
+.atlas-run .atlas-body :is(a, button) {
+  pointer-events: auto;
+}
+/* Where two scenes cross, their words take turns: the leaving caption and print are gone by the
+   middle of the crossing and the arriving ones start there. The desk itself (.atlas-art) keeps
+   its plain cross-fade, so it never dims and only the objects on it change. The leaving words
+   also grow far less than the story's do, so they are still whole when they go. */
+.atlas-run :is(.atlas-body, .atlas-voices) {
+  --obs-zoom-through: 1.16;
+}
+.atlas-run :is(.atlas-body, .atlas-voices).obs-trailer-pass {
+  opacity: calc(clamp(0, (var(--in) - 0.5) * 2, 1) * (1 - clamp(0, var(--out) * 2, 1)));
+}
+/* Its painting's label goes with the words, so two labels never stand on top of each other. */
+.atlas-run .obs-trailer[data-mode="scroll"] .atlas-scene--references .atlas-painting figcaption {
+  opacity: calc(1 - clamp(0, var(--leave) * 2, 1));
+}
+/* The last scene has no next scene to hand over to: its words leave on --leave (above). */
+.atlas-run .obs-trailer[data-mode="scroll"] .atlas-voices.obs-trailer-pass {
+  opacity: calc(clamp(0, (var(--in) - 0.5) * 2, 1) * (1 - clamp(0, var(--leave) * 2, 1)));
+}
+/* A print that has not come into the light is not yet there to be pressed: the blank desk where
+   it will lie takes no press and shows no hand. FrontRun.tsx counts the prints that are at least
+   half way in (data-prints). Keyboard focus still reaches the link, and brings the scene to rest. */
+.atlas-run .obs-trailer[data-mode="scroll"] .atlas-print a {
+  pointer-events: none;
+}
+.atlas-run .obs-trailer[data-mode="scroll"] .atlas-scene[data-state="active"]:is([data-prints="1"], [data-prints="2"]) .atlas-print:first-child a,
+.atlas-run .obs-trailer[data-mode="scroll"] .atlas-scene[data-state="active"][data-prints="2"] .atlas-print a {
+  pointer-events: auto;
+}
+/* The caption is the measure for its own heading (--atlas-heading-fit). */
+.atlas-run .atlas-body .obs-trailer-caption {
+  container-type: inline-size;
+}
+/* The words and the evidence share one centre line, whatever the window's height. */
+.atlas-run .obs-trailer[data-mode="scroll"] .atlas-body .obs-trailer-caption {
+  align-self: center;
+  padding-bottom: 0;
+}
+.atlas-run .atlas-body .obs-trailer-caption h2 {
+  margin-top: var(--obs-s2);
+  font-size: min(var(--atlas-heading), var(--atlas-heading-fit));
+}
+.atlas-run .atlas-body .obs-trailer-links {
+  margin-top: var(--obs-s4);
+}
+/* The standing line under the rule: the terms on which the work is shown. */
+.atlas-run .atlas-body .obs-trailer-caption .obs-small {
+  font: 500 var(--obs-t2) / 1.5 var(--obs-sans);
+  text-wrap: balance;
+}
+.atlas-run .atlas-evidence {
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  justify-items: start;
+  gap: var(--obs-s4);
+  min-width: 0;
+}
+.atlas-run .atlas-print {
+  width: fit-content;
+  max-width: 100%;
+  --print: var(--b); /* the segment that brings this print in */
+  --tilt: 0deg;
+  /* Paper does not fade in like glass: the sheet is solid after the first quarter of its rise. */
+  opacity: clamp(0, calc(var(--print) * 4), 1);
+  transform: translateY(calc((1 - var(--print)) * var(--obs-lift))) rotate(var(--tilt));
+}
+/* Two prints: the first on top at the upper left, the second under it, lower and to the
+   right, so each one's subject and caption stay in view. */
+.atlas-run .atlas-evidence--pair {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+.atlas-run .atlas-evidence--pair .atlas-print {
+  grid-area: 1 / 1;
+  align-self: start;
+  max-width: var(--atlas-pair-width);
+}
+.atlas-run .atlas-evidence--pair .atlas-print:first-child {
+  z-index: 1;
+  --tilt: calc(var(--atlas-pair-tilt) * -1);
+}
+.atlas-run .atlas-evidence--pair .atlas-print:last-child {
+  justify-self: end;
+  margin-top: var(--atlas-pair-drop);
+  --print: var(--c);
+  --tilt: var(--atlas-pair-tilt);
+}
+/* The paper. It rises a little under the hand or with keyboard focus; the scroll moves the
+   figure, never the sheet, so the two do not fight. */
+.atlas-run .atlas-print-sheet {
+  position: relative;
+  padding: var(--obs-s3);
+  background: var(--obs-paper) var(--obs-paper-texture);
+  color: var(--obs-paper-ink);
+  box-shadow: var(--obs-photo-shadow);
+  transition: transform var(--obs-speed-short) var(--obs-ease);
+}
+.atlas-run .atlas-print:focus-within .atlas-print-sheet {
+  transform: translateY(calc(var(--atlas-print-lift) * -1));
+}
+@media (hover: hover) {
+  .atlas-run .atlas-print:hover .atlas-print-sheet {
+    transform: translateY(calc(var(--atlas-print-lift) * -1));
+  }
+}
+.atlas-run .atlas-print a {
+  display: block;
+  min-height: 0;
+}
+/* The green ring disappears on paper; ink does not. */
+.atlas-run .atlas-print a:focus-visible {
+  outline-color: var(--obs-paper-ink);
+}
+.atlas-run .atlas-print img {
+  width: auto;
+  max-height: var(--atlas-print-height);
+}
+/* The print is as wide as its screenshot, never as wide as its caption: the caption asks for
+   no width of its own and then takes the print's. */
+.atlas-run .atlas-print figcaption {
+  width: 0;
+  min-width: 100%;
+  max-width: 34em;
+  padding: var(--obs-s3) var(--obs-s1) 0;
+  font-size: var(--obs-t2);
+  line-height: 1.45;
+}
+
+/* ---------- The film still: the introduction, kept on Vault, shown with Vault ---------- */
+/* A poster in a paper frame, under the scene's links. Pressing it opens the player, which
+   grows out of the still (public/media-viewer.css). */
+.atlas-run .atlas-reel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--obs-s4);
+  margin-top: var(--obs-s4);
+}
+.atlas-run .atlas-reel-still {
+  display: block;
+  padding: var(--obs-s1);
+  background: var(--obs-paper) var(--obs-paper-texture);
+  box-shadow: var(--obs-photo-shadow);
+  transition: transform var(--obs-speed-short) var(--obs-ease);
+}
+.atlas-run .atlas-reel:focus-visible .atlas-reel-still {
+  transform: translateY(calc(var(--atlas-print-lift) * -1));
+}
+@media (hover: hover) {
+  .atlas-run .atlas-reel:hover .atlas-reel-still {
+    transform: translateY(calc(var(--atlas-print-lift) * -1));
+  }
+}
+/* The picture keeps its place and shape before the poster has loaded. */
+.atlas-run .atlas-reel-picture {
+  position: relative;
+  display: block;
+  width: var(--atlas-reel-width);
+  aspect-ratio: var(--portfolio-video-ratio, 16 / 9);
+  overflow: hidden;
+  background: var(--obs-night);
+}
+.atlas-run .atlas-reel-picture img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* The play mark: a paper disc with an ink triangle, drawn in CSS so it is never a request. */
+.atlas-run .atlas-reel-picture::before,
+.atlas-run .atlas-reel-picture::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  width: var(--atlas-reel-play);
+  height: var(--atlas-reel-play);
+  transform: translate(-50%, -50%);
+}
+.atlas-run .atlas-reel-picture::before {
+  border-radius: 50%;
+  background: var(--obs-paper);
+}
+.atlas-run .atlas-reel-picture::after {
+  background: var(--obs-paper-ink);
+  clip-path: polygon(38% 30%, 38% 70%, 72% 50%);
+}
+.atlas-run .atlas-reel-words {
+  display: grid;
+}
+.atlas-run .atlas-reel-label {
+  font: 500 var(--obs-t2) / 1.5 var(--obs-sans);
+}
+.atlas-run .atlas-reel-note {
+  font: 500 var(--obs-t1) / 1.5 var(--obs-sans);
+  color: var(--obs-muted);
+}
+
+/* ---------- The references: three quotations over the desk, no frames ---------- */
+/* The words lie across the whole desk, lit part included, so the lamp is turned low behind
+   them: the painting is shown at part strength over the night field. Measured against what
+   is painted behind each line, every piece of text keeps at least 4.5:1. */
+.atlas-run .atlas-scene--references .atlas-painting img {
+  opacity: var(--atlas-references-light);
+}
+.atlas-run .atlas-voices {
+  display: grid;
+  align-content: center;
+  gap: var(--obs-s8);
+  padding: var(--obs-s16) max(var(--obs-gutter), calc((100vw - var(--obs-width)) / 2 + var(--obs-gutter))) var(--atlas-objects-band);
+  pointer-events: none;
+  transform-origin: 30% 45%;
+}
+.atlas-run .atlas-voices :is(a, button) {
+  pointer-events: auto;
+}
+.atlas-run .atlas-voices h2 {
+  font-size: var(--atlas-heading);
+}
+.atlas-run .atlas-quotes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: auto auto;
+  column-gap: var(--atlas-quote-gap);
+  row-gap: var(--obs-s4);
+}
+/* Each quotation spans both rows and borrows them, so the three names stand on one line
+   however many lines each quotation takes. */
+.atlas-run .atlas-quote {
+  display: grid;
+  grid-row: span 2;
+  grid-template-rows: subgrid;
+  align-content: start;
+  min-width: 0;
+  opacity: 0;
+  transform: translateY(var(--obs-s3));
+  transition: opacity var(--obs-speed-short) linear, transform 0s linear var(--obs-speed-short);
+}
+/* One arrives per beat, and stays. */
+.atlas-run .atlas-scene--references:is([data-beat="1"], [data-beat="2"], [data-beat="3"]) .atlas-quote[data-quote="1"],
+.atlas-run .atlas-scene--references:is([data-beat="2"], [data-beat="3"]) .atlas-quote[data-quote="2"],
+.atlas-run .atlas-scene--references[data-beat="3"] .atlas-quote[data-quote="3"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--obs-speed) var(--obs-ease), transform var(--obs-speed) var(--obs-ease);
+}
+.atlas-run .atlas-quote blockquote {
+  margin: 0;
+  font-size: var(--atlas-quote-size);
+  line-height: var(--atlas-quote-leading);
+  text-wrap: pretty;
+  text-indent: var(--atlas-quote-hang); /* the opening mark hangs in the margin; the words align */
+}
+.atlas-run .atlas-quote figcaption {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  column-gap: var(--obs-s3);
+  align-content: center;
+  align-self: start;
+}
+.atlas-run .atlas-quote-photo {
+  grid-row: 1 / span 2;
+  align-self: center;
+  width: var(--atlas-quote-photo);
+  height: var(--atlas-quote-photo);
+  overflow: hidden;
+  border-radius: 50%;
+}
+.atlas-run .atlas-quote-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.atlas-run .atlas-quote-name {
+  align-self: end;
+  font: 500 var(--obs-t2) / 1.4 var(--obs-sans);
+}
+.atlas-run .atlas-quote-role {
+  align-self: start;
+  font: 500 var(--obs-t2) / 1.4 var(--obs-sans);
+  color: var(--obs-muted);
+}
+
+/* ---------- Still mode: reduced motion ---------- */
+.atlas-run .obs-trailer[data-mode="still"] :is(.atlas-print-sheet, .atlas-reel-still) {
+  transition: none;
+  transform: none;
+}
+/* A control brought on screen by the keyboard rests inside the window, ring and all. */
+.atlas-run .obs-trailer[data-mode="still"] :is(a, button) {
+  scroll-margin-block: var(--obs-s6);
+}
+.atlas-run .obs-trailer[data-mode="still"] .atlas-quote {
+  opacity: 1;
+  transform: none;
+}
+.atlas-run .obs-trailer[data-mode="still"] .atlas-voices {
+  align-content: start;
+  padding-top: var(--obs-s24);
+}
+.atlas-run .obs-trailer[data-mode="still"] .atlas-scene {
+  --copy: 0;
+  --push: 0;
+  min-height: 86svh;
+}
+.atlas-run .obs-trailer[data-mode="still"] .atlas-portrait {
+  position: absolute;
+  inset: 0;
+}
+.atlas-run .obs-trailer[data-mode="still"] .atlas-hello {
+  min-height: 86svh;
+}
+.atlas-run .obs-trailer[data-mode="still"] .atlas-art {
+  position: absolute;
+  inset: 0;
+}
+.atlas-run .obs-trailer[data-mode="still"] .atlas-painting {
+  transform: none;
+}
+.atlas-run .obs-trailer[data-mode="still"] .atlas-body {
+  align-items: start;
+  padding-block: var(--obs-s24);
+}
+
+/* ---------- Small laptops and tablets on their side ---------- */
+/* Three equal columns leave the caption too narrow here: it takes the wider share, so a
+   project's name, its standing line and its links keep to their lines. */
+@media (min-width: 801px) and (max-width: 1179px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-body-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+  }
+}
+
+/* ---------- Desktops ---------- */
+/* A third of the page's measure makes a thumbnail of a screenshot on a wide screen (352px of
+   1920). Here the evidence runs from the caption to where the objects begin, so the print grows
+   with the window and still never covers them. */
+@media (min-width: 1180px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-body-columns: var(--atlas-caption-track) minmax(0, 1fr);
+    --atlas-body-end: max(var(--atlas-edge), var(--atlas-objects-room));
+  }
+  .atlas-run .obs-trailer[data-mode="scroll"] .atlas-evidence--pair {
+    width: min(100%, var(--atlas-pair-fit));
+  }
+}
+/* From a tablet on its side upwards the opening has room for a larger role line, and the name
+   stays as a title while the rest of the words lift away: it goes as the camera passes the face. */
+@media (min-width: 801px) {
+  .atlas-run .atlas-role {
+    font-size: var(--obs-t3);
+  }
+  .atlas-run .atlas-hello {
+    opacity: 1;
+    transform: none;
+  }
+  .atlas-run .atlas-hello-copy > :not(h1) {
+    opacity: calc(1 - var(--copy));
+    transform: translateY(calc(var(--copy) * var(--obs-lift) * -1));
+  }
+  .atlas-run .atlas-hello-copy > h1 {
+    opacity: calc(1 - clamp(0, (var(--push) - 0.45) / 0.35, 1));
+  }
+}
+
+/* ---------- Narrow screens ---------- */
+@media (max-width: 800px) {
+  :is(.atlas-run, .atlas-arrival) {
+    /* Half the window, or less where the words below need the room (368px: the opening's
+       words with their two rows of links, the padding, and 16px clear). */
+    --atlas-portrait-height: min(50svh, calc(100svh - 368px));
+    --atlas-print-height: 26svh;
+    /* Side by side, so both prints stay above the objects at the foot of the desk. */
+    --atlas-pair-width: 58%;
+    --atlas-pair-drop: 17%;
+    --atlas-quote-gap: var(--obs-s6);
+  }
+  /* Kept against the right edge, so the screen crops the sleeve and no cut edge shows. */
+  .atlas-run .atlas-portrait {
+    align-items: flex-start;
+    padding-top: var(--obs-s8);
+  }
+  .atlas-run .atlas-portrait img {
+    max-width: 84vw;
+    object-position: top right;
+    /* The foot of the photograph dissolves into the night field: no cut edge across the arms. */
+    -webkit-mask-image: linear-gradient(to bottom, var(--obs-night) calc(100% - min(var(--obs-s16), 16%)), transparent);
+    mask-image: linear-gradient(to bottom, var(--obs-night) calc(100% - min(var(--obs-s16), 16%)), transparent);
+  }
+  /* The row of links says what to do next; the hint would cost the portrait its height. */
+  .atlas-run .atlas-hint {
+    display: none;
+  }
+  .atlas-run .atlas-hello {
+    align-items: flex-end;
+    padding-block: var(--obs-s8);
+  }
+  .atlas-run .atlas-hello-copy {
+    gap: var(--obs-s2);
+  }
+  .atlas-run .atlas-lead {
+    font-size: var(--obs-body);
+  }
+  .atlas-run .atlas-painting::after {
+    background: var(--obs-hero-veil-tall);
+  }
+  .atlas-run .atlas-painting img {
+    object-position: 50% 100%;
+  }
+  .atlas-run .atlas-body {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+    gap: var(--obs-s4);
+    padding-block: var(--obs-s8);
+  }
+  .atlas-run .atlas-evidence {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  /* Not shown here (the full caption is in the viewer and in the book), but still read out:
+     clipped to nothing instead of removed, so a screen reader gets it at every width. */
+  .atlas-run .atlas-print figcaption {
+    position: absolute;
+    width: var(--obs-rule);
+    min-width: 0;
+    height: var(--obs-rule);
+    padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  /* No room for the still beside the words here. Standing still, the watch link is words
+     alone and the player opens without growing out of anything. In the pinned scene it is not
+     shown: the opening scene carries the same link, and the print takes the room. */
+  .atlas-run .obs-trailer[data-mode="scroll"] .atlas-reel {
+    display: none;
+  }
+  .atlas-run .atlas-reel {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 0;
+  }
+  .atlas-run .atlas-reel-still {
+    display: none;
+  }
+  .atlas-run .atlas-reel-label {
+    text-decoration: underline;
+    text-decoration-color: var(--obs-line);
+    text-decoration-thickness: var(--obs-rule);
+    text-underline-offset: var(--obs-s1);
+  }
+  /* A phone's column is narrow: the lines take all of it, and the block stays short. */
+  .atlas-run .atlas-body .obs-trailer-lines p,
+  .atlas-run .atlas-body .obs-trailer-caption .obs-small {
+    max-width: none;
+  }
+  .atlas-run .atlas-voices {
+    align-content: start;
+    gap: var(--obs-s4);
+    padding-block: var(--obs-s8);
+  }
+  /* Standing still, a scene is as tall as its words. The painting keeps its one-screen crop
+     at the foot of the block, and the words and prints stop above the objects in it. */
+  .atlas-run .obs-trailer[data-mode="still"] .atlas-art {
+    inset: auto 0 0;
+    height: 100%;
+    max-height: 100svh;
+    /* Where the block is taller than the painting, its top edge dissolves into the night field. */
+    /* A mask reads only how opaque each stop is, so the night field's own colour serves as "solid". */
+    mask-image: linear-gradient(to bottom, transparent, var(--obs-night) var(--obs-s24));
+  }
+  .atlas-run .obs-trailer[data-mode="still"] :is(.atlas-body, .atlas-voices) {
+    padding-block: var(--obs-s12) var(--atlas-objects-band);
+  }
+}
+/* A tablet upright: the portrait takes the room there is, so no empty band lies between it
+   and the name, and the opening sentence is set at its desktop size. */
+@media (min-width: 601px) and (max-width: 800px) and (min-height: 900px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-portrait-height: min(64svh, calc(100svh - 368px));
+  }
+  .atlas-run .atlas-lead {
+    font-size: var(--obs-t4);
+  }
+}
+/* The narrowest phones: the opening's links take three rows. */
+@media (max-width: 349px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-portrait-height: min(50svh, calc(100svh - 424px));
+  }
+}
+/* A tall phone or a tablet upright: the quotations lie under the veil already, so the lamp
+   behind them need not be turned as low (worst line 5.7:1 at this strength). */
+@media (max-width: 800px) and (min-height: 701px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-references-light: 0.85;
+  }
+}
+/* A short phone: smaller prints, and the pair closer together, so they still stop above the
+   objects at the foot of the desk. */
+@media (max-width: 800px) and (max-height: 700px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-print-height: 18svh;
+    --atlas-pair-width: 54%;
+    --atlas-pair-drop: 6%;
+  }
+}
+/* The shortest phone screens (a small phone with the browser's bars showing): the words start
+   nearer the top so the last link stays on screen, and the lamp behind the quotations is
+   lower still, because the last of them now reaches the envelopes. */
+@media (max-width: 800px) and (max-height: 600px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-references-light: 0.4;
+  }
+  .atlas-run .obs-trailer[data-mode="scroll"] :is(.atlas-body, .atlas-voices) {
+    padding-block: var(--obs-s4);
+  }
+  .atlas-run .obs-trailer[data-mode="scroll"] .atlas-quotes {
+    row-gap: var(--obs-s3);
+  }
+}
+/* A window too short to hold a pinned scene stands still (SHORT_WINDOW in scenes.ts; keep the
+   two in step). A print sized by that window's height would be a thumbnail, so it takes a
+   fixed height, and on a narrow one the words stop further above the objects. */
+@media (max-height: 540px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-print-height: var(--atlas-print-height-short);
+    --atlas-objects-band: 50svh;
+  }
+}
+/* Below three columns the quotations stack, set tight enough for one phone screen. */
+@media (max-width: 767px) {
+  :is(.atlas-run, .atlas-arrival) {
+    --atlas-quote-leading: 1.4;
+    --atlas-quote-photo: 40px;
+  }
+  .atlas-run .atlas-quotes {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    row-gap: var(--obs-s4);
+  }
+  .atlas-run .atlas-quote {
+    grid-row: auto;
+    grid-template-rows: none;
+    row-gap: var(--obs-s2);
+  }
+  /* Stacked, the way into the book lies below the third quotation. It arrives with it, so it
+     never stands alone under an empty stretch of desk, and cannot be pressed until it shows.
+     Keyboard focus still reaches it, and brings the scene to rest with all three in place. */
+  .atlas-run .obs-trailer[data-mode="scroll"] .atlas-voices .obs-trailer-links {
+    opacity: 0;
+    transform: translateY(var(--obs-s3));
+    transition: opacity var(--obs-speed-short) linear, transform 0s linear var(--obs-speed-short);
+  }
+  .atlas-run .obs-trailer[data-mode="scroll"] .atlas-scene--references:not([data-beat="3"]) .atlas-voices .obs-trailer-links :is(a, button) {
+    pointer-events: none;
+  }
+  .atlas-run .obs-trailer[data-mode="scroll"] .atlas-scene--references[data-beat="3"] .atlas-voices .obs-trailer-links {
+    opacity: 1;
+    transform: none;
+    transition: opacity var(--obs-speed) var(--obs-ease), transform var(--obs-speed) var(--obs-ease);
+  }
+}
+
+/* ---------- The arrival at the book ----------
+ * --arrive (0..1) is the scroll through the arrival, written by Arrival.tsx.
+ * The arrival starts two screens early and sits pinned under the run. Through the first third
+ * of --arrive the run is still pinned above it and, at the end of that third, dissolves into
+ * it: the envelopes give way to the book on the same desk. Then the camera pushes in.
+ */
+.atlas-arrival {
+  --arrival-length: 3; /* viewport heights of scroll; the first one is the run lifting off */
+  --arrival-from: 0.55; /* the book's scale while it lies on the desk */
+  --arrival-desk-push: 1.25; /* the desk painting ends this close */
+  /* Opening the book (plan Task 10): the desk goes dark around it and one band of lamp
+     light crosses the cover. */
+  --arrival-dim: 0.5; /* how far the night comes down over the painted desk while the book is open */
+  /* The lamp itself: full by default, lower in the Dark theme once the reader is at the book. */
+  --arrival-desk-light: 1;
+  --arrival-desk-low: 0.6;
+  /* The lamp still stands over the book: round the middle of the screen the night is thinner,
+     and it is whole from the edge of this ellipse outwards. */
+  --arrival-pool: color-mix(in srgb, var(--obs-night) 40%, transparent);
+  --arrival-pool-width: 70vw;
+  --arrival-pool-height: 62svh;
+  --arrival-pool-core: 35%; /* this far out from the middle the night is at its thinnest */
+  --arrival-pool-y: calc(100% - 50svh); /* standing still: the middle of the last screen, where the book is */
+  --arrival-band: 28%; /* the band's width, as a share of the cover's */
+  --arrival-band-light: 0.3; /* the band at its brightest, on the dark cover */
+  --arrival-band-lean: 100deg; /* it leans ten degrees, as light from a lamp to one side does */
+  --arrival-band-run: 80%; /* from this far left of the cover to this far right: off it both ways */
+  --arrival-band-layer: 21; /* over the pages and the gutter (20) */
+  --arrive: 1;
+  /* The run has dissolved into the desk by a third of the way. The contact lines come up as
+     it goes (0.30 to 0.36), and the camera starts in straight after: no stretch of scroll in
+     which nothing moves. It arrives at 0.88, all of it on the lit desk. The lines stand beside
+     or below the small book until 0.56. Where they lie above it (--arrival-grow-from below)
+     the camera waits for them. */
+  --arrival-grow-from: 0.38;
+  --arrival-grow-span: 0.5;
+  --arrival-grow: clamp(0, (var(--arrive) - var(--arrival-grow-from)) / var(--arrival-grow-span), 1);
+  position: relative;
+  z-index: 0;
+}
+.atlas-run {
+  z-index: 1; /* the run lifts off the arrival */
+}
+/* --arrival-pin is the pinned block's measured height (Arrival.tsx); a screen until then. */
+.atlas-arrival[data-mode="scroll"] {
+  --arrive: 0;
+  /* The lights hang in the pinned block: the middle of its first screen. */
+  --arrival-pool-y: 50svh;
+  height: calc(var(--arrival-pin, 100svh) + 100svh * var(--arrival-length));
+  margin-top: calc(var(--arrival-under) * -1);
+}
+.atlas-arrival .atlas-arrival-pin {
+  position: relative;
+  isolation: isolate;
+  min-height: 100svh;
+}
+.atlas-arrival[data-mode="scroll"] .atlas-arrival-pin {
+  position: sticky;
+  top: 0;
+}
+.atlas-arrival .atlas-arrival-hold {
+  min-height: 100svh;
+}
+.atlas-arrival .atlas-arrival-night {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: var(--obs-night);
+  color: var(--obs-paper);
+  font: 400 var(--obs-body) / 1.6 var(--obs-serif);
+}
+/* The desk does not give way to another surface when the reader arrives: the book is used on
+   the lamp-lit desk it was lying on. Light and Dark set the lamp: full, or low. */
+:root[data-theme="dark"] .atlas-arrival[data-arrived="true"] {
+  --arrival-desk-light: var(--arrival-desk-low);
+}
+.atlas-arrival .atlas-arrival-desk {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; /* the whole block, where a short window makes it taller than the screen */
+  min-height: 100svh;
+  margin: 0;
+  overflow: hidden; /* the painting grows as the camera goes in; it never reaches past its own frame */
+}
+.atlas-arrival .atlas-arrival-desk picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: scale(calc(1 + var(--arrival-grow) * (var(--arrival-desk-push) - 1)));
+}
+.atlas-arrival .atlas-arrival-desk img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: var(--arrival-desk-light);
+  transition: opacity var(--obs-speed) var(--ease-in-out);
+}
+/* The words that stand on the desk beside the book (the toolbar, the page count) are paper on
+   the dark wood in both themes, and Contents opens as a night panel. */
+.atlas-arrival .atlas > :is(.book-toolbar, .pagination) {
+  --desk-text: var(--obs-paper);
+  --desk-muted: var(--obs-paper);
+  --desk-rule: var(--obs-line);
+  color: var(--obs-paper);
+}
+.atlas-arrival .atlas .contents-panel {
+  background: var(--obs-night);
+}
+/* The sound switch in that panel is ink by its own rule (book.css); on the night panel it is paper. */
+.atlas-arrival .atlas .contents-panel .audio-toggle,
+.atlas-arrival .atlas .contents-panel .audio-toggle:hover,
+.atlas-arrival .atlas .contents-panel .audio-toggle[aria-pressed="false"] {
+  color: var(--obs-paper);
+}
+/* The stroke between the page numbers has a colour of its own (book.css). */
+.atlas-arrival .atlas > .pagination .counter-divider {
+  color: var(--obs-muted);
+}
+.atlas-arrival .atlas-arrival-desk figcaption {
+  position: absolute;
+  right: max(var(--obs-gutter), calc((100vw - var(--obs-width)) / 2 + var(--obs-gutter)));
+  bottom: var(--obs-s4);
+  font: 500 var(--obs-t1) / 1.4 var(--obs-sans);
+  color: var(--obs-muted);
+}
+.atlas-arrival .atlas-arrival-copy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  align-content: center;
+  gap: var(--obs-s4);
+  width: min(100%, 34vw); /* stops short of the book lying in the middle of the desk */
+  height: 100svh;
+  padding: var(--obs-s16) 0 var(--obs-s16) max(var(--obs-gutter), calc((100vw - var(--obs-width)) / 2 + var(--obs-gutter)));
+  /* Up as the run dissolves, never under its words; away before the book reaches them. */
+  opacity: calc(clamp(0, (var(--arrive) - 0.3) / 0.06, 1) * (1 - clamp(0, (var(--arrive) - 0.56) / 0.08, 1)));
+}
+.atlas-arrival[data-copy="false"] .atlas-arrival-copy {
+  visibility: hidden;
+}
+.atlas-arrival .atlas-arrival-copy :is(h2, p) {
+  margin: 0;
+}
+.atlas-arrival .atlas-arrival-copy h2 {
+  font: 600 clamp(var(--obs-t6), 4.4vw, var(--obs-t8)) / 1.08 var(--obs-serif);
+  letter-spacing: -0.025em;
+}
+.atlas-arrival .atlas-arrival-copy p {
+  max-width: 22em;
+}
+.atlas-arrival .atlas-arrival-copy .obs-trailer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--obs-s3) var(--obs-s8);
+  font: 500 var(--obs-t2) / 1.5 var(--obs-sans);
+}
+/* What a recruiter came for is set a size up; where else to look is quieter. */
+.atlas-arrival .atlas-arrival-copy .atlas-arrival-first {
+  font-size: var(--obs-t3);
+}
+.atlas-arrival .atlas-arrival-copy .atlas-arrival-more {
+  color: var(--obs-muted);
+}
+.atlas-arrival .atlas-arrival-copy a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--obs-target);
+  color: inherit;
+  text-decoration: none;
+}
+.atlas-arrival .atlas-arrival-copy a::before,
+.atlas-arrival .atlas-arrival-copy a::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: var(--obs-s2);
+  left: 0;
+  height: var(--obs-rule);
+  background: var(--obs-line);
+}
+.atlas-arrival .atlas-arrival-copy a::after {
+  background: var(--obs-green);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform var(--obs-speed-short) linear;
+}
+.atlas-arrival .atlas-arrival-copy a:is(:hover, :focus-visible)::after {
+  transform: scaleX(1);
+}
+.atlas-arrival .atlas-arrival-copy a:focus-visible {
+  outline: 2px solid var(--obs-green);
+  outline-offset: var(--obs-s1);
+}
+.atlas-arrival .atlas-arrival-book {
+  position: relative;
+  z-index: 1;
+}
+/* Until the arrival is over the book is a thing on the desk: scaled, and not yet operable. */
+.atlas-arrival[data-mode="scroll"]:not([data-arrived="true"]) .atlas-arrival-book {
+  transform-origin: 50% 50svh;
+  transform: scale(calc(var(--arrival-from) + var(--arrival-grow) * (1 - var(--arrival-from))));
+  pointer-events: none;
+}
+.atlas-arrival[data-mode="scroll"]:not([data-arrived="true"]) :is(.book-toolbar, .pagination) {
+  opacity: clamp(0, (var(--arrive) - 0.92) / 0.08, 1);
+}
+/* The book's own skip link is not drawn until it has focus (book.css). Until the arrival is
+   over it is out of the tab order too: the first Tab into the book lands on Contents, and
+   that finishes the arrival. */
+.atlas-arrival:not([data-arrived="true"]) .skip-link {
+  visibility: hidden;
+}
+/* The atlas takes focus when the reader asks for the book, so Tab starts there. It shows no ring of its own. */
+.atlas-arrival .atlas:focus {
+  outline: none;
+}
+
+/* ---------- Opening the book: house lights down, one band of lamp light ----------
+ * The book says what it is doing on its shell (book-slider.tsx): data-cover="false" while it
+ * is open, and data-turn-kind while a turn is in progress. The desk is darker from the moment
+ * the cover starts to open until the moment it starts to close.
+ * Opacity and transform only; nothing here takes a press, a place in the layout or a name.
+ */
+.atlas-arrival .atlas-arrival-dim {
+  position: absolute;
+  inset: 0; /* the whole painted desk; it comes after it and before the lines, so it lies between them */
+  background: radial-gradient(
+    ellipse var(--arrival-pool-width) var(--arrival-pool-height) at 50% var(--arrival-pool-y),
+    var(--arrival-pool) var(--arrival-pool-core),
+    var(--obs-night) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--obs-speed) var(--ease-in-out);
+}
+.atlas-arrival:has(.book-shell:is([data-turn-kind="cover-open"], [data-cover="false"]:not([data-turn-kind="cover-close"]))) .atlas-arrival-dim {
+  opacity: var(--arrival-dim);
+}
+/* While the cover turns, the left half of the book's place is bare desk until the cover has
+   landed on it. Nothing may be drawn there as if a page already lay there:
+   - the book's drop shadow keeps to the board (the half the book is on), as when it is closed;
+   - the turn engine's shadows for a hard page are drawn from the spine. It mirrors them to the
+     left for the page a hard page lands on or leaves; under the cover there is no such page,
+     so they show only while they face forward, over the book itself. */
+.atlas-arrival .book-shell:is([data-turn-kind="cover-open"], [data-turn-kind="cover-close"]):not(.book-shell--single) {
+  box-shadow: none;
+}
+.atlas-arrival .book-shell:is([data-turn-kind="cover-open"], [data-turn-kind="cover-close"]):not(.book-shell--single) > .binding {
+  box-shadow: var(--shadow-book);
+}
+.atlas-arrival .book-shell:is([data-turn-kind="cover-open"], [data-turn-kind="cover-close"]):not(.book-shell--single) :is(.stf__hardShadow, .stf__hardInnerShadow) {
+  backface-visibility: hidden;
+}
+/* The band lies over the cover's place in the shell (the right-hand page, or the only page on
+   a phone) and is clipped to it, so the light never falls on the desk. It is the paper's own
+   colour, laid on thinly: it shows on the dark cover and all but disappears on the paper the
+   cover uncovers. Until the cover opens it is not drawn at all, so the book at rest is painted
+   exactly as it was before there was a band. */
+.atlas-arrival .book-shell > .atlas-arrival-band {
+  display: none;
+  position: absolute;
+  inset: 0 0 0 50%;
+  z-index: var(--arrival-band-layer);
+  overflow: clip;
+  border-radius: var(--book-radius);
+  pointer-events: none;
+}
+.atlas-arrival .book-shell--single > .atlas-arrival-band {
+  left: 0;
+}
+.atlas-arrival .book-shell > .atlas-arrival-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    var(--arrival-band-lean),
+    transparent calc(50% - var(--arrival-band) / 2),
+    var(--obs-paper) 50%,
+    transparent calc(50% + var(--arrival-band) / 2)
+  );
+  opacity: var(--arrival-band-light);
+  transform: translateX(calc(var(--arrival-band-run) * -1));
+}
+/* Once, while the cover opens. It is over before the cover has landed. */
+.atlas-arrival .book-shell[data-turn-kind="cover-open"] > .atlas-arrival-band {
+  display: block;
+}
+.atlas-arrival .book-shell[data-turn-kind="cover-open"] > .atlas-arrival-band::before {
+  animation: atlas-arrival-band var(--dur-slow) var(--ease-in-out) both;
+}
+@keyframes atlas-arrival-band {
+  from {
+    transform: translateX(calc(var(--arrival-band-run) * -1));
+  }
+  to {
+    transform: translateX(var(--arrival-band-run));
+  }
+}
+/* Reduced motion: the desk is simply dark while the book is open, and there is no band. */
+@media (prefers-reduced-motion: reduce) {
+  .atlas-arrival .atlas-arrival-dim,
+  .atlas-arrival .atlas-arrival-desk img {
+    transition: none;
+  }
+  .atlas-arrival .book-shell[data-mode] > .atlas-arrival-band {
+    display: none;
+  }
+}
+
+/* Reduced motion: the lines are a still block above the book, and one desk lies under both.
+   The night layer steps out of the way (static), so the painted desk and the lights measure
+   themselves against the whole block. */
+.atlas-arrival[data-mode="still"] .atlas-arrival-pin {
+  background: var(--obs-night);
+}
+.atlas-arrival[data-mode="still"] .atlas-arrival-night {
+  position: static;
+  inset: auto;
+  min-height: 60svh;
+  overflow: visible;
+  background: none;
+}
+.atlas-arrival[data-mode="still"] .atlas-arrival-desk,
+.atlas-arrival[data-mode="still"] .atlas-arrival-copy {
+  height: 100%;
+}
+/* The painting's label stands at the head of the block here, clear of the book's pager at its foot. */
+.atlas-arrival[data-mode="still"] .atlas-arrival-desk figcaption {
+  top: var(--obs-s4);
+  bottom: auto;
+}
+/* --arrive rests at 1 in still mode, which would fade the lines out: they are always shown here. */
+.atlas-arrival[data-mode="still"] .atlas-arrival-copy {
+  position: relative;
+  min-height: 60svh;
+  opacity: 1;
+  visibility: visible;
+}
+
+/* On a desktop the contact lines take the same column as a project's caption, at every width:
+   the heading stays on one line and the column stops short of the closed book. */
+@media (min-width: 1180px) {
+  .atlas-arrival .atlas-arrival-copy {
+    width: calc(var(--atlas-edge) + var(--atlas-caption-track));
+  }
+}
+@media (max-width: 800px) {
+  .atlas-arrival {
+    --arrival-from: 0.6;
+    /* The contact lines lie above the small book here and the lifting scene uncovers them
+       last: the camera waits until they have been read (0.56) before it goes in. */
+    --arrival-grow-from: 0.6;
+    --arrival-grow-span: 0.28;
+  }
+  /* The two rows of links take the height the one wrapped row took. */
+  .atlas-arrival .atlas-arrival-copy .atlas-arrival-more {
+    margin-top: calc(var(--obs-s1) * -1);
+  }
+  .atlas-arrival .atlas-arrival-copy {
+    align-content: start;
+    width: 100%;
+    padding: var(--obs-s8) var(--obs-gutter);
+  }
+  .atlas-arrival .atlas-arrival-copy p {
+    display: none;
+  }
+}
+
+/* A tall phone: the contact lines lie at the foot of the desk, under the small book. The run's
+   last scene lifts off from the bottom up, so there they are uncovered first and stay longest. */
+@media (max-width: 600px) and (min-height: 701px) {
+  .atlas-arrival[data-mode="scroll"] {
+    /* The lines are under the book here, clear of it: the camera need not wait. */
+    --arrival-grow-from: 0.38;
+    --arrival-grow-span: 0.5;
+  }
+  .atlas-arrival[data-mode="scroll"] .atlas-arrival-copy {
+    align-content: end;
+    padding-bottom: var(--obs-s12);
+  }
+}
+/* A short phone: the small book lies lower on the desk, clear of the second row of links. It
+   still grows to the same place: at full size the origin changes nothing. */
+@media (max-width: 800px) and (max-height: 700px) {
+  .atlas-arrival[data-mode="scroll"]:not([data-arrived="true"]) .atlas-arrival-book {
+    transform-origin: 50% 66svh;
+  }
+}

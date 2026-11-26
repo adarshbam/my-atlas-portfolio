@@ -1,16 +1,4 @@
-@font-face{font-family:ObservatorySerif;src:url('/fonts/eb-garamond-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:ObservatorySerif;src:url('/story/fonts/eb-garamond-latin-600.woff2') format('woff2');font-weight:600;font-display:swap}
-@font-face{font-family:ObservatorySans;src:url('/story/fonts/ibm-plex-sans-latin-500.woff2') format('woff2');font-weight:500;font-display:swap}
-@font-face{font-family:ObservatoryHand;src:url('/story/fonts/nothing-you-could-do-latin-400.woff2') format('woff2');font-weight:400;font-display:swap}
 .observatory{
- --obs-game-width:var(--obs-reading-width);
- --obs-night:#0d1213;--obs-surface:#192021;--obs-paper:#e9ddc8;--obs-paper-deep:#d3bea0;--obs-paper-ink:#282820;--obs-muted:#c1c4b9;--obs-green:#a8cc9c;--obs-line:rgba(233,221,200,.25);
- --obs-serif:ObservatorySerif,Georgia,serif;--obs-sans:ObservatorySans,Arial,sans-serif;--obs-hand:ObservatoryHand,cursive;--obs-display:var(--obs-serif);--obs-text:var(--obs-serif);--obs-note-font:var(--obs-hand);
- --obs-t1:11px;--obs-t2:14px;--obs-t3:18px;--obs-t4:23px;--obs-t5:29px;--obs-t6:36px;--obs-t7:45px;--obs-t8:56px;--obs-t9:70px;--obs-t10:88px;--obs-small:var(--obs-t2);--obs-body:var(--obs-t3);--obs-note-size:var(--obs-t3);--obs-large:clamp(var(--obs-t6),4.4vw,var(--obs-t8));--obs-hero:clamp(var(--obs-t7),6.3vw,var(--obs-t10));
- --obs-s1:4px;--obs-s2:8px;--obs-s3:12px;--obs-s4:16px;--obs-s6:24px;--obs-s8:32px;--obs-s12:48px;--obs-s16:64px;--obs-s24:96px;--obs-s32:128px;--obs-gutter:clamp(var(--obs-s4),4vw,var(--obs-s16));--obs-width:1280px;--obs-reading-width:65ch;--obs-target:44px;--obs-rule:1px;--obs-radius:2px;--obs-speed:420ms;--obs-ease:cubic-bezier(.22,1,.36,1);
- --obs-paper-texture:url('/story/assets/archive-paper.svg');--obs-paper-shadow:0 8px 24px rgba(0,0,0,.22);--obs-photo-shadow:0 3px 5px rgba(0,0,0,.16),0 16px 24px -16px rgba(0,0,0,.65);--obs-hero-veil:linear-gradient(90deg,rgba(10,15,17,.87),rgba(10,15,17,.35) 48%,rgba(10,15,17,.02) 80%);
- --obs-watch-dark:#151d1b;--obs-watch-metal:#68716a;--obs-watch-rim:#343f38;--obs-watch-display:#9ecf70;--obs-watch-ink:#213921;--obs-watch-size:320px;--obs-alien-stroke:3;--obs-gallery-height:clamp(340px,38vw,500px);--obs-print-ratio:4/3;--obs-peg-light:#d5bc94;--obs-peg-dark:#8e7759;
- --obs-clip-paper:polygon(0 1%,7% 0,12% 1%,22% 0,32% 1%,43% 0,56% 1%,67% 0,78% 1%,88% 0,100% 1%,99% 18%,100% 32%,99% 47%,100% 59%,99% 74%,100% 88%,99% 100%,88% 99%,73% 100%,61% 99%,46% 100%,35% 99%,22% 100%,10% 99%,0 100%,1% 80%,0 65%,1% 49%,0 30%,1% 14%);
  min-height:100vh;background:var(--obs-night);color:var(--obs-paper);font:400 var(--obs-body)/1.6 var(--obs-serif);isolation:isolate;
 }
 .observatory *{box-sizing:border-box}.observatory :is(h1,h2,h3,p,figure,ol){margin:0}.observatory :is(h1,h2,h3){font-family:var(--obs-serif);font-weight:600;line-height:1.08;letter-spacing:-.025em;text-wrap:balance}.observatory h1{font-size:var(--obs-hero)}.observatory h2{font-size:var(--obs-large)}.observatory h3{font-size:var(--obs-t5)}.observatory p{max-width:var(--obs-reading-width)}.observatory svg{display:block;width:100%;height:auto;flex-shrink:0}.observatory :is(img,video){display:block;width:100%;height:auto;max-width:100%}
@@ -110,5 +98,10 @@
 .obs-project-records{display:grid;gap:var(--obs-s8)}
 .obs-next-note{margin-top:var(--obs-s12)}
 @media(max-width:767px){.obs-professional-timeline,.obs-current-work{grid-template-columns:minmax(0,1fr)}.obs-story-feedback figure{grid-template-columns:minmax(0,1fr)}}
+
+/* Marks where the trailer ends and the twenty chapters begin (cinematic view only). */
+.obs-whole-story{max-width:var(--obs-width);margin:auto;padding:var(--obs-s24) var(--obs-gutter) var(--obs-s8);scroll-margin-top:var(--obs-s6)}
+.obs-whole-story h2{margin-bottom:var(--obs-s4)}
+.obs-whole-story p{font-size:var(--obs-t4);line-height:1.5;color:var(--obs-muted)}
 
 .obs-memory-detail{max-width:var(--obs-reading-width);margin-block:var(--obs-s12)}.obs-memory-detail :is(h3,p){margin-bottom:var(--obs-s6)}

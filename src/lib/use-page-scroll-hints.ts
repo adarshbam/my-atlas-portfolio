@@ -3,12 +3,11 @@ import { useEffect, type RefObject } from "react";
 /** Enhance the rendered copies: StPageFlip pages are cloned DOM, not React instances. */
 export function usePageScrollHints(
   root: RefObject<HTMLElement | null>,
-  reading: boolean,
   ready: boolean,
 ) {
   useEffect(() => {
     const book = root.current;
-    if (!book || reading || !ready) return;
+    if (!book || !ready) return;
     const ports = new Map<HTMLElement, { surface: HTMLElement; hint: HTMLElement }>();
     let frame: number | undefined;
     let disposed = false;
@@ -106,5 +105,5 @@ export function usePageScrollHints(
         port.removeAttribute("aria-label");
       });
     };
-  }, [root, reading, ready]);
+  }, [root, ready]);
 }

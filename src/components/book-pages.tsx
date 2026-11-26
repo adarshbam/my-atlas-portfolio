@@ -4,21 +4,27 @@ import {
   opening,
   securityLabs,
   projects,
+  projectOn,
   vaultStudy,
   harigurusShop,
+  harigurusStudy,
+  pipelineStudy,
+  securityStudy,
   professionalStory,
   references,
   type PortfolioPage,
   type PageKind,
 } from "@/data/portfolio";
 import { pageIndex } from "@/lib/book-navigation";
+import { VideoLink } from "@/components/video-link";
+import { portfolioVideos } from "@/data/portfolio-videos";
 
 function RunningHead({ left, right }: { left: string; right: string }) {
   return (
     <header className="running-head">
       <span>{left}</span>
       <span>{right}</span>
-      <span className="rule-draw" data-draw-rule aria-hidden="true" />
+      <span className="rule-draw" aria-hidden="true" />
     </header>
   );
 }
@@ -92,7 +98,7 @@ function CoverArtwork() {
 export function CoverPage({ page }: PageProps) {
   return (
     <article
-      className="book-page page--cover page--portrait-cover"
+      className={`book-page page--cover page--portrait-cover${portfolioVideos.introduction ? " page--cover-video" : ""}`}
       data-density="hard"
       data-page={pageIndex(page.id)}
       data-page-id={page.id}
@@ -109,15 +115,20 @@ export function CoverPage({ page }: PageProps) {
               <br />
               {opening.lastName}
             </h2>
-            <div className="short-rule" />
+            {!portfolioVideos.introduction && <div className="short-rule" />}
             <p className="eyebrow">{opening.role}</p>
-            <p className="portrait-cover-stack">
+            {!portfolioVideos.introduction && <p className="portrait-cover-stack">
               <span>React · Node.js</span>
               <span className="stack-separator"> · </span>
               <span>TypeScript</span>
-            </p>
+            </p>}
           </div>
-          <p className="portrait-cover-note">{opening.introduction}</p>
+          {portfolioVideos.introduction ? (
+            <div className="portrait-cover-note portrait-cover-note--video">
+              <p>{opening.introduction}</p>
+              <VideoLink id="introduction" />
+            </div>
+          ) : <p className="portrait-cover-note">{opening.introduction}</p>}
           <div className="portrait-cover-footer">
             <button
               type="button"
@@ -462,6 +473,7 @@ export function VaultPage({ page }: PageProps) {
       </div>
       <div className="story">
         <p>{vaultStudy.problem}</p>
+        <VideoLink id="vault" />
       </div>
       <VaultFigure image="workspace" />
       <section className="case-group vault-adoption" aria-label="Vault adoption evidence">
@@ -604,38 +616,29 @@ export function DecisionsPage({ page }: PageProps) {
 }
 
 export function PipelinePage({ page }: PageProps) {
+  // One name for the project: the contents list, the atlas run and this page read the same entry.
+  const project = projectOn("pipeline");
   return (
     <PageTemplate page={page} className="page--case page--supporting page--pipeline">
       <h2 className="case-title" tabIndex={-1}>
-        GitHub CI/CD Engine
+        {project.name}
       </h2>
       <div className="story">
-        <p>
-          From a signed GitHub push to dependency-aware jobs, live logs and
-          a React Flow dashboard.
-        </p>
+        <p>{pipelineStudy.summary}</p>
       </div>
       <figure className="vault-figure pipeline-preview">
         <a href="/projects/ci-cd-engine.html" target="_blank" rel="noreferrer" aria-label="Explore the GitHub CI/CD Engine case study and screenshots">
-          <img src="/images/pipeline/dashboard-640.webp" srcSet="/images/pipeline/dashboard-640.webp 640w, /images/pipeline/dashboard-1200.webp 1200w" sizes="(max-width: 767px) 76vw, 38vw" width={1200} height={654} alt="CI/CD management dashboard showing recent runs and configured workflows" loading="lazy" decoding="async" />
+          <img src={pipelineStudy.images.dashboard.src} srcSet={pipelineStudy.images.dashboard.srcSet} sizes="(max-width: 767px) 76vw, 38vw" width={pipelineStudy.images.dashboard.width} height={pipelineStudy.images.dashboard.height} alt={pipelineStudy.images.dashboard.alt} loading="lazy" decoding="async" />
         </a>
-        <figcaption>Original dashboard capture · Explore the case study ↗</figcaption>
+        <figcaption>{pipelineStudy.images.dashboard.caption} · Explore the case study ↗</figcaption>
       </figure>
       <ol className="process-notes" aria-label="Pipeline execution flow">
-        <li>
-          <span>01</span>
-          <p>Authenticate webhooks; filter and deduplicate pushes.</p>
-        </li>
-        <li>
-          <span>02</span>
-          <p>
-            Resolve dependencies with two slots per run; diagnose cycles.
-          </p>
-        </li>
-        <li>
-          <span>03</span>
-          <p>Inspect logs and history; retry, time out or cancel jobs.</p>
-        </li>
+        {pipelineStudy.steps.map((step, index) => (
+          <li key={step}>
+            <span>{String(index + 1).padStart(2, "0")}</span>
+            <p>{step}</p>
+          </li>
+        ))}
       </ol>
       <section className="case-group">
         <p>
@@ -643,15 +646,12 @@ export function PipelinePage({ page }: PageProps) {
           wave; commands retain the runner’s OS permissions.
         </p>
       </section>
-      <p className="case-evidence-note">
-        Updated source and supplied captures reviewed; no production deployment
-        performed for this case study.
-      </p>
+      <p className="case-evidence-note">{pipelineStudy.evidenceNote}</p>
       <div className="project-links">
         <External href="/projects/ci-cd-engine.html">Full case study</External>
-        <External href={projects[1].repository}>Repository</External>
+        <External href={project.repository}>Repository</External>
         <External
-          href={`${projects[1].repository}/blob/main/src/scheduler/pipeline-scheduler.ts`}
+          href={`${project.repository}/blob/main/src/scheduler/pipeline-scheduler.ts`}
         >
           Scheduler
         </External>
@@ -661,53 +661,36 @@ export function PipelinePage({ page }: PageProps) {
 }
 
 export function HarigurusPage({ page }: PageProps) {
+  const project = projectOn("harigurus");
   return (
     <PageTemplate page={page} className="page--case page--supporting">
       <div className="case-heading">
         <h2 className="case-title" tabIndex={-1}>
           Harigurus
         </h2>
-        <p className="case-audience">
-          Full Stack Developer · 2022 · about 8 months
-        </p>
+        <p className="case-audience">{harigurusStudy.role}</p>
       </div>
       <div className="story">
-        <p>
-          I built ceremony-booking features connecting customers with purohits,
-          from appointment details to confirmation.
-        </p>
+        <p>{harigurusStudy.summary}</p>
       </div>
       <div className="harigurus-gallery" role="group" aria-label="Inside Harigurus">
-        <figure className="vault-figure harigurus-figure">
-          <a href="/images/harigurus/services-1920.webp" target="_blank" rel="noreferrer" aria-label="View the Harigurus service-booking homepage screenshot full-size">
-            <img
-              src="/images/harigurus/services-640.webp"
-              srcSet="/images/harigurus/services-640.webp 640w, /images/harigurus/services-1200.webp 1200w"
-              sizes="(max-width: 767px) 76vw, 20vw"
-              width={1200}
-              height={653}
-              alt="Harigurus homepage introducing event services and a Book appointment action"
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-          <figcaption>Service booking · Homepage ↗</figcaption>
-        </figure>
-        <figure className="vault-figure harigurus-figure">
-          <a href="/images/harigurus/shop-1920.webp" target="_blank" rel="noreferrer" aria-label="View the Harigurus handicraft shop screenshot full-size">
-            <img
-              src="/images/harigurus/shop-640.webp"
-              srcSet="/images/harigurus/shop-640.webp 640w, /images/harigurus/shop-1200.webp 1200w"
-              sizes="(max-width: 767px) 76vw, 20vw"
-              width={1200}
-              height={654}
-              alt="Harigurus shop displaying handicraft categories, product photographs and prices"
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-          <figcaption>Handicraft shop · Catalogue ↗</figcaption>
-        </figure>
+        {[harigurusStudy.images.services, harigurusStudy.images.shop].map((image) => (
+          <figure className="vault-figure harigurus-figure" key={image.src}>
+            <a href={image.full} target="_blank" rel="noreferrer" aria-label={image.label}>
+              <img
+                src={image.src}
+                srcSet={image.srcSet}
+                sizes="(max-width: 767px) 76vw, 20vw"
+                width={image.width}
+                height={image.height}
+                alt={image.alt}
+                loading="lazy"
+                decoding="async"
+              />
+            </a>
+            <figcaption>{image.caption}</figcaption>
+          </figure>
+        ))}
       </div>
       <section className="case-group">
         <h3>Booking, from browser to API</h3>
@@ -726,13 +709,10 @@ export function HarigurusPage({ page }: PageProps) {
       <p className="case-evidence-note">
         Booking details → verified payment → SMS confirmation.
       </p>
-      <p className="case-evidence-note">
-        Team contribution. Production code remains private with Harigurus; the
-        repository is a written case study.
-      </p>
+      <p className="case-evidence-note">{harigurusStudy.boundary}</p>
       <div className="project-links">
-        <External href={projects[2].repository}>Written case study</External>
-        <External href={projects[2].href}>Company website</External>
+        <External href={project.repository}>Written case study</External>
+        <External href={project.href}>Company website</External>
         <External href={harigurusShop}>Harigurus shop</External>
       </div>
     </PageTemplate>
@@ -800,20 +780,6 @@ export function ReferencesPage({ page }: PageProps) {
           ))}
         </div>
       )}
-      <button
-        type="button"
-        className="text-link reference-read-all"
-        data-reference-all
-      >
-        Read all references <ArrowRight aria-hidden="true" />
-      </button>
-      <button
-        type="button"
-        className="text-link reference-show-featured"
-        data-reference-featured
-      >
-        Show featured quotes
-      </button>
     </PageTemplate>
   );
 }
@@ -826,9 +792,7 @@ export function SecurityPage({ page }: PageProps) {
       </h2>
       <div className="story">
         <p>
-          Seven connected labs, from access control to JWT verification.
-          Twenty-eight experiments compare vulnerable and protected
-          implementations through real requests and browser evidence.
+          {securityStudy.labs} {securityStudy.experiments}
         </p>
       </div>
       <section className="case-group" aria-label="Seven-lab learning path">
@@ -847,30 +811,30 @@ export function SecurityPage({ page }: PageProps) {
         </ol>
       </section>
       <figure className="vault-figure security-figure">
-        <a href="/images/security-lab/workbench-1920.webp" target="_blank" rel="noreferrer">
+        <a href={securityStudy.images.workbench.full} target="_blank" rel="noreferrer">
           <img
-            src="/images/security-lab/workbench-1200.webp"
-            srcSet="/images/security-lab/workbench-640.webp 640w, /images/security-lab/workbench-1200.webp 1200w, /images/security-lab/workbench-1920.webp 1920w"
+            src={securityStudy.images.workbench.src}
+            srcSet={securityStudy.images.workbench.srcSet}
             sizes="(max-width: 767px) 84vw, (max-width: 1279px) 42vw, 640px"
-            width={1920}
-            height={1048}
+            width={securityStudy.images.workbench.width}
+            height={securityStudy.images.workbench.height}
             loading="lazy"
-            alt="JWT workbench showing the seven lab tabs and the Understand, Predict, Experiment, Compare and Learn stages"
+            alt={securityStudy.images.workbench.alt}
           />
         </a>
-        <figcaption>Lab 07 · JWT comparison on local HTTPS. Open the full screenshot.</figcaption>
+        <figcaption>{securityStudy.images.workbench.caption}</figcaption>
       </figure>
       <section className="case-group">
         <h3>Predict, test, explain</h3>
         <p>
-          Understand → Predict → Experiment → Compare → Learn. Inspect
-          redacted server observations, compare executable source and record
-          findings. Concept feedback and recall practice stay in the browser.
+          {securityStudy.method} Inspect redacted server observations, compare
+          executable source and record findings. Concept feedback and recall
+          practice stay in the browser.
         </p>
       </section>
       <p className="case-evidence-note">
-        Published source; loopback only. Labs share concepts, not credentials
-        or runtime state. Deliberately vulnerable routes and historical JWT
+        {securityStudy.boundary} Labs share concepts, not credentials or
+        runtime state. Deliberately vulnerable routes and historical JWT
         libraries stay off public hosting.
       </p>
       <section className="case-group" aria-label="Engineering practice">

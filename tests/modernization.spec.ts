@@ -6,13 +6,20 @@ test("the opening uses compact original fonts without downloading unsupported gl
   page.on("request", request => {
     if (request.url().endsWith(".woff2")) fonts.push(request.url());
   });
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   await page.evaluate(() => document.fonts.ready);
   expect(fonts.some(url => url.endsWith("cormorant-garamond-portfolio-500.woff2"))).toBe(true);
   expect(fonts.some(url => url.endsWith("eb-garamond-portfolio-400.woff2"))).toBe(true);
-  expect(fonts.some(url => url.endsWith("eb-garamond-latin-400-normal.woff2"))).toBe(false);
+  // The full Latin EB Garamond is the run's text face since the front-page trailer
+  // (22 November 2026), so it may load here; the unsubsetted Cormorant still must not.
   expect(fonts.some(url => url.endsWith("cormorant-garamond-latin-500-normal.woff2"))).toBe(false);
+});
+
+test("the front page preloads the run's two text faces and not the book's", async ({ page }) => {
+  await page.goto("/");
+  const preloads = await page.locator('link[rel="preload"][as="font"]').evaluateAll(links => links.map(link => new URL((link as HTMLLinkElement).href).pathname));
+  expect(preloads).toEqual(["/story/fonts/eb-garamond-latin-600.woff2", "/fonts/eb-garamond-latin-400-normal.woff2"]);
 });
 
 test("direct story visits retain their fonts without eagerly fetching the book", async ({ page }) => {
@@ -28,7 +35,7 @@ test("direct story visits retain their fonts without eagerly fetching the book",
 test("Light is the default; a saved Dark choice is restored before first paint", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Dark", exact: true }).click();
   expect(
@@ -52,7 +59,7 @@ test("invalid saved values fall back to Light", async ({ page }) => {
   await page.addInitScript(() =>
     localStorage.setItem("atlas-theme-v1", "invalid"),
   );
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
 });
 
@@ -66,7 +73,7 @@ test("blocked storage retains a usable theme selector", async ({ page }) => {
   });
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
   await page.getByRole("button", { name: "Dark", exact: true }).click();
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
@@ -78,7 +85,7 @@ test("blocked storage retains a usable theme selector", async ({ page }) => {
 test("theme change during a native turn preserves the engine, destination and focus", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   await book.evaluate(
@@ -112,7 +119,7 @@ for (const width of [375, 768, 1440, 1920]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: width === 375 ? 812 : 1080 });
-    await page.goto("/");
+    await page.goto("/#book");
     await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
     await page.evaluate(() => document.fonts.ready);
     const collisions = await page
@@ -153,13 +160,12 @@ for (const width of [375, 768, 1440, 1920]) {
 test("reading location and theme survive the night story roundtrip", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   await page.getByRole("button", { name: "Dark", exact: true }).click();
-  await goToChapter(page, "Harigurus");
+  // Page 8, a right-hand page, so the exact page and not only the spread must come back.
+  await goToChapter(page, "Pipeline");
   await expect(page.locator("#book")).toHaveAttribute("data-turning", "false");
-  await page.getByRole("button", { name: "Reading view", exact: true }).click();
-  await expect(page.locator("#book")).toHaveAttribute("data-mode", "reading");
   await openContents(page);
   await page.getByRole("link", { name: "My story", exact: true }).click();
   await page.locator(".observatory").waitFor();
@@ -168,7 +174,7 @@ test("reading location and theme survive the night story roundtrip", async ({
     "rgb(13, 18, 19)",
   );
   await page.goBack();
-  await expect(page.locator("#book")).toHaveAttribute("data-mode", "reading");
+  await expect(page.locator("#book")).toHaveAttribute("data-mode", "native");
   await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
   await expect(page.locator("#book")).toHaveAttribute("data-logical-page", "8");
 });
@@ -181,7 +187,7 @@ test("cold navigation materializes later pages without replacing native leaves",
   page.on("console", (message) => {
     if (message.type() === "error") errors.push(message.text());
   });
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   await page.evaluate(
     () =>
@@ -205,11 +211,11 @@ test("cold navigation materializes later pages without replacing native leaves",
       .locator('.library-slot [data-page-id="references"] .reference-name')
       .first(),
   ).toBeVisible();
-  await page.getByRole("button", { name: "Reading view", exact: true }).click();
-  await expect(page.locator(".reading-document .book-page h2")).toHaveCount(13);
-  await page
-    .getByRole("button", { name: "Return to book", exact: true })
-    .click();
+  // Every page is still there as a still face under reduced motion, and again after it.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".plain-face .book-page h2")).toHaveCount(13);
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   await expect(page.locator(".library-slot [data-page] h2")).toHaveCount(13);
   expect(errors).toEqual([]);
 });

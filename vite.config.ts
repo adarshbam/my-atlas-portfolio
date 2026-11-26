@@ -29,9 +29,10 @@ export default defineConfig({
               .endsWith("/components/ui/book-slider.tsx"),
         );
         if (book?.type === "chunk") {
-          // Warm the complete static dependency graph of the initial route.
-          // Preloading only the leaf leaves shared Motion modules behind a
-          // second network round trip. Do not preload dynamic story imports.
+          // The run opens `/`; the book loads when the reader nears it. Only a
+          // link straight to the book (`/#book`) warms the book's complete
+          // static dependency graph up front. Preloading only the leaf leaves
+          // shared Motion modules behind a second network round trip.
           const files = new Set<string>();
           const collect = (file: string) => {
             const chunk = bundle[file];
@@ -43,7 +44,7 @@ export default defineConfig({
           const hrefs = JSON.stringify([...files].map(file => `/${file}`));
           html.source = html.source.replace(
             "</head>",
-            `<script>if(location.pathname.replace(/\\/+$/,'')!=='/story'){for(const href of ${hrefs}){const p=document.createElement('link');p.rel='modulepreload';p.href=href;document.head.appendChild(p)}}</script></head>`,
+            `<script>if(location.pathname.replace(/\\/+$/,'')!=='/story'&&location.hash==='#book'){for(const href of ${hrefs}){const p=document.createElement('link');p.rel='modulepreload';p.href=href;document.head.appendChild(p)}}</script></head>`,
           );
         }
         // This small static portfolio has one stylesheet. Deliver its exact

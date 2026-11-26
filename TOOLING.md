@@ -33,3 +33,5 @@ Existing Codex servers were preserved. New server definitions are in the user's 
 - The new skills should become available on the next turn. If skills or MCP tools do not appear, reload/restart Codex to refresh discovery.
 
 These setup checks verify installation/connectivity, not the future portfolio's visual quality or animation performance.
+
+The day-numbered review and audit scripts in `scripts/` (`audit-day06*`, `review-day05*`, `check-*-zoom*` and the like) predate the removal of the atlas Reading view on 23 November 2026 and are historical: they still look for its button and are not maintained.

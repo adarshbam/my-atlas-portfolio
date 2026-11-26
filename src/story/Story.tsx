@@ -1,12 +1,15 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { startTransition, useEffect, useLayoutEffect, useRef, useState } from "react";
 import storyData from "./data.json";
+import { VideoLink } from "@/components/video-link";
 import learningProjects from "./learning-projects.json";
 import closingContent from "./closing-content.json";
-import { references, vaultStudy } from "../data/portfolio";
+import { professionalStory, references, vaultStudy } from "../data/portfolio";
 import "./interactions.css";
+import "@/trailer/tokens.css";
 import "./story.css";
 import { HangingStrip } from "./HangingGallery";
 import { Watch, Predict } from "./ReferenceScenes";
+import { Trailer, type TrailerMedia, type TrailerShot } from "./trailer/Trailer";
 import { attachVaultEmbed } from "./vault-media.js";
 
 type Variant = { file: string; width: number; height: number };
@@ -68,12 +71,6 @@ function Rooftop() {
     const begin=()=>{void import("motion").then(({scroll,animate})=>{const surface=picture.current,section=surface?.closest<HTMLElement>(".obs-hero-scroll"),node=section?.querySelector<HTMLElement>(".obs-hero-margin-note");if(!node||!section||disposed)return;const animation=animate(node,{opacity:[.65,1],transform:["translateY(0px)","translateY(-24px)"]},{autoplay:false,ease:"linear"});controls=animation;stop=scroll(animation,{target:section,offset:["start start","end start"]});});};window.addEventListener("scroll",begin,{once:true,passive:true});return()=>{disposed=true;window.removeEventListener("scroll",begin);stop?.();controls?.stop()};},[]);
   return <figure className="obs-rooftop"><picture ref={picture}><button type="button" className="obs-image-trigger" data-inspect-image aria-label="Inspect rooftop illustration"><img src="/story/assets/rooftop-1200.webp" srcSet="/story/assets/rooftop-640.webp 640w, /story/assets/rooftop-1200.webp 1200w, /story/assets/rooftop-1680.webp 1680w" sizes="100vw" width="1680" height="945" alt="Illustration of two brothers looking at stars from a rooftop" fetchPriority="high"/></button></picture><figcaption>Illustration of a remembered moment.</figcaption></figure>; }
 
-function OpeningCollage(){
- const first=chapters.find(c=>c.id==="first-code")!.moments.flatMap(m=>m.media).find(m=>assets[m.id].kind!=="video")!;
- const school=chapters[0].moments[0].media[0];
- return <section className="obs-opening-collage" aria-label="Look, ask, make"><div className="obs-sky-paper"><p className="obs-kicker">Our rooftop classroom</p><svg viewBox="0 0 500 320" aria-hidden="true"><path d="M84 215 155 125 255 168 310 67 416 107M155 125 181 40M255 168 310 270"/>{[[84,215],[155,125],[255,168],[310,67],[416,107],[181,40],[310,270]].map(([x,y],i)=><g key={i}><circle cx={x} cy={y} r="3"/><path d={`M${x-9} ${y}h18M${x} ${y-9}v18`}/></g>)}</svg><p className="obs-note">Stars. Galaxies. Black holes.<br/>There was always another question.</p><span className="obs-small">Illustrative star map · not a dated sky record</span></div><div className="obs-opening-scraps"><figure className="obs-photo"><Photograph item={school}/><figcaption>The classroom saw one version of me.</figcaption></figure><figure className="obs-photo"><Photograph item={first}/><figcaption>Three hours. Our first lines of code.</figcaption></figure><p className="obs-note">Same curiosity.<br/>Different tools.</p></div><div className="obs-look-ask-make">{[{n:"01",title:"Look",subtitle:"A sky of possibilities",text:"We looked up at stars and talked about the universe. Every answer from my brother gave me another question."},{n:"02",title:"Ask",subtitle:"Curiosity takes root",text:"“Bhaiya, tell me something new.” Why does it move? How does it work? What if I could make one?"},{n:"03",title:"Make",subtitle:"Ideas into reality",text:"Questions became lines of code, shapes on a screen and a moving car. Small attempts were becoming things I could show."}].map(step=><div key={step.n}><span className="obs-step-number obs-note">{step.n}</span><div><h2>{step.title}</h2><p className="obs-kicker">{step.subtitle}</p><span className="obs-short-rule" aria-hidden="true"/><p>{step.text}</p></div><svg className="obs-step-arrow" viewBox="0 0 180 60" aria-hidden="true"><path d="M5 42Q90 0 170 40M153 24 173 42 148 48"/></svg></div>)}</div></section>;
-}
-
 function MomentSection({moment,index,reading,reduced,onViewAll}:{moment:Moment;index:number;reading:boolean;reduced:boolean;onViewAll:()=>void}) {
   const groups: {kind:"image"|"video";items:Media[]}[]=[];
   for(const item of moment.media){const kind=assets[item.id].kind==="video"?"video":"image";const last=groups.at(-1);if(kind==="image"&&last?.kind==="image")last.items.push(item);else groups.push({kind,items:[item]});}
@@ -131,6 +128,10 @@ function ChapterSection({chapter,index,reading,reduced,onArchive}:{chapter:Chapt
 }
 export default function Story({ onReturn }: { onReturn: () => void }) {
  const [reading,setReading]=useState(false);const reduced=useReducedMotion();const archiveTarget=useRef<string|null>(null);
+ // The twenty chapters render just after the trailer's first paint, so the rooftop is not held back by them.
+ // A deep link (any hash) or Reading view needs them at once.
+ const [chaptersReady,setChaptersReady]=useState(()=>Boolean(location.hash));const showChapters=chaptersReady||reading;
+ useEffect(()=>{if(chaptersReady)return;let second=0;const first=requestAnimationFrame(()=>{second=requestAnimationFrame(()=>startTransition(()=>setChaptersReady(true)))});return()=>{cancelAnimationFrame(first);cancelAnimationFrame(second)}},[chaptersReady]);
  useLayoutEffect(()=>{if(!reading||!archiveTarget.current)return;const section=document.getElementById(archiveTarget.current);archiveTarget.current=null;section?.scrollIntoView({block:"start"});section?.querySelector<HTMLHeadingElement>("h2")?.focus({preventScroll:true});},[reading]);
  useLayoutEffect(()=>{
   const id=location.hash.slice(1);if(!chapters.some(c=>c.id===id))return;
@@ -142,12 +143,29 @@ export default function Story({ onReturn }: { onReturn: () => void }) {
  },[]);
  const heading=useRef<HTMLHeadingElement>(null);useEffect(()=>{if(history.state?.atlasStory&&!location.hash)heading.current?.focus({preventScroll:true});},[]);
  useEffect(()=>{const previous=document.title;document.title="The Rooftop Observatory — Adarsh Singh";return()=>{document.title=previous}},[]);
- useEffect(()=>{if(reduced||reading)return;const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){const image=entry.target.querySelector("img");if(image)animateOnce(image,{opacity:[.9,1]});observer.unobserve(entry.target)}},{threshold:.15});document.querySelectorAll(".observatory .obs-moment").forEach(node=>observer.observe(node));return()=>observer.disconnect()},[reading,reduced]);
+ useEffect(()=>{if(reduced||reading)return;const observer=new IntersectionObserver(entries=>{for(const entry of entries)if(entry.isIntersecting){const image=entry.target.querySelector("img");if(image)animateOnce(image,{opacity:[.9,1]});observer.unobserve(entry.target)}},{threshold:.15});document.querySelectorAll(".observatory .obs-moment").forEach(node=>observer.observe(node));return()=>observer.disconnect()},[reading,reduced,showChapters]);
+ // Trailer content: real archive photographs and screenshots, with their existing captions.
+ const archive=(id:string)=>chapters.flatMap(c=>c.moments).flatMap(m=>m.media).find(m=>m.id===id)!;
+ const print=(id:string)=><figure className="obs-photo"><Photograph item={archive(id)}/><figcaption>{archive(id).caption}</figcaption></figure>;
+ const trailerMedia:TrailerMedia={
+  firstCode:print("A017"),
+  car:print("A045-red-car"),
+  bus:<figure className="obs-photo"><img src={asset("bus-exterior.webp")} width={800} height={800} loading="lazy" decoding="async" alt="Exterior view from my saved bus model tour"/><figcaption>Exterior · original tour frame.</figcaption></figure>,
+ };
+ const workspace=vaultStudy.images.workspace;
+ const trailerShots:readonly [TrailerShot,TrailerShot,TrailerShot]=[
+  {src:asset("learning-space-tourism-1200.webp"),srcSet:`${asset("learning-space-tourism-480.webp")} 480w, ${asset("learning-space-tourism-1200.webp")} 1200w`,alt:"Space Tourism — actual project website captured in November 2026",caption:"Space Tourism · live project capture, November 2026"},
+  {src:"/images/harigurus/services-1200.webp",srcSet:"/images/harigurus/services-640.webp 640w, /images/harigurus/services-1200.webp 1200w",alt:"Harigurus homepage introducing event services and a Book appointment action",caption:"Harigurus · service-booking homepage"},
+  {src:workspace.src,srcSet:workspace.srcSet,alt:workspace.alt,caption:"Vault Storage · actual connected GitHub workspace."},
+ ];
+ const trailerClosing=<div className="obs-trailer-links"><a href={`mailto:${professionalStory.email}`}>Email me</a><a href="/adarsh-singh-resume.pdf" target="_blank" rel="noreferrer">Resume (PDF)</a><a href={professionalStory.linkedin} target="_blank" rel="noreferrer">LinkedIn</a><a href={professionalStory.github} target="_blank" rel="noreferrer">GitHub</a><a href="/" onClick={e=>{e.preventDefault();onReturn()}}>Return to the atlas</a><a href="#whole-story">Read the whole story <span aria-hidden="true">↓</span></a></div>;
+ const heroCopy=<div className="obs-hero-copy"><p className="obs-kicker">Two brothers · one rooftop</p><h1 ref={heading} tabIndex={-1}>Bhaiya, tell me<br/><em>something new.</em></h1><p>At night, we would go up to the roof. I would ask my brother for another interesting thing, and he would point me towards a universe of questions.</p><VideoLink id="story" /><a href="#school">Begin the story <span aria-hidden="true">↓</span></a></div>;
  return <div className={`observatory ${reading?"observatory--reading":""}`}><a className="obs-skip" href="#story-content">Skip to story</a>
  <header className="obs-header"><a href="/" onClick={e=>{e.preventDefault();onReturn()}}>← Back to the atlas</a><span>The rooftop observatory</span><button type="button" aria-pressed={reading} onClick={()=>setReading(!reading)}>{reading?"Cinematic view":"Reading view"}</button></header>
- <main id="story-content"><section className="obs-hero-scroll"><div className="obs-hero"><div className="obs-hero-copy"><p className="obs-kicker">Two brothers · one rooftop</p><h1 ref={heading} tabIndex={-1}>Bhaiya, tell me<br/><em>something new.</em></h1><p>At night, we would go up to the roof. I would ask my brother for another interesting thing, and he would point me towards a universe of questions.</p><a href="#school">Begin the story <span aria-hidden="true">↓</span></a></div><Rooftop/><span className="obs-hero-margin-note obs-note">Same sky.<br/>Bigger questions.</span></div></section>
+ <main id="story-content">{reading?<section className="obs-hero-scroll"><div className="obs-hero">{heroCopy}<Rooftop/><span className="obs-hero-margin-note obs-note">Same sky.<br/>Bigger questions.</span></div></section>:<Trailer reduced={reduced} media={trailerMedia} shots={trailerShots} closing={trailerClosing}>{heroCopy}</Trailer>}
+ {!reading&&<header className="obs-whole-story" id="whole-story"><h2>The whole story</h2><p>Twenty chapters, with the photographs and recordings I kept.</p></header>}
  <nav className="obs-chapters" aria-label="Story chapters">{chapters.map((c,i)=><a href={`#${c.id}`} key={c.id}><span>{String(i+1).padStart(2,"0")}</span>{c.title}</a>)}</nav>
- {!reading&&<OpeningCollage/>}
- {chapters.map((chapter,index)=><ChapterSection chapter={chapter} index={index} key={chapter.id} reading={reading} reduced={reduced} onArchive={()=>{archiveTarget.current=chapter.id;setReading(true)}}/>)}
+ 
+ {showChapters&&chapters.map((chapter,index)=><ChapterSection chapter={chapter} index={index} key={chapter.id} reading={reading} reduced={reduced} onArchive={()=>{archiveTarget.current=chapter.id;setReading(true)}}/>)}
  </main><footer className="obs-footer"><div className="obs-footer-sky" aria-hidden="true"/><div className="obs-footer-content"><p className="obs-kicker">Different paths · the same sky</p><h2>My brother kept<br/>my curiosity alive.</h2><p>I am still following it.</p><div className="obs-footer-links"><a href="/" onClick={e=>{e.preventDefault();onReturn()}}>Return to the atlas <span aria-hidden="true">↗</span></a><a href="/story/reading.html" onClick={e=>{if(!e.metaKey&&!e.ctrlKey&&!e.shiftKey&&!e.altKey){e.preventDefault();archiveTarget.current="school";setReading(true);if(reading)document.getElementById("school")?.scrollIntoView()}}}>Open the full reading archive</a></div></div></footer></div>;
 }

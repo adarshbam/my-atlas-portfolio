@@ -162,3 +162,9 @@ User authorizes independently reviewing Argon changes and finishing properly. Ru
 
 Complete static-module preloads improved mobileP94/LCP2838ms. A full numeralfont preload regressedLCP and was removed. Numeral-only300face reduced21908to2620bytes, verifiedoutlines/metrics identical; mobileP96/LCP2662ms. Now primary500/400fonts subsetto105actualportfoliocharacters+ASCII, outlines(decomposed)/metrics verifiedidentical;12620bytes(display) and16060bytes(body) versus23312/23820. FullUnicodefallbackfaces andOFLlicenses retained, existing fontfamilies unchanged. Scripts subset-project-numerals.py and subset-portfolio-fonts.py reproduceassets usinglocaltmp/fonttools (no runtime/newanimationdependency). index root preloadsnewsubsetfontpaths, /story retainsoriginalfonts andlazyboundary. Finalnewbuild/typecheckPASS; isolatedLighthouse exec86324 running. Needfinaltargetedpreload/firstpaint/coverfont tests,20matrix visualrecapture andevidenceupdate. Prior92+18regression passes stillvalid forunchangedinteractioncode; onlyfetch/fontface changes. No deployment. Preview4180exec24231. Sharedallowance57%.
 
+# Documentation follow-up — 5 November 2026
+
+User-requested architecture/teaching pack complete; no application edits. Deliverables: docs/atlas-explained/01-architecture.md,02-programming-and-lessons.md and34-page engineering-atlas-walkthrough.pdf. Final14 excerpts/63 hashes/76 links/34 rendered pages verified; all pages visually reviewed. Reproduction and limits: docs/atlas-explained/tooling/README.md and WORK-LOG.md. Runtime baseline66fc2c5, internal scrolling and November3 mobileLCP limitation unchanged. No deployment or new application-test claim. Next: user reviews the documentation; small-screen scroll is a proposed future measured correction.
+
+---
+

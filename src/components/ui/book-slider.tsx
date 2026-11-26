@@ -11,12 +11,10 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
-  BookOpen,
   Volume2,
   VolumeX,
 } from "lucide-react";
 import { BookPage } from "@/components/book-pages";
-import { ReadingView } from "@/components/reading-view";
 import { github, opening, pages, chapters } from "@/data/portfolio";
 import { adjacentPage, pageIndex, visiblePages } from "@/lib/book-navigation";
 import { useBookPresentation } from "@/lib/use-book-presentation";
@@ -24,6 +22,8 @@ import { useMediaQuery } from "@/lib/use-media-query";
 import { useReferenceInteractions } from "@/lib/use-reference-interactions";
 import { usePageMotion } from "@/lib/use-page-motion";
 import { usePageScrollHints } from "@/lib/use-page-scroll-hints";
+import { offsetInAtlas } from "@/lib/atlas-offset";
+import { goToBook } from "@/front/Arrival";
 import { ThemeSwitch } from "@/components/theme-switch";
 import { useSound } from "@/lib/audio/use-sound";
 import { soundEngine, type Interaction } from "@/lib/audio/sound-engine";
@@ -185,7 +185,7 @@ function setTurnDensity(engine: PageFlip) {
 export default function Book({
   initialPosition,
 }: {
-  initialPosition?: { page: number; readMode: boolean };
+  initialPosition?: { page: number };
 }) {
   const initialPage = Math.max(
     0,
@@ -202,7 +202,6 @@ export default function Book({
   const current = useRef(initialPage);
   const logical = useRef(initialPage);
   const [logicalPage, setLogicalPage] = useState(initialPage);
-  const readingRoot = useRef<HTMLDivElement>(null);
   const lastPageFocus = useRef<number | null>(null);
   const [announcement, setAnnouncement] = useState("");
   const wanted = useRef<{ page: number; corner: TurnOrigin } | null>(null);
@@ -215,10 +214,12 @@ export default function Book({
   // responsive mode together with usable page geometry, never independently.
   const mobile = dimensions?.mobile ?? requestedMobile;
   const [ready, setReady] = useState(false);
-  const [readMode, setReadMode] = useState(initialPosition?.readMode ?? false);
   const [turning, setTurning] = useState(false);
-  const focusedReadingReturn = useRef<number | null>(null);
-  const plain = reduced || readMode;
+  // What the turn in progress is: the cover opening, the cover closing, or a page. The desk
+  // around the book reads it from the shell (data-turn-kind) to lower and raise its light.
+  const [turnKind, setTurnKind] = useState<Interaction["kind"] | null>(null);
+  // Reduced motion shows the same pages as still faces, with no turn engine.
+  const plain = reduced;
   const sound = useSound(reduced);
   const [contentsOpen, setContentsOpen] = useState(false);
   const contentsTrigger = useRef<HTMLButtonElement>(null);
@@ -254,17 +255,15 @@ export default function Book({
   useReferenceInteractions({
     root: presentation,
     reduced,
-    readMode,
     ready,
     turning,
-    onReading: setReadMode,
     announce: setAnnouncement,
   });
-  usePageMotion(presentation, reduced, readMode, turning, ready, page);
-  usePageScrollHints(presentation, readMode, ready);
-  const group = readMode ? [page] : visiblePages(page, mobile);
-  const previous = adjacentPage(page, -1, readMode || mobile);
-  const next = adjacentPage(page, 1, readMode || mobile);
+  usePageMotion(presentation, reduced, turning, ready, page);
+  usePageScrollHints(presentation, ready);
+  const group = visiblePages(page, mobile);
+  const previous = adjacentPage(page, -1, mobile);
+  const next = adjacentPage(page, 1, mobile);
   // Chapter ranges include continuation faces (for example, both references).
   const activeChapter = chapters
     .filter((chapter) => pageIndex(chapter.id)! <= logicalPage)
@@ -275,7 +274,6 @@ export default function Book({
     dimensions,
     mobile,
     page,
-    !readMode,
   );
   useLayoutEffect(() => {
     if (plain) present(page === 0 ? 0 : 1, true);
@@ -316,9 +314,13 @@ export default function Book({
             if (element.classList.contains("page-content"))
               element.style.flex = "0 0 auto";
           }
+          // Divide out any ancestor scale (the arrival scales the whole atlas).
+          const faceScale = face.offsetWidth
+            ? face.getBoundingClientRect().width / face.offsetWidth || 1
+            : 1;
           height = Math.max(
             height,
-            Math.ceil(face.getBoundingClientRect().height),
+            Math.ceil(face.getBoundingClientRect().height / faceScale),
           );
           surfaces.forEach((element, i) => {
             if (previous[i] === null) element.removeAttribute("style");
@@ -367,8 +369,7 @@ export default function Book({
       if (!Number.isFinite(available) || available <= 0) return;
       lastWidth = stage.current.clientWidth;
       lastViewportWidth = window.innerWidth;
-      const stageTop =
-        stage.current.getBoundingClientRect().top + window.scrollY;
+      const stageTop = offsetInAtlas(stage.current);
       const desktopHeight = Math.max(
         numberToken("--premium-min-page-height"),
         window.innerHeight - stageTop - numberToken("--premium-bottom-reserve"),
@@ -462,7 +463,8 @@ export default function Book({
       // from the departing page or from the document after its removal.
       let transferFocus =
         focusAfterPage.current &&
-        (active === document.body || !!slot.current?.contains(active));
+        // The atlas itself holds focus as a waypoint when the reader was sent here from the run.
+        (active === document.body || !!active?.classList.contains("atlas") || !!slot.current?.contains(active));
       focusAfterPage.current = false;
       slot.current
         ?.querySelectorAll<HTMLElement>("[data-page]")
@@ -484,25 +486,6 @@ export default function Book({
   const navigate = useCallback(
     (requested: number, corner: TurnOrigin = "bottom") => {
       requested = Math.max(0, Math.min(pages.length - 1, requested));
-      if (readMode) {
-        logical.current = requested;
-        current.current = requested;
-        setLogicalPage(requested);
-        setPage(requested);
-        const section = readingRoot.current?.querySelector<HTMLElement>(
-          `[data-reading-page="${requested}"]`,
-        );
-        section?.scrollIntoView({ block: "start", behavior: "auto" });
-        if (focusAfterPage.current)
-          section
-            ?.querySelector<HTMLElement>("h2")
-            ?.focus({ preventScroll: true });
-        focusAfterPage.current = false;
-        setAnnouncement(
-          `Page ${requested + 1} of ${pages.length}. ${pages[requested].title}.`,
-        );
-        return;
-      }
       const target = visiblePages(requested, mobile)[0];
       if (plain) {
         focusAfterPage.current ||=
@@ -567,6 +550,7 @@ export default function Book({
           // the selected chapter first, then start the unchanged native turn.
           // This leaves input available and retains the latest queued request.
           setTurning(true);
+          setTurnKind("cover-open");
           firstTurnFrame.current = requestAnimationFrame(() => {
             firstTurnFrame.current = requestAnimationFrame(startTurn);
           });
@@ -578,17 +562,34 @@ export default function Book({
           ?.focus({ preventScroll: true });
       }
     },
-    [mobile, plain, readMode],
+    [mobile, plain],
   );
   const navigateRef = useRef(navigate);
+  useEffect(() => {
+    const exploreVault = () => {
+      if (location.pathname.replace(/\/+$/, "") === "/story") return;
+      const destination = pageIndex("vault");
+      if (destination !== undefined) {
+        focusAfterPage.current = true;
+        navigate(destination);
+      }
+    };
+    // The run above the book asks for a page by its durable ID.
+    const goToPage = (event: Event) => {
+      const destination = pageIndex(String((event as CustomEvent).detail));
+      if (destination !== undefined) {
+        focusAfterPage.current = true;
+        navigate(destination);
+      }
+    };
+    document.addEventListener("atlas:video-vault", exploreVault);
+    document.addEventListener("atlas:go-to-page", goToPage);
+    return () => {
+      document.removeEventListener("atlas:video-vault", exploreVault);
+      document.removeEventListener("atlas:go-to-page", goToPage);
+    };
+  }, [navigate]);
   navigateRef.current = navigate;
-  const readingNavigate = useCallback(
-    (index: number) => {
-      focusAfterPage.current = true;
-      navigate(index);
-    },
-    [navigate],
-  );
   useLayoutEffect(() => {
     if (plain && focusAfterPage.current) {
       // Motion commits its face styles in layout effects too. Focus on the next
@@ -616,7 +617,9 @@ export default function Book({
       !source.current ||
       !slot.current
     ) {
-      setReady(plain);
+      // Plain pages are ready once they have been measured. On tablets the first
+      // measurement waits for the text faces, so "plain" alone is too early.
+      setReady(plain && dimensions !== null);
       return;
     }
     const root = document.createElement("div");
@@ -675,6 +678,10 @@ export default function Book({
     let previousProgress = 0;
     let previousTime = 0;
     let mouseActive = false;
+    // The turn in progress, named once when it starts and kept until the book is at rest.
+    let turnKindNow: Interaction["kind"] | null = null;
+    // A drag names its direction before the engine has one: the corner it started from.
+    let dragBackward: boolean | null = null;
     const nativePoint = (x: number, y: number) => {
       const rect = root.getBoundingClientRect();
       const scale = presentationModel.current.scale;
@@ -818,6 +825,25 @@ export default function Book({
       presentation.current?.setAttribute("data-native-state", String(event.data));
       setTurning(event.data === "flipping" || event.data === "user_fold");
       if (event.data === "flipping" || event.data === "user_fold") {
+        if (turnKindNow === null) {
+          const calculation = engine.getFlipController().getCalculation();
+          const backward = calculation
+            ? calculation.getDirection() === 1
+            : (dragBackward ?? false);
+          const from = current.current;
+          const to =
+            pendingTarget.current ??
+            adjacentPage(from, backward ? -1 : 1, mobile);
+          turnKindNow =
+            from === 0 ? "cover-open" : to === 0 ? "cover-close" : "page";
+        }
+        setTurnKind(turnKindNow);
+      } else {
+        turnKindNow = null;
+        dragBackward = null;
+        setTurnKind(null);
+      }
+      if (event.data === "flipping" || event.data === "user_fold") {
         if (!interaction && (event.data === "flipping" || mouseActive)) {
           const backward =
             engine.getFlipController().getCalculation()?.getDirection() === 1;
@@ -946,6 +972,7 @@ export default function Book({
         event.preventDefault();
         event.stopPropagation();
         mouseActive = true;
+        dragBackward = corner.side === "left";
         engine.getSettings().flippingTime = durationToken(
           current.current === 0 ||
             (current.current === 1 && corner.side === "left")
@@ -1132,6 +1159,7 @@ export default function Book({
       engine.destroy();
       setReady(false);
       setTurning(false);
+      setTurnKind(null);
     };
   }, [dimensions, mobile, plain, setVisible, present, presentationModel]);
 
@@ -1139,7 +1167,6 @@ export default function Book({
     const onKey = (event: KeyboardEvent) => {
       if (
         location.pathname.replace(/\/+$/, "") === "/story" ||
-        readMode ||
         event.defaultPrevented ||
         event.altKey ||
         event.ctrlKey ||
@@ -1168,24 +1195,14 @@ export default function Book({
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [navigate, mobile, readMode]);
+  }, [navigate, mobile]);
 
   useEffect(() => {
-    const next = readMode
-      ? logical.current
-      : visiblePages(logical.current, mobile)[0];
+    const next = visiblePages(logical.current, mobile)[0];
     current.current = next;
     setPage(next);
     wanted.current = null;
-  }, [mobile, plain, readMode]);
-
-  const readingLocation = useCallback((index: number) => {
-    if (location.pathname.replace(/\/+$/, "") === "/story") return;
-    logical.current = index;
-    current.current = index;
-    setLogicalPage(index);
-    setPage(index);
-  }, []);
+  }, [mobile, plain]);
 
   useEffect(() => {
     const remember = (event: FocusEvent) => {
@@ -1209,42 +1226,49 @@ export default function Book({
         !active.closest('[inert],[aria-hidden="true"]')
       )
         return;
-      const root = readMode
-        ? readingRoot.current
-        : plain
-          ? stage.current
-          : slot.current;
+      const root = plain ? stage.current : slot.current;
       root
         ?.querySelector<HTMLElement>(`[data-page="${logical.current}"] h2`)
         ?.focus({ preventScroll: true });
     });
     return () => cancelAnimationFrame(frame);
-  }, [ready, plain, readMode, mobile]);
+  }, [ready, plain, mobile]);
 
   useEffect(() => {
-    if (!readMode)
-      setAnnouncement(
-        !turning && ready
-          ? `Page ${page + 1} of ${pages.length}. ${pages[page].title}.`
-          : "",
-      );
-  }, [page, turning, ready, readMode]);
-
-  useEffect(() => {
-    if (readMode)
-      setAnnouncement(
-        `Page ${logical.current + 1} of ${pages.length}. ${pages[logical.current].title}.`,
-      );
-  }, [readMode]);
+    setAnnouncement(
+      !turning && ready
+        ? `Page ${page + 1} of ${pages.length}. ${pages[page].title}.`
+        : "",
+    );
+  }, [page, turning, ready]);
 
   const onTouchStart = useRef<{ x: number; y: number } | null>(null);
 
   return (
-    <main className="atlas">
-      <a href="#book" className="skip-link">
+    <div className="atlas" tabIndex={-1}>
+      {/* Handled here, not left to the address: a change of fragment would be a navigation,
+          and the book sits in a pinned block that the browser's own jump lands short of. */}
+      <a
+        href="#book"
+        className="skip-link"
+        onClick={(event) => {
+          if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)
+            return;
+          event.preventDefault();
+          goToBook();
+          const face = plain
+            ? stage.current?.querySelector<HTMLElement>(
+                `.plain-face[aria-hidden="false"] [data-page="${logical.current}"] h2`,
+              )
+            : slot.current?.querySelector<HTMLElement>(
+                `[data-page="${logical.current}"] h2`,
+              );
+          (face ?? contentsTrigger.current)?.focus({ preventScroll: true });
+        }}
+      >
         Skip to portfolio
       </a>
-      <h1 className="sr-only">Adarsh Singh — Engineering Atlas</h1>
+      <h2 className="sr-only">Adarsh Singh — Engineering Atlas</h2>
       <div className="book-toolbar">
         <button
           type="button"
@@ -1255,37 +1279,6 @@ export default function Book({
           onClick={() => setContentsOpen((open) => !open)}
         >
           Contents <span aria-hidden="true">{contentsOpen ? "−" : "+"}</span>
-        </button>
-        <button
-          className="reading-toggle"
-          type="button"
-          aria-pressed={readMode}
-          onPointerDown={() => {
-            const focused = document.activeElement?.closest<HTMLElement>(
-              ".reading-document [data-page]",
-            );
-            focusedReadingReturn.current =
-              readMode && focused ? Number(focused.dataset.page) : null;
-          }}
-          onClick={() => {
-            wanted.current = null;
-            pendingTarget.current = null;
-            if (readMode && focusedReadingReturn.current !== null) {
-              logical.current = focusedReadingReturn.current;
-              current.current = focusedReadingReturn.current;
-              setLogicalPage(focusedReadingReturn.current);
-              setPage(focusedReadingReturn.current);
-            }
-            focusedReadingReturn.current = null;
-            setReadMode((v) => !v);
-          }}
-        >
-          <BookOpen aria-hidden="true" />
-          {readMode
-            ? reduced
-              ? "Return to pages"
-              : "Return to book"
-            : "Reading view"}
         </button>
         <ThemeSwitch />
         <div
@@ -1376,18 +1369,19 @@ export default function Book({
       </div>
       <div
         ref={stage}
-        className={`book-stage ${readMode ? "book-stage--reading" : ""}`}
+        className="book-stage"
       >
         <section
           ref={presentation}
           id="book"
           aria-label="Engineering Atlas portfolio"
-          className={`book-shell ${mobile ? "book-shell--single" : ""} ${plain ? "book-shell--plain" : ""} ${readMode ? "book-shell--reading" : ""}`}
+          className={`book-shell ${mobile ? "book-shell--single" : ""} ${plain ? "book-shell--plain" : ""}`}
           data-current-page={page}
           data-cover={page === 0}
           data-ready={ready}
           data-turning={turning}
-          data-mode={readMode ? "reading" : reduced ? "reduced" : "native"}
+          data-turn-kind={(turning && turnKind) || undefined}
+          data-mode={reduced ? "reduced" : "native"}
           data-logical-page={logicalPage}
           style={
             dimensions
@@ -1398,112 +1392,104 @@ export default function Book({
               : undefined
           }
         >
-          {readMode ? (
-            <ReadingView
-              root={readingRoot}
-              initialPage={logical.current}
-              onLocation={readingLocation}
-              onNavigate={readingNavigate}
-              reduced={reduced}
+          <div className="binding" aria-hidden="true" />
+          <div
+            className="book-block book-block--right"
+            aria-hidden="true"
+          />
+          {!mobile && (
+            <div
+              className="book-block book-block--left"
+              aria-hidden="true"
             />
-          ) : (
-            <>
-              <div className="binding" aria-hidden="true" />
-              <div
-                className="book-block book-block--right"
-                aria-hidden="true"
-              />
-              {!mobile && (
-                <div
-                  className="book-block book-block--left"
-                  aria-hidden="true"
-                />
-              )}
-              {plain && dimensions ? (
-                <div
-                  className="plain-spread"
-                  onClick={(e) => {
-                    const button = (e.target as Element).closest<HTMLElement>(
-                      "[data-turn-page-id]",
-                    );
-                    if (button) {
-                      const target = pageIndex(button.dataset.turnPageId!);
-                      if (target !== undefined) {
-                        focusAfterPage.current = true;
-                        navigate(target);
-                      }
-                      return;
-                    }
-                    if (
-                      (e.target as Element).closest(
-                        'a,button,[role="region"]',
-                      ) ||
-                      !window.getSelection()?.isCollapsed
-                    )
-                      return;
-                    const corner = turnZoneAt(
-                      e.currentTarget,
-                      e.clientX,
-                      e.clientY,
-                      current.current,
-                      mobile,
-                    );
-                    if (corner)
-                      navigate(
-                        adjacentPage(
-                          current.current,
-                          corner.side === "right" ? 1 : -1,
-                          mobile,
-                        ),
-                        corner.end,
-                      );
-                  }}
-                  onTouchStart={(e) => {
-                    if (
-                      (e.target as Element).closest(
-                        'a,button,[role="region"]',
-                      ) ||
-                      e.touches.length !== 1
-                    )
-                      return;
-                    onTouchStart.current = {
-                      x: e.changedTouches[0].clientX,
-                      y: e.changedTouches[0].clientY,
-                    };
-                  }}
-                  onTouchEnd={(e) => {
-                    const start = onTouchStart.current;
-                    onTouchStart.current = null;
-                    if (!start) return;
-                    const x = e.changedTouches[0].clientX - start.x;
-                    const y = e.changedTouches[0].clientY - start.y;
-                    if (
-                      Math.abs(x) >= numberToken("--s12") &&
-                      Math.abs(x) > Math.abs(y) * 2
-                    )
-                      navigate(
-                        adjacentPage(current.current, x < 0 ? 1 : -1, mobile),
-                      );
-                  }}
-                >
-                  {pages.map((definition, i) => {
-                    const visible = group.includes(i);
-                    return (
-                      <CrossfadeFace
-                        key={definition.id}
-                        column={mobile ? 1 : i === 0 || i % 2 === 0 ? 2 : 1}
-                        visible={visible}
-                      >
-                        <BookPage page={definition} />
-                      </CrossfadeFace>
-                    );
-                  })}
-                </div>
-              ) : null}
-              <div ref={slot} className="library-slot" hidden={plain} />
-              {!mobile && <div className="book-gutter" aria-hidden="true" />}
-            </>
           )}
+          {plain && dimensions ? (
+            <div
+              className="plain-spread"
+              onClick={(e) => {
+                const button = (e.target as Element).closest<HTMLElement>(
+                  "[data-turn-page-id]",
+                );
+                if (button) {
+                  const target = pageIndex(button.dataset.turnPageId!);
+                  if (target !== undefined) {
+                    focusAfterPage.current = true;
+                    navigate(target);
+                  }
+                  return;
+                }
+                if (
+                  (e.target as Element).closest(
+                    'a,button,[role="region"]',
+                  ) ||
+                  !window.getSelection()?.isCollapsed
+                )
+                  return;
+                const corner = turnZoneAt(
+                  e.currentTarget,
+                  e.clientX,
+                  e.clientY,
+                  current.current,
+                  mobile,
+                );
+                if (corner)
+                  navigate(
+                    adjacentPage(
+                      current.current,
+                      corner.side === "right" ? 1 : -1,
+                      mobile,
+                    ),
+                    corner.end,
+                  );
+              }}
+              onTouchStart={(e) => {
+                if (
+                  (e.target as Element).closest(
+                    'a,button,[role="region"]',
+                  ) ||
+                  e.touches.length !== 1
+                )
+                  return;
+                onTouchStart.current = {
+                  x: e.changedTouches[0].clientX,
+                  y: e.changedTouches[0].clientY,
+                };
+              }}
+              onTouchEnd={(e) => {
+                const start = onTouchStart.current;
+                onTouchStart.current = null;
+                if (!start) return;
+                const x = e.changedTouches[0].clientX - start.x;
+                const y = e.changedTouches[0].clientY - start.y;
+                if (
+                  Math.abs(x) >= numberToken("--s12") &&
+                  Math.abs(x) > Math.abs(y) * 2
+                )
+                  navigate(
+                    adjacentPage(current.current, x < 0 ? 1 : -1, mobile),
+                  );
+              }}
+            >
+              {pages.map((definition, i) => {
+                const visible = group.includes(i);
+                return (
+                  <CrossfadeFace
+                    key={definition.id}
+                    column={mobile ? 1 : i === 0 || i % 2 === 0 ? 2 : 1}
+                    visible={visible}
+                  >
+                    <BookPage page={definition} />
+                  </CrossfadeFace>
+                );
+              })}
+            </div>
+          ) : null}
+          <div ref={slot} className="library-slot" hidden={plain} />
+          {!mobile && <div className="book-gutter" aria-hidden="true" />}
+          {/* The band of lamp light that crosses the cover as it opens (src/front/front.css).
+              It lies over the cover's own place in the shell, so it moves with the book and
+              is clipped to it. Still pages have no turn, and no band. */}
+          {!plain && <div className="atlas-arrival-band" aria-hidden="true" />}
         </section>
       </div>
       <nav className="pagination" aria-label="Page navigation">
@@ -1514,7 +1500,7 @@ export default function Book({
           aria-label="Previous page"
           disabled={previous === page}
           onClick={() =>
-            navigate(adjacentPage(current.current, -1, readMode || mobile))
+            navigate(adjacentPage(current.current, -1, mobile))
           }
         >
           <ArrowLeft aria-hidden="true" />
@@ -1531,7 +1517,7 @@ export default function Book({
           aria-label="Next page"
           disabled={next === page}
           onClick={() =>
-            navigate(adjacentPage(current.current, 1, readMode || mobile))
+            navigate(adjacentPage(current.current, 1, mobile))
           }
         >
           <ArrowRight aria-hidden="true" />
@@ -1555,6 +1541,6 @@ export default function Book({
       >
         {announcement}
       </div>
-    </main>
+    </div>
   );
 }

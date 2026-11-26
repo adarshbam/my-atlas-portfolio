@@ -7,7 +7,7 @@ for (const width of [375,768,1280,1920]) for(const reduced of [false,true]) {
     await page.setViewportSize({width,height:900});
     await page.emulateMedia({reducedMotion:reduced?'reduce':'no-preference'});
     const errors:string[]=[]; page.on('pageerror',e=>errors.push(e.message));
-    await page.goto('/');await expect(page.locator('#book')).toHaveAttribute('data-ready','true');
+    await page.goto('/#book');await expect(page.locator('#book')).toHaveAttribute('data-ready','true');
     await goToChapter(page,'Harigurus');await expect(page.locator('#book')).toHaveAttribute('data-turning','false');
     const scope=reduced?'.plain-face[aria-hidden=false]':'.library-slot';
     const face=page.locator(`${scope} [data-page-id="harigurus"]`);
@@ -34,13 +34,8 @@ for (const width of [375,768,1280,1920]) for(const reduced of [false,true]) {
     await image.scrollIntoViewIfNeeded();await expect.poll(()=>image.evaluate((i:HTMLImageElement)=>i.complete&&i.naturalWidth>0)).toBe(true);
     await expect(vault).toContainText('10 registered accounts');await expect(vault).toContainText('45.01 TB of provisioned quota');
     await page.screenshot({path:`docs/review/corner-vault/vault-${width}-${reduced}.png`});
-    await page.getByRole('button',{name:'Reading view',exact:true}).click();await goToChapter(page,'Vault Storage');
-    const readingImage=page.locator(width>=1280&&!reduced?'.reading-evidence [data-evidence="workspace"] .vault-figure--accounts img':'.reading-document [data-page-id="vault"] .vault-figure--accounts img');
-    await expect(readingImage).toBeVisible();
-    await readingImage.scrollIntoViewIfNeeded();
-    await expect.poll(()=>readingImage.evaluate((i:HTMLImageElement)=>i.complete&&i.naturalWidth>0)).toBe(true);
+    await expect(image).toBeVisible();
     const axe=await new AxeBuilder({page}).analyze();expect(axe.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))).toEqual([]);
     expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);expect(errors).toEqual([]);
-    await page.screenshot({path:`docs/review/corner-vault/reading-${width}-${reduced}.png`});
   });
 }

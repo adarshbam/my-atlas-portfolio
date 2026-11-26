@@ -12,7 +12,7 @@ for (const [width, height] of [
     }) => {
       await page.setViewportSize({ width, height });
       await page.emulateMedia({ reducedMotion: motion });
-      await page.goto("/");
+      await page.goto("/#book");
       const book = page.locator("#book");
       await expect(book).toHaveAttribute("data-ready", "true");
       await page.evaluate(() => document.fonts.ready);
@@ -114,7 +114,7 @@ test("native cover drag grows with progress, reverses, cancels and commits witho
   // The desktop spread exceeds the closed cover height cap, exercising
   // the approved fit-closed / grow-open presentation.
   await page.setViewportSize({ width: 1920, height: 1080 });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   const initialScale = Number(
@@ -174,7 +174,7 @@ test("scaled middle-edge tap opens once and short-window resizing preserves a se
     isMobile: true,
   });
   const page = await context.newPage();
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   const b = (await page
@@ -207,7 +207,7 @@ test("native cover drag commits and reverse closing drag can cancel", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1920, height: 1080 });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   let b = (await page
@@ -242,7 +242,7 @@ test("resize and repeated navigation during cover opening leave a usable engine"
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   await page.getByRole("button", { name: "Open book", exact: true }).click();
@@ -275,7 +275,7 @@ test("short enlarged-layout viewport scrolls to the opening action without clipp
 }) => {
   await page.setViewportSize({ width: 640, height: 450 });
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   const open = page.getByRole("button", { name: "Open book", exact: true });

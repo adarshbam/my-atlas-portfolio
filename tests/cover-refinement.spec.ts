@@ -32,7 +32,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await page.emulateMedia({
         reducedMotion: reduced ? "reduce" : "no-preference",
       });
-      await page.goto("/");
+      await page.goto("/#book");
       await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
       await page.evaluate(() => document.fonts.ready);
       const cover = page.locator(
@@ -111,7 +111,7 @@ test("cover opening and closing take longer than an interior turn", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   const opening = await duration(page, ".library-slot .cover-open", 1);
   const interior = await duration(page, '[aria-label="Next page"]', 3);

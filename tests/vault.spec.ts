@@ -23,7 +23,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await page.emulateMedia({ reducedMotion });
       const errors: string[] = [];
       page.on("pageerror", (error) => errors.push(error.message));
-      await page.goto("/");
+      await page.goto("/#book");
       await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
       await goToChapter(page, "Vault Storage");
       await settled(page, vaultIndex);

@@ -4,7 +4,7 @@ for (const reducedMotion of ["no-preference", "reduce"] as const)
     page,
   }) => {
     await page.emulateMedia({ reducedMotion });
-    await page.goto("/");
+    await page.goto("/#book");
     await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
     await page.getByRole("button", { name: "Open book", exact: true }).click();
     await expect(page.locator("#book")).toHaveAttribute(

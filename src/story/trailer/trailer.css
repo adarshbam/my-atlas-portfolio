@@ -1,0 +1,341 @@
+/*
+ * Story trailer scenes. Story-only amendment of 22 November 2026.
+ * Shared stage, layout, rail and still mode: src/trailer/base.css. Tokens: src/trailer/tokens.css.
+ *
+ * Scene variables (all 0..1), written by Trailer.tsx through the shared engine:
+ *   --a --b --c   scene-specific steps (see each scene below)
+ *   look scene only: --copy --rise --cap --draw1 --out1 --draw2 --fall --scene2
+ * Stage variable: --sky (star field in).
+ */
+/* ---------- Persistent sky ---------- */
+.obs-trailer .obs-trailer-stars {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  fill: var(--obs-paper);
+  pointer-events: none;
+  opacity: var(--sky);
+  transform: scale(calc(var(--obs-star-near) + var(--sky) * (1 - var(--obs-star-near)) + var(--travel) * var(--obs-star-drift)));
+}
+
+/* ---------- Scene 1: the rooftop, rising into the sky ---------- */
+.obs-trailer .obs-trailer-painting {
+  z-index: 0;
+  transform-origin: var(--obs-rise-origin);
+  transform: translateY(calc(var(--rise) * var(--obs-rise-shift)))
+    scale(calc(1 + var(--rise) * (var(--obs-zoom-through) - 1)));
+  opacity: calc(1 - clamp(0, (var(--rise) - 0.45) / 0.55, 1));
+}
+.obs-trailer .obs-hero {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  opacity: calc(1 - var(--copy));
+  transform: translateY(calc(var(--copy) * var(--obs-lift) * -1));
+}
+
+/* ---------- Scene 2: Look ---------- */
+.obs-trailer .obs-trailer-look {
+  --bar: var(--scene2);
+  transform-origin: 65% 62%;
+  opacity: calc(1 - var(--out));
+  transform: scale(calc(1 + var(--out) * (var(--obs-zoom-through) - 1)));
+}
+.obs-trailer .obs-trailer-look .obs-trailer-caption {
+  opacity: var(--cap);
+  transform: translateY(calc((1 - var(--cap)) * var(--obs-lift)));
+}
+/* The star-map disclaimer belongs to the constellation beat only. */
+.obs-trailer .obs-trailer-look .obs-small {
+  opacity: 0;
+  transition: opacity var(--obs-speed-short) linear;
+}
+.obs-trailer .obs-trailer-scene[data-beat="1"] .obs-trailer-look .obs-small {
+  opacity: 1;
+}
+.obs-trailer .obs-trailer-constellation {
+  opacity: calc(var(--cap) * (1 - var(--out1)));
+}
+.obs-trailer .obs-trailer-line-main {
+  stroke-dashoffset: calc((1 - clamp(0, var(--draw1) / 0.6, 1)) * 1px);
+}
+.obs-trailer .obs-trailer-line-north {
+  stroke-dashoffset: calc((1 - clamp(0, (var(--draw1) - 0.6) / 0.18, 1)) * 1px);
+}
+.obs-trailer .obs-trailer-line-south {
+  stroke-dashoffset: calc((1 - clamp(0, (var(--draw1) - 0.8) / 0.2, 1)) * 1px);
+}
+.obs-trailer .obs-trailer-node {
+  opacity: clamp(0, (var(--draw1) - var(--at)) / 0.06, 1);
+}
+.obs-trailer .obs-trailer-node circle {
+  fill: var(--obs-paper);
+  stroke: none;
+}
+.obs-trailer .obs-trailer-node path {
+  stroke: var(--obs-muted);
+  stroke-width: 1;
+}
+.obs-trailer .obs-trailer-gravity {
+  opacity: clamp(0, var(--draw2) / 0.12, 1);
+}
+.obs-trailer .obs-trailer-gravity .obs-trailer-line {
+  stroke-dashoffset: calc((1 - var(--draw2)) * 1px);
+}
+.obs-trailer .obs-trailer-guides {
+  stroke: var(--obs-line);
+}
+.obs-trailer .obs-trailer-brick {
+  fill: var(--obs-surface);
+  fill-opacity: clamp(0, (var(--draw2) - 0.7) / 0.3, 1);
+}
+.obs-trailer .obs-trailer-pebble {
+  fill: var(--obs-paper);
+  fill-opacity: clamp(0, (var(--draw2) - 0.7) / 0.3, 1);
+}
+.obs-trailer .obs-trailer-ground {
+  stroke: var(--obs-green);
+  stroke-width: 2;
+}
+.obs-trailer .obs-trailer-objects {
+  transform: translateY(calc(var(--fall) * var(--obs-fall-distance)));
+}
+.obs-trailer .obs-trailer-gravity text {
+  font: 400 var(--obs-t4) / 1 var(--obs-hand);
+  fill: var(--obs-muted);
+  stroke: none;
+}
+
+/* ---------- Scene 3: Ask. The dial turns through the scene. ---------- */
+.obs-trailer .obs-trailer-art > .obs-trailer-watch {
+  stroke: none; /* the watch parts carry their own fills and strokes (interactions.css) */
+}
+.obs-trailer .obs-trailer-ring {
+  transform: rotate(calc(var(--t) * var(--obs-dial-turn)));
+}
+
+/* ---------- Scene 4: Make. --a reveals the sum. ---------- */
+.obs-trailer .obs-trailer-wash {
+  position: absolute;
+  inset: 0;
+  background: var(--obs-watch-display);
+  pointer-events: none;
+  opacity: calc(var(--in) * (1 - var(--in)) * var(--obs-wash-peak)); /* the watch screen, passed through */
+}
+.obs-trailer .obs-trailer-evidence,
+.obs-trailer .obs-trailer-built {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--obs-s8);
+  aspect-ratio: auto;
+  max-height: none;
+}
+.obs-trailer .obs-trailer-art .obs-photo {
+  width: fit-content;
+  max-width: 100%;
+}
+.obs-trailer .obs-trailer-art .obs-photo img {
+  width: auto;
+  max-width: 100%;
+  max-height: var(--obs-evidence-height);
+}
+.obs-trailer .obs-trailer-sum {
+  font: 600 var(--obs-t8) / 1.1 var(--obs-serif);
+  color: var(--obs-green);
+  font-variant-numeric: tabular-nums;
+}
+.obs-trailer .obs-trailer-sum span {
+  display: inline-block;
+  clip-path: inset(0 calc((1 - var(--a)) * 100%) 0 0);
+}
+
+/* ---------- Scene 5: Make. --a draws code to car, --b and --c bring in the two prints. ---------- */
+.obs-trailer .obs-trailer-progression {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 30 / 7;
+}
+.obs-trailer .obs-trailer-progression .obs-trailer-line {
+  stroke-dashoffset: calc((1 - clamp(0, (var(--a) - var(--from, 0)) / 0.28, 1)) * 1px);
+}
+.obs-trailer .obs-trailer-progression .obs-trailer-line:nth-child(2) { --from: 0.18; }
+.obs-trailer .obs-trailer-progression .obs-trailer-line:nth-child(3) { --from: 0.36; }
+.obs-trailer .obs-trailer-progression .obs-trailer-line:nth-child(4) { --from: 0.54; }
+.obs-trailer .obs-trailer-progression .obs-trailer-line:nth-child(5) { --from: 0.72; }
+.obs-trailer .obs-trailer-car {
+  stroke: var(--obs-green);
+}
+.obs-trailer .obs-trailer-prints {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: var(--obs-s8);
+  width: 100%;
+}
+.obs-trailer .obs-trailer-print {
+  --show: var(--b);
+  min-width: 0;
+  opacity: var(--show);
+  transform: translateY(calc((1 - var(--show)) * var(--obs-lift)));
+}
+.obs-trailer .obs-trailer-print + .obs-trailer-print {
+  --show: var(--c);
+}
+.obs-trailer .obs-trailer-print .obs-photo img {
+  max-height: var(--obs-print-height);
+}
+
+/* ---------- Scene 6: Deliver. --a draws the browser frame; screenshots follow the beats. ---------- */
+.obs-trailer .obs-trailer-browser {
+  position: relative;
+  width: 100%;
+  max-width: calc(var(--obs-browser-height) * 4 / 3);
+}
+.obs-trailer .obs-trailer-screens {
+  display: grid;
+}
+.obs-trailer .obs-trailer-screens figure {
+  grid-area: 1 / 1;
+  min-width: 0;
+  padding-top: 5.5%; /* the 66-unit title bar of the 1200 x 900 frame */
+}
+.obs-trailer .obs-trailer-screens img {
+  aspect-ratio: 1200 / 834;
+  object-fit: cover;
+  object-position: top;
+}
+.obs-trailer .obs-trailer-screens figcaption {
+  padding-top: var(--obs-s3);
+  font-size: var(--obs-t2);
+  color: var(--obs-muted);
+}
+.obs-trailer .obs-trailer-chrome {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  fill: none;
+  stroke: var(--obs-paper);
+  stroke-width: var(--obs-line-weight);
+  pointer-events: none;
+}
+.obs-trailer .obs-trailer-chrome .obs-trailer-line {
+  stroke-dashoffset: calc((1 - var(--a)) * 1px);
+}
+.obs-trailer .obs-trailer-chrome circle {
+  fill: var(--obs-muted);
+  stroke: none;
+  opacity: var(--a);
+}
+
+/* ---------- Scene 7: the rooftop again. --a draws the constellation round the contact block. ---------- */
+.obs-trailer .obs-trailer-close {
+  --draw1: var(--a);
+}
+.obs-trailer .obs-trailer-return {
+  /* same night veil and painting as the existing story footer */
+  background: linear-gradient(180deg, var(--obs-night), rgba(13, 18, 19, 0.45)), url("/story/assets/rooftop-1200.webp") center bottom / cover;
+  opacity: var(--in);
+  transform: scale(calc(var(--obs-pull-back) - var(--in) * (var(--obs-pull-back) - 1)));
+}
+.obs-trailer .obs-trailer-closing {
+  display: grid;
+  align-items: center;
+  padding: var(--obs-s16) max(var(--obs-gutter), calc((100vw - var(--obs-width)) / 2 + var(--obs-gutter)));
+  opacity: var(--in);
+}
+.obs-trailer .obs-trailer-contact {
+  position: relative;
+  max-width: 40em;
+}
+.obs-trailer .obs-trailer-contact h2 {
+  margin-block: var(--obs-s4) var(--obs-s8);
+  font-size: clamp(var(--obs-t6), 5vw, var(--obs-t9));
+}
+.obs-trailer .obs-trailer-frame {
+  position: absolute;
+  top: 12%;
+  left: 4%;
+  width: 92%;
+  height: 76%;
+  fill: none;
+  stroke: var(--obs-muted);
+  stroke-width: 1;
+  pointer-events: none;
+}
+.obs-trailer .obs-trailer-frame .obs-trailer-line {
+  stroke-dashoffset: calc((1 - var(--a)) * 1px);
+}
+
+/* ---------- Still mode, story scenes ---------- */
+.obs-trailer[data-mode="still"] .obs-trailer-rooftop {
+  display: flex;
+  min-height: 86svh;
+}
+.obs-trailer[data-mode="still"] .obs-hero {
+  position: relative;
+  inset: auto;
+  flex: 1;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-look .obs-trailer-art {
+  display: grid;
+  gap: var(--obs-s8);
+  aspect-ratio: auto;
+  max-height: none;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-look .obs-trailer-art > svg {
+  position: static;
+  height: auto;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-alien:not([data-line="1"]) {
+  display: none; /* one silhouette on the dial */
+}
+.obs-trailer[data-mode="still"] .obs-trailer-screens {
+  gap: var(--obs-s8);
+}
+.obs-trailer[data-mode="still"] .obs-trailer-screens figure {
+  grid-area: auto;
+  padding-top: 0;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-return {
+  position: absolute;
+  inset: 0;
+}
+.obs-trailer[data-mode="still"] .obs-trailer-closing {
+  min-height: 70svh;
+}
+
+/* ---------- Narrow screens, story scenes ---------- */
+@media (max-width: 800px) {
+  .obs-trailer .obs-trailer-evidence,
+  .obs-trailer .obs-trailer-built {
+    max-height: none;
+    gap: var(--obs-s4);
+  }
+  .obs-trailer .obs-trailer-sum {
+    font-size: var(--obs-t6);
+  }
+  .obs-trailer .obs-trailer-prints {
+    gap: var(--obs-s4);
+  }
+  /* The text runs the full width here, so the constellation sits in the sky above it. */
+  .obs-trailer .obs-trailer-frame {
+    top: 6%;
+    height: 20%;
+  }
+  .obs-trailer .obs-trailer-closing {
+    align-items: end;
+    padding-bottom: 34svh;
+  }
+  /* In document flow there is no clear sky above the text, so the line is left out. */
+  .obs-trailer[data-mode="still"] .obs-trailer-frame {
+    display: none;
+  }
+  .obs-trailer[data-mode="still"] .obs-trailer-closing {
+    padding-bottom: var(--obs-s16);
+  }
+}

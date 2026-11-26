@@ -13,7 +13,7 @@ const groupStart = (id: string, width: number) => {
 };
 
 for (const width of [375, 768, 1280, 1920]) {
-  for (const mode of ["native", "reduced", "reading"] as const) {
+  for (const mode of ["native", "reduced"] as const) {
     test(`${width}px ${mode}: faithful references, portraits, navigation and closing boundary`, async ({
       page,
     }) => {
@@ -26,13 +26,9 @@ for (const width of [375, 768, 1280, 1920]) {
       page.on("console", (message) => {
         if (message.type() === "error") errors.push(message.text());
       });
-      await page.goto("/");
+      await page.goto("/#book");
       const book = page.locator("#book");
       await expect(book).toHaveAttribute("data-ready", "true");
-      if (mode === "reading")
-        await page
-          .getByRole("button", { name: "Reading view", exact: true })
-          .click();
       await openContents(page);
       const nav = page.locator(".chapter-nav");
       const referenceButton = chapterButton(page, "References");
@@ -60,15 +56,9 @@ for (const width of [375, 768, 1280, 1920]) {
       const scope =
         mode === "native"
           ? ".library-slot .book-page[aria-hidden=false]"
-          : mode === "reading"
-            ? ".reading-document .book-page"
-            : ".plain-face[aria-hidden=false] .book-page";
+          : ".plain-face[aria-hidden=false] .book-page";
       for (const id of ["references", "references-continued"]) {
-        if (
-          width < 768 &&
-          mode !== "reading" &&
-          id === "references-continued"
-        ) {
+        if (width < 768 && id === "references-continued") {
           const prevFace = page.locator(`${scope}[data-page-id="references"]`);
           await prevFace.locator("h2").focus();
           await page.keyboard.press("ArrowRight");
@@ -136,7 +126,7 @@ for (const width of [375, 768, 1280, 1920]) {
         ).toBe(false);
       }
       await expect(page.getByRole("status")).toContainText(
-        width < 768 && mode !== "reading" ? `of ${pages.length}` : "Reference by",
+        width < 768 ? `of ${pages.length}` : "Reference by",
       );
       expect(
         await page.evaluate(() =>
@@ -150,11 +140,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await goToChapter(page, "Contact");
       await expect(book).toHaveAttribute(
         "data-current-page",
-        String(
-          mode === "reading"
-            ? indexOf("colophon")
-            : groupStart("colophon", width),
-        ),
+        String(groupStart("colophon", width)),
       );
       await expect(book).toHaveAttribute("data-turning", "false");
       await expect(page.getByRole("status")).toContainText(
@@ -166,11 +152,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await page.keyboard.press("ArrowRight");
       await expect(book).toHaveAttribute(
         "data-current-page",
-        String(
-          mode === "reading"
-            ? indexOf("colophon")
-            : groupStart("colophon", width),
-        ),
+        String(groupStart("colophon", width)),
       );
       expect(
         await page.evaluate(

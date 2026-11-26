@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173 --strictPort",
-    "build": "tsc --noEmit && vite build",
+    "build": "node scripts/check-portfolio-videos.mjs && tsc --noEmit && vite build",
+    "check:videos": "node scripts/check-portfolio-videos.mjs",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
     "test:e2e": "playwright test"
   },

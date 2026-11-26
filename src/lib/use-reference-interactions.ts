@@ -5,16 +5,13 @@ import { soundEngine } from "@/lib/audio/sound-engine";
 type Props = {
   root: RefObject<HTMLElement | null>;
   reduced: boolean;
-  readMode: boolean;
   ready: boolean;
   turning: boolean;
-  onReading: (value: boolean) => void;
   announce: (message: string) => void;
 };
 let copyNumber = 0;
 export function useReferenceInteractions(props: Props) {
   const selected = useRef<Record<string, string>>({}),
-    all = useRef(false),
     latest = useRef(props);
   latest.current = props;
   useEffect(() => {
@@ -34,8 +31,7 @@ export function useReferenceInteractions(props: Props) {
     };
     const syncPage = (page: HTMLElement, changing = false) => {
       known.add(page);
-      const id = page.dataset.pageId!,
-        expanded = latest.current.readMode && all.current;
+      const id = page.dataset.pageId!;
       if (!identities.has(page))
         identities.set(page, `reference-copy-${++copyNumber}`);
       const identity = identities.get(page)!;
@@ -52,11 +48,11 @@ export function useReferenceInteractions(props: Props) {
         .map(Number) as [number, number, number, number];
       const pending: Promise<unknown>[] = [];
       figures.forEach((figure) => {
-        const visible = expanded || figure.dataset.referenceId === choice;
+        const visible = figure.dataset.referenceId === choice;
         const opacity = Number(getComputedStyle(figure).opacity);
         stop(figure);
         figure.id = `${identity}-${figure.dataset.referenceId}`;
-        const standalone = expanded || figures.length === 1;
+        const standalone = figures.length === 1;
         figure.setAttribute("role", standalone ? "group" : "tabpanel");
         const author = figure.querySelector<HTMLElement>('.reference-name');
         if(author) author.id = `${identity}-${figure.dataset.referenceId}-author`;
@@ -66,7 +62,6 @@ export function useReferenceInteractions(props: Props) {
         figure.style.removeProperty("visibility");
         if (
           changing &&
-          !expanded &&
           !latest.current.reduced &&
           !document.hidden &&
           opacity !== Number(visible)
@@ -103,38 +98,16 @@ export function useReferenceInteractions(props: Props) {
       return pending;
     };
     const sync = (changing = "") => {
-      root
-        .querySelector(".reading-document")
-        ?.setAttribute(
-          "data-references-all",
-          String(latest.current.readMode && all.current),
-        );
       return [
         ...root.querySelectorAll<HTMLElement>(".page--references"),
       ].flatMap((page) => syncPage(page, page.dataset.pageId === changing));
     };
     const click = (event: MouseEvent) => {
       const target = (event.target as Element).closest<HTMLElement>(
-        "[data-reference-select],[data-reference-all],[data-reference-featured]",
+        "[data-reference-select]",
       );
       if (!target || !root.contains(target)) return;
       const generation = ++revision;
-      if (target.hasAttribute("data-reference-all")) {
-        all.current = true;
-        latest.current.onReading(true);
-        sync();
-        const group = root.querySelector("#reading-references");
-        group?.scrollIntoView({ block: "start" });
-        group?.querySelector<HTMLElement>('h2')?.focus({preventScroll:true});
-        return;
-      }
-      if (target.hasAttribute("data-reference-featured")) {
-        all.current = false;
-        sync();
-        const section = target.closest(".page--references");
-        (section?.querySelector<HTMLElement>('[aria-selected="true"]') ?? section?.querySelector<HTMLElement>('h2'))?.focus();
-        return;
-      }
       const id = target.closest<HTMLElement>("[data-page-id]")!.dataset.pageId!;
       const reference = references.find(
         (item) => item.id === target.dataset.referenceSelect,
@@ -191,11 +164,6 @@ export function useReferenceInteractions(props: Props) {
     root.addEventListener("keydown", key);
     document.addEventListener("visibilitychange", settle);
     sync();
-    if (props.readMode && all.current) {
-      const group = root.querySelector("#reading-references");
-      group?.scrollIntoView({block:"start"});
-      group?.querySelector<HTMLElement>('h2')?.focus({preventScroll:true});
-    }
     return () => {
       ++revision;
       observer.disconnect();
@@ -208,5 +176,5 @@ export function useReferenceInteractions(props: Props) {
         figure.style.removeProperty("visibility");
       });
     };
-  }, [props.root, props.readMode, props.reduced, props.ready, props.turning]);
+  }, [props.root, props.reduced, props.ready, props.turning]);
 }

@@ -4,7 +4,7 @@ test("phone cover uses the full width including material depth and retains two s
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 844 });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   await page.evaluate(() => document.fonts.ready);
@@ -71,7 +71,7 @@ test("cover type follows fitted width when laptop height changes, without rebuil
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 580 });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   const engine = await page.locator(".flip-engine").elementHandle();
@@ -122,7 +122,7 @@ test("printed binding remains attached to the native cover through reversal and 
   page,
 }) => {
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   const cover = page.locator(".library-slot .page--cover");

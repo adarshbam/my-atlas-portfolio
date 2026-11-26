@@ -2,7 +2,7 @@ import { expect, test, type Page } from "@playwright/test";
 import { pages } from "../src/data/portfolio";
 
 async function open(page: Page) {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   await page.evaluate(() => document.fonts.ready);
   await page.getByRole("button", { name: "Open book", exact: true }).click();
@@ -172,7 +172,7 @@ test("a transient collapsed viewport preserves a partial cover drag and permits 
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
   await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   await page.evaluate(() => document.fonts.ready);

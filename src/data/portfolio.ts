@@ -102,22 +102,28 @@ export const pages = [
     folio: "06",
     footer: "Benefits · costs · boundaries",
   },
-  {
-    id: "pipeline",
-    kind: "pipeline",
-    title: "CI/CD Pipeline Engine",
-    runningHead: ["02 / Selected project", "Workflow engine · TypeScript"],
-    folio: "07",
-    footer: "Source & unit-test verified",
-  },
+  // The projects follow the order of the atlas run (src/front/scenes.ts): Vault, Harigurus, the
+  // pipeline, Security Lab. The number that opens a project's running head is its number in
+  // `projects` below; tests/front-run.spec.ts holds the two together.
   {
     id: "harigurus",
     kind: "harigurus",
     title: "Harigurus",
-    runningHead: ["03 / Employment work", "Full Stack Developer · 8 months"],
-    folio: "08",
+    runningHead: ["02 / Employment work", "Full Stack Developer · 8 months"],
+    folio: "07",
     footer: "Written case study · company-private source",
   },
+  {
+    id: "pipeline",
+    kind: "pipeline",
+    title: "CI/CD Pipeline Engine",
+    runningHead: ["03 / Selected project", "Workflow engine · TypeScript"],
+    folio: "08",
+    footer: "Source & unit-test verified",
+  },
+  // Security Lab is project 04 but stays after the two reference pages on purpose. Indices 9
+  // and 10 open as one facing spread; a page put before them would split the references across
+  // two spreads.
   {
     id: "references",
     kind: "references",
@@ -167,6 +173,8 @@ type Project = {
   destination: PageDestination;
 };
 
+// One order and one number per project, everywhere: this list is the contents page, the atlas
+// run takes its scene numbers from it, and each project page's running head opens with it.
 export const projects: readonly Project[] = [
   {
     number: "01",
@@ -178,20 +186,20 @@ export const projects: readonly Project[] = [
   },
   {
     number: "02",
-    name: "CI/CD Pipeline Engine",
-    detail: "Signed webhooks · DAG runner · live dashboard",
-    href: "https://github.com/adarshbam/ci-cd-pipeline-engine",
-    repository: "https://github.com/adarshbam/ci-cd-pipeline-engine",
-    destination: { kind: "page", id: "pipeline" },
-  },
-  {
-    number: "03",
     name: "Harigurus",
     detail: "Booking, Razorpay & Twilio workflows",
     href: "https://harigurus.com",
     repository:
       "https://github.com/adarshbam/harigurus-enterprise-architecture",
     destination: { kind: "page", id: "harigurus" },
+  },
+  {
+    number: "03",
+    name: "CI/CD Pipeline Engine",
+    detail: "Signed webhooks · DAG runner · live dashboard",
+    href: "https://github.com/adarshbam/ci-cd-pipeline-engine",
+    repository: "https://github.com/adarshbam/ci-cd-pipeline-engine",
+    destination: { kind: "page", id: "pipeline" },
   },
   {
     number: "04",
@@ -203,13 +211,22 @@ export const projects: readonly Project[] = [
   },
 ];
 
+/**
+ * The project a book page presents. A page takes its project's name and links from here, by
+ * page, so the book, its contents list and the atlas run (src/front) name a project one way,
+ * and reordering `projects` cannot point a page at another project's links.
+ */
+export const projectOn = (id: PageId): Project =>
+  projects.find((project) => project.destination.kind === "page" && project.destination.id === id)!;
+
+// In page order: the contents panel marks the last chapter at or before the open page.
 export const chapters: readonly { id: PageId; label: string }[] = [
   { id: "cover", label: "Cover" },
   { id: "introduction", label: "Introduction" },
   { id: "vault", label: "Vault Storage" },
   { id: "vault-architecture", label: "File flow" },
-  { id: "pipeline", label: "Pipeline" },
   { id: "harigurus", label: "Harigurus" },
+  { id: "pipeline", label: "Pipeline" },
   { id: "references", label: "References" },
   { id: "security-lab", label: "Security Lab" },
   { id: "colophon", label: "Contact" },
@@ -374,6 +391,86 @@ export const vaultStudy = {
   ],
 } as const;
 
+
+/*
+ * Copy and evidence that the book's project pages and the atlas run (src/front) both show.
+ * One source for each sentence: the book page and the run read the same string.
+ */
+const harigurusJob = professionalStory.experience.find((job) => job.company === "Harigurus")!;
+export const harigurusStudy = {
+  role: `${harigurusJob.role} · ${harigurusJob.dates}`,
+  summary:
+    "I built ceremony-booking features connecting customers with purohits, from appointment details to confirmation.",
+  detail: harigurusJob.detail,
+  boundary:
+    "Team contribution. Production code remains private with Harigurus; the repository is a written case study.",
+  images: {
+    services: {
+      full: "/images/harigurus/services-1920.webp",
+      src: "/images/harigurus/services-640.webp",
+      srcSet: "/images/harigurus/services-640.webp 640w, /images/harigurus/services-1200.webp 1200w",
+      width: 1200,
+      height: 653,
+      alt: "Harigurus homepage introducing event services and a Book appointment action",
+      caption: "Service booking · Homepage ↗",
+      label: "View the Harigurus service-booking homepage screenshot full-size",
+    },
+    shop: {
+      full: "/images/harigurus/shop-1920.webp",
+      src: "/images/harigurus/shop-640.webp",
+      srcSet: "/images/harigurus/shop-640.webp 640w, /images/harigurus/shop-1200.webp 1200w",
+      width: 1200,
+      height: 654,
+      alt: "Harigurus shop displaying handicraft categories, product photographs and prices",
+      caption: "Handicraft shop · Catalogue ↗",
+      label: "View the Harigurus handicraft shop screenshot full-size",
+    },
+  },
+} as const;
+
+export const pipelineStudy = {
+  summary:
+    "From a signed GitHub push to dependency-aware jobs, live logs and a React Flow dashboard.",
+  steps: [
+    "Authenticate webhooks; filter and deduplicate pushes.",
+    "Resolve dependencies with two slots per run; diagnose cycles.",
+    "Inspect logs and history; retry, time out or cancel jobs.",
+  ],
+  evidenceNote:
+    "Updated source and supplied captures reviewed; no production deployment performed for this case study.",
+  images: {
+    dashboard: {
+      /** The largest capture. The book's figure links to the case study page instead. */
+      full: "/images/pipeline/dashboard-1920.webp",
+      src: "/images/pipeline/dashboard-640.webp",
+      srcSet: "/images/pipeline/dashboard-640.webp 640w, /images/pipeline/dashboard-1200.webp 1200w",
+      width: 1200,
+      height: 654,
+      alt: "CI/CD management dashboard showing recent runs and configured workflows",
+      caption: "Original dashboard capture",
+    },
+  },
+} as const;
+
+export const securityStudy = {
+  labs: "Seven connected labs, from access control to JWT verification.",
+  experiments:
+    "Twenty-eight experiments compare vulnerable and protected implementations through real requests and browser evidence.",
+  method: "Understand → Predict → Experiment → Compare → Learn.",
+  boundary: "Published source; loopback only.",
+  images: {
+    workbench: {
+      full: "/images/security-lab/workbench-1920.webp",
+      src: "/images/security-lab/workbench-1200.webp",
+      srcSet:
+        "/images/security-lab/workbench-640.webp 640w, /images/security-lab/workbench-1200.webp 1200w, /images/security-lab/workbench-1920.webp 1920w",
+      width: 1920,
+      height: 1048,
+      alt: "JWT workbench showing the seven lab tabs and the Understand, Predict, Experiment, Compare and Learn stages",
+      caption: "Lab 07 · JWT comparison on local HTTPS. Open the full screenshot.",
+    },
+  },
+} as const;
 
 export const securityLabs = [
   { title: "Broken access control", detail: "Object ownership on file reads, deletion and folder cascades." },

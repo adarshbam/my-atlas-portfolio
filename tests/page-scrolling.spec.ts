@@ -9,7 +9,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await page.emulateMedia({ reducedMotion: reduced ? "reduce" : "no-preference" });
       const errors: string[] = [];
       page.on("pageerror", error => errors.push(error.message));
-      await page.goto("/");
+      await page.goto("/#book");
       await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
       await goToChapter(page, "Harigurus");
       await expect(page.locator("#book")).toHaveAttribute("data-turning", "false");
@@ -85,11 +85,8 @@ for (const width of [375, 768, 1280, 1920]) {
       expect(axe.violations.map(v => ({ id: v.id, targets: v.nodes.map(n => n.target) }))).toEqual([]);
       expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
 
-      await page.getByRole("button", { name: "Reading view", exact: true }).click();
-      await expect(page.locator("#book")).toHaveAttribute("data-mode", "reading");
-      await expect(page.locator('.reading-document .page-scroll-hint:visible')).toHaveCount(0);
+      // Only the page hides its own scrollbar; the document keeps the browser's.
       await expect(page.locator('html')).not.toHaveCSS("scrollbar-width", "none");
-      await expect(page.locator('.reading-document [data-page-id="harigurus"] .page-inner')).toHaveCSS("overflow-y", "visible");
       expect(errors).toEqual([]);
     });
   }

@@ -1,0 +1,12 @@
+{
+  "introduction": {
+    "title": "Meet Adarsh",
+    "src": "/media/profile/introduction.mp4",
+    "poster": "/media/profile/introduction.webp",
+    "captions": "/media/profile/introduction.vtt",
+    "durationSeconds": 151,
+    "vaultId": "introduction"
+  },
+  "vault": null,
+  "story": null
+}

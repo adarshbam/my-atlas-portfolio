@@ -1,0 +1,57 @@
+/*
+ * Night-field tokens shared by the story (.observatory), the atlas run (.atlas-run)
+ * and the arrival at the book (.atlas-arrival). Values only: no rules for elements.
+ * Moved unchanged from src/story/story.css and src/story/trailer/trailer.css.
+ */
+@font-face{font-family:ObservatorySerif;src:url('/fonts/eb-garamond-latin-400-normal.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:ObservatorySerif;src:url('/story/fonts/eb-garamond-latin-600.woff2') format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:ObservatorySans;src:url('/story/fonts/ibm-plex-sans-latin-500.woff2') format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:ObservatoryHand;src:url('/story/fonts/nothing-you-could-do-latin-400.woff2') format('woff2');font-weight:400;font-display:swap}
+:is(.observatory, .atlas-run, .atlas-arrival){
+ --obs-game-width:var(--obs-reading-width);
+ --obs-night:#0d1213;--obs-surface:#192021;--obs-paper:#e9ddc8;--obs-paper-deep:#d3bea0;--obs-paper-ink:#282820;--obs-muted:#c1c4b9;--obs-green:#a8cc9c;--obs-line:rgba(233,221,200,.25);
+ --obs-serif:ObservatorySerif,Georgia,serif;--obs-sans:ObservatorySans,Arial,sans-serif;--obs-hand:ObservatoryHand,cursive;--obs-display:var(--obs-serif);--obs-text:var(--obs-serif);--obs-note-font:var(--obs-hand);
+ --obs-t1:11px;--obs-t2:14px;--obs-t3:18px;--obs-t4:23px;--obs-t5:29px;--obs-t6:36px;--obs-t7:45px;--obs-t8:56px;--obs-t9:70px;--obs-t10:88px;--obs-small:var(--obs-t2);--obs-body:var(--obs-t3);--obs-note-size:var(--obs-t3);--obs-large:clamp(var(--obs-t6),4.4vw,var(--obs-t8));--obs-hero:clamp(var(--obs-t7),6.3vw,var(--obs-t10));
+ --obs-s1:4px;--obs-s2:8px;--obs-s3:12px;--obs-s4:16px;--obs-s6:24px;--obs-s8:32px;--obs-s12:48px;--obs-s16:64px;--obs-s24:96px;--obs-s32:128px;--obs-gutter:clamp(var(--obs-s4),4vw,var(--obs-s16));--obs-width:1280px;--obs-reading-width:65ch;--obs-target:44px;--obs-rule:1px;--obs-radius:2px;--obs-speed:420ms;--obs-ease:cubic-bezier(.22,1,.36,1);
+ --obs-paper-texture:url('/story/assets/archive-paper.svg');--obs-paper-shadow:0 8px 24px rgba(0,0,0,.22);--obs-photo-shadow:0 3px 5px rgba(0,0,0,.16),0 16px 24px -16px rgba(0,0,0,.65);--obs-hero-veil:linear-gradient(90deg,rgba(10,15,17,.87),rgba(10,15,17,.35) 48%,rgba(10,15,17,.02) 80%);
+ --obs-watch-dark:#151d1b;--obs-watch-metal:#68716a;--obs-watch-rim:#343f38;--obs-watch-display:#9ecf70;--obs-watch-ink:#213921;--obs-watch-size:320px;--obs-alien-stroke:3;--obs-gallery-height:clamp(340px,38vw,500px);--obs-print-ratio:4/3;--obs-peg-light:#d5bc94;--obs-peg-dark:#8e7759;
+ --obs-clip-paper:polygon(0 1%,7% 0,12% 1%,22% 0,32% 1%,43% 0,56% 1%,67% 0,78% 1%,88% 0,100% 1%,99% 18%,100% 32%,99% 47%,100% 59%,99% 74%,100% 88%,99% 100%,88% 99%,73% 100%,61% 99%,46% 100%,35% 99%,22% 100%,10% 99%,0 100%,1% 80%,0 65%,1% 49%,0 30%,1% 14%);
+}
+
+/* The hero veil turned to run top to bottom, for portrait crops of a painting. */
+:is(.observatory, .atlas-run, .atlas-arrival) {
+  --obs-hero-veil-tall: linear-gradient(180deg, rgba(10, 15, 17, 0.9), rgba(10, 15, 17, 0.55) 48%, rgba(10, 15, 17, 0.02) 78%);
+}
+
+/* Trailer geometry and timing. */
+:is(.observatory, .atlas-run, .atlas-arrival) {
+  --obs-trailer-units: 3; /* overwritten inline with the real track length */
+  --obs-zoom-through: 1.8; /* scale reached while a scene is passed through */
+  --obs-arrive: 0.82; /* scale a scene arrives from */
+  --obs-pull-back: 1.25; /* closing painting starts this close */
+  --obs-rise-origin: 72% 34%; /* the Milky Way core in the rooftop painting */
+  --obs-rise-shift: 10%;
+  --obs-star-near: 0.85;
+  --obs-star-drift: 0.25;
+  --obs-lift: 24px;
+  /* The desk lamp's lit rim, the same in all six paintings. For the labels that say what a
+     thing is (a scene's kicker, the role line), on the night field only: 8.9:1 there. Never
+     on paper (1.6:1), never over the lit wood (2.7:1), never for state: that stays green. */
+  --obs-lamp: #efa14c;
+  --obs-fall-distance: 180px; /* SVG user units between release height and ground */
+  --obs-dial-turn: 108deg; /* three steps of the ten-position dial */
+  --obs-wash-peak: 1.8; /* x 0.25 = 0.45 peak opacity, the existing transformation wash */
+  --obs-speed-short: 180ms;
+  --obs-line-weight: 1.5;
+  --obs-caption-measure: 30ch;
+  --obs-print-height: 30svh;
+  --obs-evidence-height: 44svh;
+  --obs-browser-height: 56svh;
+}
+@media (max-width: 800px) {
+  :is(.observatory, .atlas-run, .atlas-arrival) {
+    --obs-print-height: 16svh;
+    --obs-evidence-height: 30svh;
+    --obs-browser-height: 34svh;
+  }
+}

@@ -1,4 +1,5 @@
 import { useCallback, useLayoutEffect, useRef, type RefObject } from "react";
+import { offsetInAtlas } from "@/lib/atlas-offset";
 
 type Dimensions = { width: number; height: number };
 type Presentation = {
@@ -20,7 +21,6 @@ export function useBookPresentation(
   dimensions: Dimensions | null,
   mobile: boolean,
   page: number,
-  enabled = true,
 ) {
   const model = useRef<Presentation>({
     scale: 1,
@@ -38,7 +38,7 @@ export function useBookPresentation(
   pageRef.current = page;
   const apply = useCallback(
     (value: number, settled = false) => {
-      if (!enabled || !book.current || !stage.current || !dimensions) return;
+      if (!book.current || !stage.current || !dimensions) return;
       const state = model.current;
       const progress = Math.max(0, Math.min(1, value));
       state.progress = progress;
@@ -55,15 +55,10 @@ export function useBookPresentation(
       stage.current.style.height = `${state.openHeight}px`;
       state.expanded = progress > 0;
     },
-    [book, stage, dimensions, mobile, enabled],
+    [book, stage, dimensions, mobile],
   );
 
   useLayoutEffect(() => {
-    if (!enabled) {
-      book.current?.style.removeProperty("transform");
-      stage.current?.style.removeProperty("height");
-      return;
-    }
     if (!dimensions || !stage.current || !book.current) return;
     let viewportWidth = -1;
     let viewportHeight = -1;
@@ -96,7 +91,7 @@ export function useBookPresentation(
       viewportHeight = window.innerHeight;
       stageWidth = currentStageWidth;
       const gutter = number("--s4");
-      const top = stage.current!.getBoundingClientRect().top + window.scrollY;
+      const top = offsetInAtlas(stage.current!);
       const available = Math.max(
         number("--s32") * 3,
         Math.min(
@@ -154,7 +149,7 @@ export function useBookPresentation(
     measure();
     window.addEventListener("resize", measure);
     return () => window.removeEventListener("resize", measure);
-  }, [dimensions, mobile, apply, book, stage, enabled]);
+  }, [dimensions, mobile, apply, book, stage]);
 
   return { apply, model };
 }

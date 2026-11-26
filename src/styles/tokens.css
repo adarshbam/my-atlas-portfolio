@@ -138,6 +138,8 @@
   --hairline: 1px;
   --book-radius: 4px;
   --target: 44px;
+  --portfolio-video-ratio: 16 / 9;
+  --portfolio-video-width: calc(var(--s32) * 8);
   --pipeline-preview-height: var(--s32);
   --harigurus-evidence-height: var(--s32);
   --page-scroll-hint-space: var(--s16);
@@ -148,7 +150,6 @@
   --page-scroll-control-inset: var(--s2);
   --page-scroll-step: var(--s32);
   --focus-offset: 3px;
-  --reading-toolbar-layer: 30;
   --icon-stroke: 1.25;
   --book-width: 1536px;
   --page-ratio: 0.88;
@@ -315,10 +316,6 @@
   --atlas-stop-3-top: 56%;
   --atlas-stop-3-left: 38%;
   --atlas-stop-4-top: 84%;
-  --reading-evidence-width: 42%;
-  --reading-evidence-top: calc(
-    var(--reading-scroll-offset, var(--s24)) + var(--s6)
-  );
 }
 
 /* Approved premium monograph system, 3 November 2026. */
@@ -360,6 +357,11 @@
   --premium-portrait-top: 20%;
   --premium-cover-top: 17%;
   --premium-copy-width: 45%;
+  /* The same column measured from inside the page margins (45% / (100% - 2 x 8%)), for a
+     block that lies in the page's flow instead of being placed on the sheet. */
+  --premium-copy-width-flow: 53.6%;
+  /* An element kept for the keyboard and for names, drawn only when it has focus. */
+  --clip-hidden: inset(50%);
   --premium-portrait-note-width: 37%;
   --premium-portrait-note-bottom: 16%;
   --premium-portrait-width: 100%;

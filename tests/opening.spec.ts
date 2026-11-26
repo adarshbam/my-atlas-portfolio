@@ -10,7 +10,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await page.emulateMedia({ reducedMotion: motion });
       const errors: string[] = [];
       page.on("pageerror", (error) => errors.push(error.message));
-      await page.goto("/");
+      await page.goto("/#book");
       const book = page.locator("#book");
       await expect(book).toHaveAttribute("data-ready", "true");
       await page.evaluate(() => document.fonts.ready);
@@ -112,12 +112,12 @@ for (const width of [375, 768, 1280, 1920]) {
   }
 }
 
-test("page identity survives resizing and reading-mode changes from either opening face", async ({
+test("page identity survives resizing and motion-mode changes from either opening face", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 1400 });
   await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   await page.evaluate(() => document.fonts.ready);
@@ -146,9 +146,10 @@ test("page identity survives resizing and reading-mode changes from either openi
   await expect(
     page.locator(".library-slot [data-page][aria-hidden=false]"),
   ).toHaveCount(2);
-  await page.getByRole("button", { name: "Reading view", exact: true }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(book).toHaveAttribute("data-mode", "reduced");
   await expect(page.locator(".flip-engine")).toHaveCount(0);
-  await expect(page.locator(".reading-document .book-page")).toHaveCount(
+  await expect(page.locator(".plain-face .book-page")).toHaveCount(
     pages.length,
   );
   await page.getByRole("button", { name: "Contents", exact: true }).click();
@@ -157,11 +158,10 @@ test("page identity survives resizing and reading-mode changes from either openi
     .getByRole("button", { name: "Cover", exact: true })
     .click();
   await expect(
-    page.locator(".reading-document [data-page-id=cover]"),
+    page.locator(".plain-face[aria-hidden=false] [data-page-id=cover]"),
   ).toHaveCount(1);
-  await page
-    .getByRole("button", { name: "Return to book", exact: true })
-    .click();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(book).toHaveAttribute("data-mode", "native");
   await expect(page.locator(".flip-engine")).toHaveCount(1);
   await expect(page.locator("#book")).toHaveAttribute("data-current-page", "0");
 });

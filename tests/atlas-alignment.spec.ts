@@ -1,15 +1,14 @@
 import { test, expect } from "@playwright/test";
 
 for (const width of [375, 768, 1280, 1920]) {
-  for (const mode of ["book", "reading", "reduced"] as const) {
+  for (const mode of ["book", "reduced"] as const) {
     test(`atlas connects every circle at ${width}px in ${mode}`, async ({ page }) => {
       await page.setViewportSize({ width, height: 1000 });
       await page.emulateMedia({ reducedMotion: mode === "reduced" ? "reduce" : "no-preference" });
-      await page.goto("/");
+      await page.goto("/#book");
       await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
       await page.evaluate(() => document.fonts.ready);
-      if (mode === "reading") await page.getByRole("button", { name: "Reading mode", exact: true }).click();
-      else await page.getByRole("button", { name: "Open book", exact: true }).click();
+      await page.getByRole("button", { name: "Open book", exact: true }).click();
       await expect(page.locator("#book")).toHaveAttribute("data-turning", "false");
       const route = page.locator(".atlas-route:visible");
       await expect(route).toHaveCount(1);
@@ -27,13 +26,13 @@ for (const width of [375, 768, 1280, 1920]) {
         }));
       })).toBeLessThan(1);
       expect(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)).toBe(false);
-      await page.screenshot({ path: `docs/review/map-sound/${width}-${mode}.png`, fullPage: mode !== "reading" });
+      await page.screenshot({ path: `docs/review/map-sound/${width}-${mode}.png`, fullPage: true });
     });
   }
 }
 
 test("all atlas destinations work after responsive clone rebuilding", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   await page.setViewportSize({ width: 375, height: 1000 });
   await page.getByRole("button", { name: "Open book", exact: true }).click();

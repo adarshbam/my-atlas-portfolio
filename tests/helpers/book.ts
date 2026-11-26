@@ -19,3 +19,10 @@ export async function goToChapter(page: Page, name: string) {
   await openContents(page);
   await chapterButton(page, name).click();
 }
+
+/** Opens the atlas on the book itself: past the run, with the arrival finished. */
+export async function openBook(page: Page) {
+  await page.goto("/#book");
+  await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
+  await expect(page.locator("#book-arrival")).toHaveAttribute("data-arrived", "true");
+}

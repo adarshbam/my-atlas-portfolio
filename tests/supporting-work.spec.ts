@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 import { pages, professionalStory } from "../src/data/portfolio";
 
 for (const width of [375, 768, 1280, 1920]) {
-  for (const mode of ["native", "reduced", "reading"] as const) {
+  for (const mode of ["native", "reduced"] as const) {
     test(`${width}px ${mode}: supporting work, attribution and contact are keyboard reachable`, async ({
       page,
       request,
@@ -15,24 +15,18 @@ for (const width of [375, 768, 1280, 1920]) {
       });
       const errors: string[] = [];
       page.on("pageerror", (error) => errors.push(error.message));
-      await page.goto("/");
+      await page.goto("/#book");
       const book = page.locator("#book");
       await expect(book).toHaveAttribute("data-ready", "true");
-      if (mode === "reading")
-        await page
-          .getByRole("button", { name: "Reading view", exact: true })
-          .click();
       const scope =
         mode === "native"
           ? ".library-slot .book-page[aria-hidden=false]"
-          : mode === "reading"
-            ? ".reading-document .book-page"
-            : ".plain-face[aria-hidden=false] .book-page";
+          : ".plain-face[aria-hidden=false] .book-page";
       for (const id of ["pipeline", "harigurus", "security-lab"] as const) {
         await goToChapter(page, "Introduction");
         await expect(book).toHaveAttribute("data-current-page", "1");
         await expect(book).toHaveAttribute("data-turning", "false");
-        if (width < 768 && mode !== "reading") {
+        if (width < 768) {
           await page.waitForTimeout(300);
           await page.keyboard.press("ArrowRight");
           await expect(book).toHaveAttribute("data-current-page", "2");
@@ -47,7 +41,7 @@ for (const width of [375, 768, 1280, 1920]) {
         await expect(book).toHaveAttribute(
           "data-current-page",
           String(
-            mode === "reading" || width < 768 || index % 2 ? index : index - 1,
+            width < 768 || index % 2 ? index : index - 1,
           ),
         );
         await expect(book).toHaveAttribute("data-turning", "false");
@@ -77,7 +71,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await expect(book).toHaveAttribute(
         "data-current-page",
         String(
-          mode === "reading" || width < 768
+          width < 768
             ? pages.length - 1
             : pages.length - 2,
         ),

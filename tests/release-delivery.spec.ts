@@ -4,7 +4,7 @@ import { createHash } from "node:crypto";
 test("release metadata describes the actual portfolio without an invented public origin", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page).toHaveTitle("Adarsh Singh — Engineering Atlas");
   const description = await page
     .locator('meta[name="description"]')
@@ -48,9 +48,10 @@ test("declared local assets deliver the expected body and MIME rather than an HT
   page,
   request,
 }, testInfo) => {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
-  await page.getByRole("button", { name: "Reading mode", exact: true }).click();
+  // The engine's source copy holds every page of the book, open or not.
+  await expect(page.locator(".page-measure-source .book-page").first()).toBeAttached();
   const paths = await page.evaluate(() => [
     ...new Set(
       [
@@ -59,7 +60,7 @@ test("declared local assets deliver the expected body and MIME rather than an HT
         ),
         ...[
           ...document.querySelectorAll<HTMLImageElement>(
-            ".reading-document img",
+            ".page-measure-source img",
           ),
         ].flatMap((el) => [
           el.getAttribute("src")!,
@@ -67,7 +68,7 @@ test("declared local assets deliver the expected body and MIME rather than an HT
         ]),
         ...[
           ...document.querySelectorAll<HTMLAnchorElement>(
-            ".reading-document a",
+            ".page-measure-source a",
           ),
         ].map((el) => el.getAttribute("href")!),
       ].filter((value) => value?.startsWith("/") && !value.startsWith("//")),

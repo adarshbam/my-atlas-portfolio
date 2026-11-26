@@ -23,7 +23,7 @@ for(const width of [375,768,1280,1920])for(const reduced of [false,true]){
   const axe=await new AxeBuilder({page}).include('.media-inspector').analyze();expect(axe.violations.map(v=>({id:v.id,targets:v.nodes.map(n=>n.target)}))).toEqual([]);
   await page.keyboard.press('Escape');await expect(dialog).toHaveCount(0);await expect(trigger).toBeFocused();
   await page.goto('/story/reading.html#school');const staticTrigger=page.locator('#school a.image-link').first();await staticTrigger.click();await expect(page.getByRole('dialog',{name:'Photograph viewer'})).toBeVisible();await page.keyboard.press('Escape');await expect(staticTrigger).toBeFocused();
-  await page.goto('/');await expect(page.locator('#book')).toHaveAttribute('data-ready','true');await openContents(page);
+  await page.goto('/#book');await expect(page.locator('#book')).toHaveAttribute('data-ready','true');await openContents(page);
   const resume=page.locator('.contents-links a[href="/adarsh-singh-resume.pdf"]');await resume.focus();await page.keyboard.press('Enter');
   const pdf=page.getByRole('dialog',{name:'Résumé preview'});await expect(pdf).toBeVisible();await expect(pdf.locator('iframe')).toHaveAttribute('src','/adarsh-singh-resume.pdf#view=FitH');
   await expect(pdf.getByRole('link',{name:'Open PDF in new tab'})).toHaveAttribute('target','_blank');

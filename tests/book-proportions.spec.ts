@@ -3,7 +3,7 @@ for (const width of [768, 900, 1023]) for (const reduced of [false, true]) {
   test(`${width}px ${reduced ? 'reduced' : 'native'}: narrow spreads retain phone minimum proportions`, async ({page}) => {
     await page.setViewportSize({width, height:1200});
     await page.emulateMedia({reducedMotion:reduced?'reduce':'no-preference'});
-    await page.goto('/');
+    await page.goto('/#book');
     await expect(page.locator('#book')).toHaveAttribute('data-ready','true');
     await page.evaluate(()=>document.fonts.ready);
     const geometry=await page.locator('#book').evaluate(book=>{

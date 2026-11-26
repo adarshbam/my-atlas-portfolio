@@ -23,7 +23,7 @@ Use an available strict port; do not stop another task's server without identify
 
 ## Review beyond a green test result
 
-- Check 375, 768, 1280, and 1920px, reduced motion, Reading view, and both themes where supported.
+- Check 375, 768, 1280, and 1920px, reduced motion, the front-page run from first screen to the book, and both themes where supported.
 - Exercise keyboard focus, chapter/arrow navigation, touch/vertical scrolling, links, and return position.
 - Inspect genuine portraits/screenshots, text wrapping, image stability, and runtime errors.
 - Review uninterrupted page turns, including release/reversal. Stills do not validate motion.

@@ -1,7 +1,7 @@
 import { test, expect, type Page } from "@playwright/test";
 
 async function open(page: Page) {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
   await page.evaluate(() => document.fonts.ready);
   await page.getByRole("button", { name: "Open book", exact: true }).click();
@@ -136,7 +136,7 @@ for (const width of [375, 768, 1024]) {
       await settled(page, 2);
     }
     await page.setViewportSize({ width, height: width >= 1024 ? 375 : 844 });
-    await page.evaluate(() => scrollTo(0, 0));
+    await page.evaluate(() => scrollTo(0, (() => { const a = document.getElementById("book-arrival")!; return a.getBoundingClientRect().top + scrollY + a.offsetHeight - (a.firstElementChild as HTMLElement).offsetHeight; })()));
     const b = (await page.locator("#book").boundingBox())!;
     const session = await context.newCDPSession(page);
     const x = b.x + b.width - 8;
@@ -245,6 +245,8 @@ for (const width of [375, 768, 1280, 1920]) {
 
     await page.emulateMedia({ reducedMotion: "reduce" });
     await expect(page.locator(".flip-engine")).toHaveCount(0);
+    // The preference change re-lays the page (the run becomes still blocks); let the book come to rest.
+    await page.waitForTimeout(400);
     let point = await middlePoint(page, true);
     await page.mouse.click(point.x, point.y);
     await settled(page, 1 + step);
@@ -265,6 +267,8 @@ for (const width of [375, 768]) {
       if (reduced) {
         await page.emulateMedia({ reducedMotion: "reduce" });
         await expect(page.locator(".flip-engine")).toHaveCount(0);
+    // The preference change re-lays the page (the run becomes still blocks); let the book come to rest.
+    await page.waitForTimeout(400);
       }
       const corner = await cornerPoint(page, true, true);
       await page.mouse.click(corner.x, corner.y);

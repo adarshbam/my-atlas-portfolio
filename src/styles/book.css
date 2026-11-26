@@ -657,17 +657,6 @@ button {
   padding-inline: var(--s3);
   color: var(--graphite);
 }
-.reading-toggle {
-  justify-self: end;
-  display: flex;
-  align-items: center;
-  gap: var(--s2);
-  min-height: var(--target);
-  font-size: var(--text-sm);
-}
-.reading-toggle:disabled {
-  opacity: 1;
-}
 .audio-toggle {
   display: inline-flex;
   align-items: center;
@@ -731,6 +720,11 @@ button {
   background: var(--paper);
   padding: var(--s3) var(--s4);
 }
+/* Parked above the book and not drawn there: now that the book follows the run, "above the
+   book" is on the page (the desk, or a still block), not off the top of the window. */
+.skip-link:not(:focus) {
+  clip-path: var(--clip-hidden);
+}
 .skip-link:focus {
   transform: none;
 }
@@ -787,9 +781,6 @@ button {
   }
   .book-toolbar {
     grid-template-columns: 1fr auto;
-  }
-  .reading-toggle {
-    grid-column: 2;
   }
   .turn-hint {
     grid-row: 1;
@@ -899,10 +890,6 @@ button {
   .turn-hint {
     grid-row: 2;
     text-align: center;
-  }
-  .reading-toggle {
-    justify-self: center;
-    grid-row: 3;
   }
   .chapter-nav {
     gap: var(--s6);
@@ -1214,11 +1201,6 @@ button {
     justify-content: start;
     gap: var(--s2);
   }
-  .reading-toggle {
-    grid-row: 1;
-    grid-column: 2;
-    justify-self: end;
-  }
   .chapter-nav {
     gap: var(--s6);
     padding-bottom: var(--s2);
@@ -1241,10 +1223,6 @@ button {
   .pagination {
     grid-row: 1;
     grid-column: 2;
-  }
-  .reading-toggle {
-    grid-row: 1;
-    grid-column: 3;
   }
 }
 
@@ -1519,10 +1497,6 @@ button {
   grid-column: 2;
   grid-row: 1;
   gap: var(--s2);
-}
-.book-toolbar .reading-toggle {
-  grid-column: 3;
-  grid-row: 1;
 }
 .page-nav {
   border: 0;
@@ -2075,9 +2049,6 @@ button {
     grid-column: 1;
     justify-self: start;
   }
-  .book-toolbar .reading-toggle {
-    grid-column: 2;
-  }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .page--portrait .portrait {
@@ -2183,19 +2154,22 @@ button {
 .vault-figure figcaption {
   margin-top: var(--s2);
 }
+/* Reserve the capped thumbnail's width before the lazy image loads: inside a
+   fit-content link an unloaded width:auto image is 0×0 and shifts the page. */
 .pipeline-preview img {
+  width: calc(var(--pipeline-preview-height) * 1200 / 654);
   max-height: var(--pipeline-preview-height);
   object-fit: contain;
   object-position: left center;
 }
 .vault-adoption > .vault-figure { margin-top: var(--s3); }
-.reading-evidence .vault-figure + .vault-figure { margin-top: var(--s6); }
 .harigurus-gallery {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--s4);
 }
 .harigurus-figure img {
+  width: calc(var(--harigurus-evidence-height) * 1200 / 653);
   max-height: var(--harigurus-evidence-height);
   object-fit: contain;
   object-position: left center;
@@ -2372,117 +2346,8 @@ button {
   grid-row: 1;
   justify-self: start;
 }
-.book-toolbar .reading-toggle {
-  grid-column: 2;
-  grid-row: 1;
-  justify-self: end;
-}
 .chapter-nav button {
   white-space: nowrap;
-}
-.atlas:has(.book-shell--reading) .book-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: var(--reading-toolbar-layer);
-  background: var(--desk);
-}
-
-/* Continuous reading is ordinary document flow; native pages stay unchanged. */
-.book-stage--reading {
-  overflow: visible;
-  display: block;
-}
-.book-shell--reading {
-  position: relative;
-  left: auto;
-  top: auto;
-  transform: none;
-  width: 100%;
-  min-height: 0;
-  box-shadow: none;
-  perspective: none;
-}
-.reading-document {
-  max-width: calc(var(--measure) + var(--s32));
-  margin-inline: auto;
-  display: grid;
-  gap: var(--s8);
-  overflow-x: clip;
-}
-.reading-document > section {
-  min-width: 0;
-  scroll-margin-block-start: calc(
-    var(--reading-scroll-offset, 0px) + var(--s4)
-  );
-}
-.reading-document .book-page,
-.reading-document .sheet-surface,
-.reading-document .page-inner {
-  width: 100%;
-  height: auto;
-  min-height: 0;
-  overflow: visible;
-}
-.reading-document .sheet-surface {
-  mask-image: none;
-}
-.reading-document .page-content {
-  flex: none;
-  min-height: 0;
-}
-.reading-document .folio {
-  position: static;
-  margin-top: var(--s6);
-}
-.reading-document .cover-inner {
-  min-height: calc(var(--s32) * 4);
-  flex: 1;
-}
-.reading-document .page--cover > .sheet-surface {
-  aspect-ratio: var(--page-ratio);
-  display: flex;
-}
-.reading-document .page--cover,
-.reading-document .page--cover .sheet-surface {
-  overflow: hidden;
-}
-.reading-document .page--portrait .page-content {
-  display: grid;
-  gap: var(--s6);
-}
-.reading-document .page--portrait .portrait {
-  position: static;
-  grid-column: 1 / 7;
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-}
-.reading-document .page--portrait .portrait-copy {
-  position: static;
-  grid-column: 7 / -1;
-  align-self: center;
-  margin: 0;
-  width: auto;
-}
-.reading-document .page--portrait .portrait-note {
-  position: static;
-  grid-column: 1 / -1;
-  width: auto;
-  max-width: var(--measure);
-  margin: 0;
-  font-size: var(--text-base);
-}
-.reading-document .page--portrait .page-inner:before {
-  display: none;
-}
-@media (max-width: 767px) {
-  .reading-document .page--cover > .sheet-surface {
-    aspect-ratio: var(--phone-page-ratio);
-  }
-  .reading-document .page--portrait .portrait,
-  .reading-document .page--portrait .portrait-copy {
-    grid-column: 1 / -1;
-  }
 }
 
 /* References are typeset as correspondence on the same paper stock. */
@@ -2704,28 +2569,6 @@ button {
 .reference-tabs { display: flex; flex-wrap: wrap; gap: var(--s3) var(--s6); border-top: var(--hairline) solid var(--rule); padding-top: var(--s4); }
 .reference-tabs button { min-height: var(--target); font: inherit; color: var(--ink); border: 0; background: none; text-align: left; padding: 0; cursor: pointer; }
 .reference-tabs button[aria-selected="true"] { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: var(--s2); text-decoration-thickness: var(--hairline); }
-.reference-show-featured { display: none; }
-.reading-progress { position: fixed; inset: 0 0 auto; height: var(--hairline); z-index: var(--reading-toolbar-layer); pointer-events: none; }
-.reading-progress > div { width: 100%; height: 100%; background: var(--ink); transform-origin: left; transform: scaleX(0); }
-.reading-document > .reading-vault-group { scroll-margin-block-start: var(--reading-evidence-top); }
-.reading-vault-narrative { display: grid; gap: var(--s8); min-width: 0; }
-.reading-vault-narrative > section { scroll-margin-block-start: calc(var(--reading-scroll-offset, 0px) + var(--s4)); }
-.reading-evidence { position: sticky; top: var(--reading-evidence-top); align-self: start; display: grid; min-width: 0; }
-.reading-evidence > div { grid-area: 1 / 1; }
-.reading-evidence > div[aria-hidden="true"] { pointer-events: none; opacity: 0; }
-.reading-evidence .vault-figure img { height: auto; max-height: none; object-fit: contain; }
-.reading-evidence .vault-figure { margin: 0; }
-@media (min-width: 1280px) {
-  .reading-document--evidence { max-width: var(--book-width); }
-  .reading-document--evidence > section { width: 100%; max-width: calc(var(--measure) + var(--s32)); margin-inline: auto; }
-  .reading-vault-group { display: grid; grid-template-columns: minmax(0, 1fr) var(--reading-evidence-width); gap: var(--s8); align-items: start; }
-  .reading-vault-group .reading-vault-narrative .vault-figure { display: none; }
-}
-.reading-document[data-references-all="true"] .reference-featured { display: flex; flex-direction: column; gap: var(--s8); }
-.reading-document[data-references-all="true"] .reference-featured > .reference { visibility: visible; opacity: 1; pointer-events: auto; }
-.reading-document[data-references-all="true"] .reference-tabs,
-.reading-document[data-references-all="true"] .reference-read-all { display: none; }
-.reading-document[data-references-all="true"] .reference-show-featured { display: inline-flex; }
 @media (max-width: 767px) {
   .atlas-route .atlas-stop { left: 0; right: auto; }
 }

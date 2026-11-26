@@ -4,22 +4,15 @@ import { soundEngine } from "./audio/sound-engine";
 export function usePageMotion(
   root: RefObject<HTMLElement | null>,
   reduced: boolean,
-  reading: boolean,
   turning: boolean,
   ready: boolean,
   page: number,
 ) {
-  const visit = useRef(new Set<string>()),
-    wasReading = useRef(false),
-    lastPage = useRef(0);
+  const lastPage = useRef(0);
   useEffect(() => {
-    if (reading !== wasReading.current) {
-      visit.current.clear();
-      wasReading.current = reading;
-    }
     const element = root.current;
     if (!element || !ready || turning) return;
-    const fromCover = !reading && lastPage.current === 0 && page === 1;
+    const fromCover = lastPage.current === 0 && page === 1;
     lastPage.current = page;
     const seen = new WeakSet<Element>(),
       controls = new Map<Element, ReturnType<typeof animate>>();
@@ -50,11 +43,8 @@ export function usePageMotion(
       (node as HTMLElement).style.removeProperty("transform");
     };
     const draw = (section: Element, force = false) => {
-      const id = (section as HTMLElement).dataset.pageId!;
-      if (!force && (seen.has(section) || (reading && visit.current.has(id))))
-        return [];
+      if (!force && seen.has(section)) return [];
       seen.add(section);
-      if (reading) visit.current.add(id);
       if (reduced || document.hidden) return [];
       const pending: Promise<unknown>[] = [];
       section
@@ -78,37 +68,12 @@ export function usePageMotion(
             }),
           );
         });
-      if (reading)
-        section
-          .querySelectorAll<HTMLElement>("[data-draw-rule]")
-          .forEach((rule) => {
-            clean(rule);
-            const control = animate(
-              rule,
-              { transform: ["scaleX(0)", "scaleX(1)"] },
-              { duration, ease },
-            );
-            controls.set(rule, control);
-          });
       return pending;
     };
-    const observer = new IntersectionObserver(
-      (entries) =>
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) draw(entry.target);
-        }),
-      { threshold: 0.12 },
-    );
     const find = () =>
       element
-        .querySelectorAll(
-          reading
-            ? ".reading-document .book-page"
-            : '.library-slot .book-page[aria-hidden="false"]',
-        )
-        .forEach((section) =>
-          reading ? observer.observe(section) : draw(section),
-        );
+        .querySelectorAll('.library-slot .book-page[aria-hidden="false"]')
+        .forEach((section) => draw(section));
     const mutations = new MutationObserver(find);
     mutations.observe(element, { childList: true, subtree: true });
     find();
@@ -129,11 +94,10 @@ export function usePageMotion(
     element.addEventListener("click", replay);
     document.addEventListener("visibilitychange", settle);
     return () => {
-      observer.disconnect();
       mutations.disconnect();
       element.removeEventListener("click", replay);
       document.removeEventListener("visibilitychange", settle);
       settle();
     };
-  }, [root, reduced, reading, turning, ready, reading ? 0 : page]);
+  }, [root, reduced, turning, ready, page]);
 }

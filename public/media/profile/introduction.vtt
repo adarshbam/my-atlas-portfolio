@@ -1,0 +1,140 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:01.712
+Hi, I'm Adarsh.
+
+00:00:01.712 --> 00:00:04.064
+If you are on my portfolio, you must have
+
+00:00:04.064 --> 00:00:08.474
+an important question in your mind: Is it worth my time?
+
+00:00:08.527 --> 00:00:11.545
+Give me two minutes to help you decide.
+
+00:00:11.545 --> 00:00:15.897
+I'm a full-stack developer specializing in React, Node.js,
+
+00:00:15.897 --> 00:00:16.945
+and TypeScript.
+
+00:00:16.945 --> 00:00:19.500
+From the moment someone clicks on a button
+
+00:00:19.500 --> 00:00:22.085
+to what happens behind the scenes on the servers,
+
+00:00:22.085 --> 00:00:26.530
+I want to understand every single thing in between.
+
+00:00:26.530 --> 00:00:29.161
+So let me give you a real example of my work.
+
+00:00:29.161 --> 00:00:32.327
+I built a storage platform called Vault.
+
+00:00:32.327 --> 00:00:35.230
+In the first version, every file passed through my server
+
+00:00:35.230 --> 00:00:37.503
+and landed on my laptop.
+
+00:00:37.503 --> 00:00:42.900
+But a laptop can be turned off, and that's a big problem.
+
+00:00:42.900 --> 00:00:46.661
+When it's off, no one can upload any files.
+
+00:00:46.661 --> 00:00:50.476
+And our server had to carry every single file.
+
+00:00:50.476 --> 00:00:55.179
+I solved both problems by using a cloud storage provider
+
+00:00:55.179 --> 00:00:56.973
+and pre-signed URLs.
+
+00:00:56.973 --> 00:01:01.148
+Now users can directly upload their files to that URL.
+
+00:01:01.148 --> 00:01:05.024
+Now your file goes from your browser to storage.
+
+00:01:05.024 --> 00:01:07.567
+It never carries the file.
+
+00:01:07.567 --> 00:01:12.891
+I designed and built Vault myself while working at ProCodrr,
+
+00:01:12.891 --> 00:01:18.288
+with feedback from my mentor, Anurag, the founder of ProCodrr.
+
+00:01:18.288 --> 00:01:21.579
+I've also built booking flows at Harigurus.
+
+00:01:21.579 --> 00:01:25.570
+And I used to write practice exercises for ProCodrr's courses,
+
+00:01:25.570 --> 00:01:29.715
+answer students' doubts, and fix unexpected problems
+
+00:01:29.715 --> 00:01:31.942
+and errors they ran into.
+
+00:01:31.942 --> 00:01:35.715
+Getting involved in production changed the way I work.
+
+00:01:35.715 --> 00:01:39.494
+Before, I called a feature done when I finished developing it.
+
+00:01:39.494 --> 00:01:43.558
+Now, before I call it done, I ask myself four questions:
+
+00:01:43.558 --> 00:01:44.967
+How do I test it?
+
+00:01:44.967 --> 00:01:46.403
+What could go wrong?
+
+00:01:46.403 --> 00:01:48.294
+What is the cost of running it?
+
+00:01:48.294 --> 00:01:51.982
+What needs to be in place before people can rely on it?
+
+00:01:51.982 --> 00:01:54.788
+Want to know more about the problems I faced
+
+00:01:54.788 --> 00:01:58.764
+while building this, and my approach to how I solved them,
+
+00:01:58.764 --> 00:02:00.052
+step by step?
+
+00:02:00.052 --> 00:02:02.794
+Open the Vault case study next.
+
+00:02:02.794 --> 00:02:05.570
+The biggest lesson I've learned over the years
+
+00:02:05.570 --> 00:02:09.542
+is that making a feature work is just the beginning.
+
+00:02:09.542 --> 00:02:13.082
+What truly matters is understanding what you're building,
+
+00:02:13.082 --> 00:02:16.833
+who you are building it for, the impact it creates,
+
+00:02:16.833 --> 00:02:20.959
+and taking ownership of your work beyond just writing code.
+
+00:02:21.058 --> 00:02:24.103
+If that sounds like someone your team needs,
+
+00:02:24.103 --> 00:02:25.852
+and I meet your requirements,
+
+00:02:25.852 --> 00:02:27.947
+I would love to have a conversation.
+

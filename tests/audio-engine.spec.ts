@@ -26,7 +26,7 @@ test.beforeEach(async ({ page }) => {
   });
 });
 const open = async (page: any) => {
-  await page.goto("/");
+  await page.goto("/#book");
   await expect(page.locator("#book")).toHaveAttribute("data-ready", "true");
 };
 

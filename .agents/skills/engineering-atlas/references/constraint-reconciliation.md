@@ -214,3 +214,56 @@ The user explicitly expands the story from seventeen to twenty chapters, adding 
 
 ## Framed inspection and story detail — 10 November 2026
 The user explicitly requests fullscreen framed inspection and zoom for every story image, plus a main-portfolio inline resume preview with an optional corner download. This authorizes user-controlled inspection scaling/panning beyond reveal limits only inside the modal viewer; use existing story/Atlas tokens and native accessible dialogs. Preserve gallery dragging, keyboard access, focus restoration, reduced motion, original photographs and lazy loading of higher-resolution files. Resume PDF contents remain unchanged and demo credentials remain confined to the authorized PDF. Explicitly restore 2G, the heavier-brick prediction and the imagined last-carriage train prediction and explanation; Faiz supersedes Faz. No new page engine or deployment.
+
+
+## Story trailer amendment — 22 November 2026
+The user approved the story trailer plan for the cinematic view of /story. Resolved conflicts: section 5 forbids multi-layer parallax and caps scale at 1.04, and the 30 October story-only amendment covered native scroll-led scenes but not these two. Now permitted in the cinematic story view only: sticky pinned scenes linked to native scroll, two depth layers in the opening scene, and zoom-through scale above 1.04. Animated properties stay limited to transform, opacity, clip-path and stroke-dashoffset; no blur animation, typewriter effect, scroll trapping or loop; `motion` stays the only animation library.
+
+The cinematic view becomes a trailer of about seven scenes, superseding the 31 October equal-composition approval for that view only. All 20 chapter IDs remain as anchors and Reading view is unchanged. One static night-colour gradient edge is permitted for the closing wipe. Art is code-drawn SVG, the existing rooftop painting and unaltered archive photographs; the user declined generated video clips. Reduced motion renders static final states in document flow.
+
+Approval covers this record and a two-scene sample only. Later scenes, reading-view refinements and whole-package changes each need a further go-ahead after live review. Not live-motion acceptance; no deployment. Canonical text: design-constraints.md, same heading. Active record: docs/STORY-TRAILER-2026-11-22.md.
+
+## At-a-glance desk card — 22 November 2026
+User-approved addition to the 3 November compact shell: one "At a glance" paper card beside the closed cover (or under the pager), and the same block at the top of Reading view. Existing data and tokens only, square corners, no motion, never changes book geometry. Canonical text: design-constraints.md, same heading. The card was withdrawn on 23 November 2026 together with the atlas Reading view, because the run on `/` does its job.
+
+22 November 2026 story follow-up: the user approved the remaining scenes and then chose to keep the 20 cinematic chapters below the trailer. The trailer opens the cinematic view; the chapters follow unchanged, still governed by the 31 October equal-composition approval.
+
+## Front-page trailer amendment — 22 November 2026
+
+Stated by the user on 22 November 2026: the atlas at `/` opens with a scroll-driven cinematic run in the manner of the `/story` trailer, showing the main work in priority order, and the book comes after it on the same page; the atlas Reading view is removed; a fifth section holds testimonials from real people; the book's opening is to feel like a film; images of him are generated from prompts written in this project; Vault-hosted videos are used cinematically; the target reader is a recruiter for full-stack jobs.
+
+This supersedes, for the atlas run only: the book as the first thing on `/`; the ban on sticky scroll scenes, on more than one depth layer and on scale above 1.04 (inside the book the 1.04 ceiling stays); Reading view as the atlas's reduced-motion and overview path (the run's still mode takes that role). Painted illustrations of him, seen from behind with no face, are allowed as scene art; the original portrait remains the only image of his face, and no generated portrait replaces it.
+
+Unchanged: animate only transform, opacity, clip-path and stroke-dashoffset; 180ms / 420ms / 800ms and 70ms stagger; real HTML text; 44px targets; CLS below 0.05; tokens before components; no new dependency; no scroll trapping; reduced motion gets the same content without transitions; factual project contributions are preserved.
+
+Scene list, order, the figure, the book arrival and the items decided by the assistant rather than the user are in `docs/FRONT-PAGE-TRAILER-2026-11-22.md`. The user approved that document on 22 November 2026 ("Yes design is approved"), so it is binding for the atlas run, including the items marked as the assistant's calls, until he changes one. A small sample (scenes 1, 2 and 7) is reviewed in live scrolling before the rest is built.
+
+
+## Overnight completion and polish — 23 November 2026
+
+Stated by the user on 23 November 2026 before leaving the session unattended: go ahead with the rest of the front-page plan (the remaining scenes, removal of Reading view, book order, the cinematic opening, video, micro-animations, verification), and add a final polish step so that no section looks inferior to the best one. His words for that step: proper hierarchy, colour palettes that are "really eye-catching", main design principles followed, animations "cinematic and immersive", clutter removed, and the main focus on "visibility and keeping the specific important details clear and simple to access", with accessibility. He authorised the assistant to choose its own recommended option wherever a choice comes up while he is away.
+
+This permits, for the atlas run and the arrival only: adjusting how the existing night, paper and green tokens are used; and at most one new accent colour taken from the desk lamp's light in the paintings, declared as a token in `src/trailer/tokens.css`, used only where it carries meaning, and meeting WCAG AA wherever it colours text. It does not permit: gradients as decoration, glow, new dependencies, motion outside transform, opacity, clip-path and stroke-dashoffset, durations outside 180/420/800ms, scroll trapping, autoplaying sound, new claims or reworded quotations, any change inside the book's pages beyond what the approved plan lists, or deployment, commit or push. Reduced motion still gets the same content without transitions. Everything chosen under this authority is recorded as a ruling in `HANDOFF.md` for him to review.
+
+## Polish round 1: choices made under the 23 November permission — 23 November 2026
+
+Made by the assistant while the user was away, under "Overnight completion and polish — 23 November 2026"; each is recorded in `HANDOFF.md` ("Step 5 round 1 result", rulings 65 to 75) with its cost, and the user may reverse any of them.
+
+1. The one permitted accent now exists: `--obs-lamp: #efa14c` in `src/trailer/tokens.css`, the colour of the desk lamp's lit rim in all six paintings. It is used for identity labels on the night field only: the label above each project name and the role line of the opening scene (8.9:1 on `--obs-night`). It is never used on paper (1.6:1), over lit wood (2.7:1), for links, rules, quotations, the arrival's lines or anything in the book. Green remains the colour of state: progress, the current tick, link hover, focus. No second accent may be added.
+2. Copy in the run is still only existing whole sentences from `src/data/portfolio.ts`. Their order inside a scene changed so that the claim holds the rest point; the pipeline scene shows two of its sentences; the opening role line uses `opening.stack` in place of `opening.positioning`. "Hosted on Vault" (step 4) remains the only words that are not from that file.
+3. Motion stays within transform, opacity and clip-path at 180ms / 420ms / 800ms. Two static mask gradients exist, both functional and not decoration: the top of a still block's painting, and the foot of the opening portrait on narrow screens.
+4. Three confirmed proposals were NOT applied and wait for the user: keeping the lamp-lit desk under the usable book; a dissolve instead of the wipe into the arrival; the phone's "Open book" landing on the contents page.
+
+## The lamp-lit desk stays under the usable book — 23 November 2026
+
+Stated by the user on 23 November 2026, answering the question "Keep the lamp-lit desk under the book once it becomes usable?": "Yes, keep desk".
+
+This supersedes, for the book as it appears at the end of the atlas run: the book's own light grey desk (and its dark grey desk in the Dark theme) as the surface the usable book lies on. The painted, lamp-lit desk of the arrival now stays under the book while it is closed, open and being read, in motion and standing still.
+
+What follows from it, decided by the assistant (rulings 83 to 88 in `HANDOFF.md`; the user may reverse any): Light and Dark now set the lamp (full, or 0.6) instead of changing the desk's colour; opening the book darkens the painted desk by a layer of the night colour at 0.5; the words that stand on the desk beside the book (toolbar, page count) are paper-coloured in both themes; the Contents panel is a night panel. The book's pages, cover, geometry, page turn and typography are unchanged. Motion stays within opacity and transform at 420ms.
+
+## The run dissolves into the desk — 23 November 2026
+
+Stated by the user on 23 November 2026, answering the question "Replace the hard wipe into the desk with a dissolve next?": "Yes, dissolve".
+
+This supersedes the arrival's opening as approved on 22 November ("the run's last scene slides up off a desk that is already in place"). The run now stays pinned, its last scene's words fade, and the whole stage dissolves into the desk lying under it: the envelopes give way to the book on the same desk under the same lamp. Opacity only; no new duration; no scroll trapping. Rulings 90 to 94 in `HANDOFF.md` record what the assistant decided to make it work; the user may reverse any.

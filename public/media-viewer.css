@@ -8,3 +8,58 @@
 
 .media-inspector-toolbar{display:grid;grid-template-columns:auto minmax(0,1fr) auto}.media-inspector-actions{justify-content:flex-end}.media-inspector--photo .media-inspector-stage{display:flex}.media-inspector-frame{flex:none;margin:auto!important}
 @media(max-width:767px){.media-inspector-toolbar{grid-template-columns:minmax(0,1fr) auto}.media-inspector-toolbar h2{grid-column:1;grid-row:1}.media-inspector-toolbar>[data-viewer-close]{grid-column:2;grid-row:1}.media-inspector-actions{grid-column:1/-1;grid-row:2}}
+
+.media-inspector--video[open] {
+  box-sizing: border-box;
+  width: min(var(--portfolio-video-width), calc(100% - var(--s8)));
+  height: fit-content;
+  max-height: calc(100dvh - var(--s8));
+  margin: auto;
+  padding: clamp(var(--s4), 3vw, var(--s8));
+  overflow: auto;
+}
+.media-inspector--video::backdrop { background: color-mix(in srgb, var(--ink) 80%, transparent); }
+.media-inspector--video .media-inspector-toolbar {
+  grid-template-columns: minmax(0, 1fr) auto;
+  padding: 0 0 var(--s4);
+  border: 0;
+}
+.media-inspector--video .media-inspector-toolbar h2 {
+  font: 500 var(--text-xl)/1.1 var(--font-display);
+}
+.media-inspector--video .media-inspector-stage { flex: none; overflow: visible; background: var(--viewer-paper); padding: 0; }
+.media-inspector--video video {
+  display: block; width: 100%; max-height: 65dvh; aspect-ratio: var(--portfolio-video-ratio);
+  object-fit: contain; background: var(--ink);
+}
+.media-inspector--video .media-inspector-actions { justify-content: flex-start; margin-top: var(--s2); }
+.media-inspector--video button { border: 0; padding-inline: 0; text-underline-offset: var(--s1); }
+.media-inspector--video .media-inspector-caption:empty { display: none; }
+.media-inspector--video video:focus-visible { outline: var(--hairline) solid currentColor; outline-offset: var(--focus-offset); }
+
+/* The player grows out of the film still that was pressed (media-viewer.js sets the still's
+   place and size). Transform and opacity only; not at all under reduced motion. */
+.media-inspector--video[data-grow] {
+  transform-origin: 0 0;
+  animation: media-inspector-grow var(--dur-base, 420ms) var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)) backwards;
+}
+.media-inspector--video[data-grow]::backdrop {
+  animation: media-inspector-dim var(--dur-base, 420ms) linear backwards;
+}
+@keyframes media-inspector-grow {
+  from {
+    transform: translate(var(--grow-x), var(--grow-y)) scale(var(--grow-scale));
+    opacity: 0.4;
+  }
+}
+@keyframes media-inspector-dim {
+  from {
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .media-inspector--video[data-grow],
+  .media-inspector--video[data-grow]::backdrop {
+    animation: none;
+  }
+}

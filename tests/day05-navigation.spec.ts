@@ -12,7 +12,7 @@ for (const width of [375, 768, 1280, 1920]) {
       await page.emulateMedia({ reducedMotion });
       const errors: string[] = [];
       page.on("pageerror", (error) => errors.push(error.message));
-      await page.goto("/");
+      await page.goto("/#book");
       const book = page.locator("#book");
       await expect(book).toHaveAttribute("data-ready", "true");
       const nav = page.locator(".chapter-nav");
@@ -62,13 +62,14 @@ for (const width of [375, 768, 1280, 1920]) {
 test("D5-5.1.4 latest interior chapter request wins and mode changes clear stale requests", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   const nav = page.locator(".chapter-nav");
   await goToChapter(page, "Vault Storage");
   await expect(book).toHaveAttribute("data-turning", "false");
-  await goToChapter(page, "Pipeline");
+  // Page 7, the left of a later spread (Harigurus since the book took the run's order).
+  await goToChapter(page, "Harigurus");
   await expect(book).toHaveAttribute("data-turning", "true");
   await goToChapter(page, "References");
   await goToChapter(page, "Contact");
@@ -82,34 +83,36 @@ test("D5-5.1.4 latest interior chapter request wins and mode changes clear stale
     String(indexOf("colophon")),
   );
   await goToChapter(page, "Vault Storage");
-  await page.getByRole("button", { name: "Reading view", exact: true }).click();
-  await expect(book).toHaveAttribute("data-mode", "reading");
+  // The one mode change left: the reader's motion preference, while a request is fresh.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(book).toHaveAttribute("data-mode", "reduced");
   await expect(page.locator(".flip-engine")).toHaveCount(0);
-  await goToChapter(page, "Harigurus");
-  await page
-    .getByRole("button", { name: "Return to book", exact: true })
-    .click();
+  // Page 8, a right-hand page: the spread opens at 7 and the exact page is kept.
+  await goToChapter(page, "Pipeline");
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(book).toHaveAttribute("data-mode", "native");
+  await expect(page.locator(".flip-engine")).toHaveCount(1);
   await expect(book).toHaveAttribute("data-current-page", "7");
   await expect(book).toHaveAttribute("data-turning", "false");
   await expect(book).toHaveAttribute("data-logical-page", "8");
 });
 
-test("D5-5.1.5 exact right-hand destination survives phone resize and reading roundtrip", async ({
+test("D5-5.1.5 exact right-hand destination survives phone resize and a reduced-motion roundtrip", async ({
   page,
 }) => {
-  await page.goto("/");
+  await page.goto("/#book");
   const book = page.locator("#book");
   await expect(book).toHaveAttribute("data-ready", "true");
   await goToChapter(page, "Contact");
   await expect(book).toHaveAttribute("data-turning", "false");
   await page.setViewportSize({ width: 375, height: 844 });
   await expect(book).toHaveAttribute("data-current-page", "12");
-  await page.getByRole("button", { name: "Reading view", exact: true }).click();
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(book).toHaveAttribute("data-mode", "reduced");
   await expect(book).toHaveAttribute("data-current-page", "12");
-  await expect(book).toHaveAttribute("data-mode", "reading");
-  await page
-    .getByRole("button", { name: "Return to book", exact: true })
-    .click();
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await expect(book).toHaveAttribute("data-mode", "native");
+  await expect(book).toHaveAttribute("data-ready", "true");
   await expect(book).toHaveAttribute("data-current-page", "12");
   await page.setViewportSize({ width: 1280, height: 900 });
   await expect(book).toHaveAttribute("data-current-page", "11");
