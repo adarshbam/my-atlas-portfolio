@@ -23,7 +23,16 @@ for (const id of ids) {
   const captions = readFileSync(captionPath, 'utf8').replace(/^\uFEFF/, '');
   if (!captions.startsWith('WEBVTT') || !/\d{2}:\d{2}\.\d{3}\s+-->\s+/.test(captions)) throw Error(`${id}: a timed WebVTT caption file is required.`);
   const probe = spawnSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration:stream=codec_type', '-of', 'json', source], { encoding: 'utf8', windowsHide: true });
-  if (probe.error || probe.status !== 0) throw Error(`${id}: ffprobe is required to verify the actual recording duration.`);
+  // A build host without ffprobe (the hosted build has none) cannot measure the recording. The
+  // manifest, files and captions are still checked above; the duration and the audio stream are
+  // verified wherever ffprobe exists, which is where recordings are added. An ffprobe that is
+  // present and fails is still an error.
+  if (probe.error?.code === 'ENOENT') {
+    console.warn(`${id}: ffprobe is not installed here; duration and audio stream not measured.`);
+    ready++;
+    continue;
+  }
+  if (probe.error || probe.status !== 0) throw Error(`${id}: ffprobe could not read the recording.`);
   const metadata = JSON.parse(probe.stdout);
   if (!metadata.streams.some(s => s.codec_type === 'video') || !metadata.streams.some(s => s.codec_type === 'audio')) throw Error(`${id}: a video with recorded audio is required.`);
   const duration = Number(metadata.format.duration);
