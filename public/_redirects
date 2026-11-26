@@ -1,0 +1,5 @@
+# Netlify rewrites. The story is a route of the single-page app, not a file: a direct visit,
+# a shared link or a refresh at /story is answered with the app's page (status 200, the
+# address stays). Files under /story/ (the reading archive, images, fonts) are served as files.
+/story     /index.html   200
+/story/    /index.html   200
